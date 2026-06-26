@@ -12,11 +12,13 @@
 </template>
 
 <script setup lang="ts">
-/** Served from docs/public/images/ … — avoid authoring `/images/` in Markdown (Vite would try to bundle it). */
+import { withBase } from "vitepress";
+
+/** Served from docs/public/images/ — paths must use withBase for GitHub Pages subpath deploy. */
 const items = [
-  { src: "/images/family-1.jpg", alt: "Family photo 1" },
-  { src: "/images/family-2.jpg", alt: "Family photo 2" },
-  { src: "/images/family-3.jpg", alt: "Family photo 3" }
+  { src: withBase("/images/family-1.jpg"), alt: "Family photo 1" },
+  { src: withBase("/images/family-2.jpg"), alt: "Family photo 2" },
+  { src: withBase("/images/family-3.jpg"), alt: "Family photo 3" }
 ];
 </script>
 

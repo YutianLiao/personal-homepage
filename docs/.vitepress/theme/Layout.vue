@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useRoute, useData } from "vitepress";
+import { useRoute, useData, withBase } from "vitepress";
 import DefaultLayout from "vitepress/dist/client/theme-default/Layout.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
 
@@ -53,7 +53,7 @@ function hideBroken(e: Event) {
           </div>
           <img
             class="vp-home-hero-mascot"
-            :src="'/decorative/home-hero.png'"
+            :src="withBase('/decorative/home-hero.png')"
             alt=""
             loading="lazy"
             @error="hideBroken"
@@ -78,13 +78,13 @@ function hideBroken(e: Event) {
         <template v-if="decorMode === 'journey'">
           <img
             class="corner-deco corner-deco--left-soft"
-            :src="'/decorative/journey-left.png'"
+            :src="withBase('/decorative/journey-left.png')"
             alt=""
             @error="hideBroken"
           />
           <img
             class="corner-deco corner-deco--right-btm"
-            :src="'/decorative/journey-right.png'"
+            :src="withBase('/decorative/journey-right.png')"
             alt=""
             @error="hideBroken"
           />
@@ -92,13 +92,13 @@ function hideBroken(e: Event) {
         <template v-else>
           <img
             class="corner-deco corner-deco--misc-bl"
-            :src="'/decorative/misc-left.png'"
+            :src="withBase('/decorative/misc-left.png')"
             alt=""
             @error="hideBroken"
           />
           <img
             class="corner-deco corner-deco--misc-tr"
-            :src="'/decorative/misc-right.png'"
+            :src="withBase('/decorative/misc-right.png')"
             alt=""
             @error="hideBroken"
           />
