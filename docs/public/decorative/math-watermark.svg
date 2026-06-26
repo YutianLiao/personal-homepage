@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:lang="en" width="760" height="760" viewBox="0 0 760 760">
+  <defs>
+    <pattern id="wmgrid" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M0 64V0h64" fill="none" stroke="#4a5978" stroke-width="0.45" stroke-opacity="0.035"/>
+    </pattern>
+    <linearGradient id="wmc" x1="0%" y1="88%" x2="100%" y2="10%">
+      <stop offset="0%" stop-color="#5d6b8a" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#8a98b8" stop-opacity="0.015"/>
+    </linearGradient>
+  </defs>
+  <rect width="760" height="760" fill="url(#wmgrid)"/>
+  <g fill="none" stroke="#4a5978" stroke-width="0.85" stroke-opacity="0.048">
+    <path d="M40 580h680M600 48v672"/>
+    <circle cx="188" cy="188" r="72"/>
+    <path d="M88 520c96-88 168 42 308-28s128 108 312 36"/>
+    <ellipse cx="492" cy="384" rx="88" ry="52" transform="rotate(-16 492 384)"/>
+  </g>
+  <path d="M32 702c168-168 388-204 712-204" stroke="url(#wmc)" stroke-width="1.6" fill="none"/>
+  <style type="text/css">
+    .w{
+      fill:#334058;
+      fill-opacity:0.118;
+      font-style:italic;
+      font-family:Georgia,"Times New Roman",Times,serif;
+      font-size:13px;
+    }
+    .wx{
+      fill:#334058;
+      fill-opacity:0.095;
+      font-style:italic;
+      font-family:Georgia,"Times New Roman",Times,serif;
+      font-size:12px;
+    }
+  </style>
+  <!-- One layer, no rotations: easier to read when zoomed -->
+  <g class="w" stroke="none">
+    <text x="28" y="42">Euler: e^(i&#960;) + 1 = 0</text>
+    <text x="28" y="71">Fundamental calculus: &#8747;_a^b f&#8242;(x) dx = F(b) &#8722; F(a)</text>
+    <text x="28" y="100">Taylor: f(a+h) = f(a) + h f&#8242;(a) + (h&#178;/2) f&#8243;(a) + &#8230;</text>
+    <text x="28" y="129">Green / Stokes: &#8750;_&#8706;M &#969; = &#8747;_M d&#969;</text>
+    <text x="28" y="158">Lagrange MVT: &#8707;c &#8712; (a,b), f&#8242;(c) = [f(b)&#8722;f(a)] / (b&#8722;a)</text>
+    <text x="28" y="187">Residue theorem: &#8750; f dz = 2&#960;i &#183; &#8721;&#8239;(residue)</text>
+    <text x="28" y="216">Gaussian: &#8747; e^(&#8722;x&#178;) dx over &#8477; equals &#8730;&#960;</text>
+    <text x="28" y="245">Pythagoras: a&#178; + b&#178; = c&#178;</text>
+    <text x="28" y="274">Quadratic: x = ( &#8722;b &#177; &#8730;(b&#178;&#8722;4ac) ) / (2a)</text>
+    <text x="28" y="303">Binomial: (x+y)^n = &#931;&#8342; C(n,k) x^(n&#8722;k) y&#8342;</text>
+    <text x="28" y="332">De Moivre: (cos&#952; + i sin&#952;)&#8319; = cos(n&#952;) + i sin(n&#952;)</text>
+    <text x="400" y="42"> Cauchy&#8722;Schwarz: |&#10216;u,v&#10217;| &#8804; &#x2016;u&#x2016;&#183;&#x2016;v&#x2016; </text>
+    <text x="400" y="71">Triangle: &#x2016;u + v&#x2016; &#8804; &#x2016;u&#x2016; + &#x2016;v&#x2016;</text>
+    <text x="400" y="100">Rank&#8212;nullity: rank(A) + nullity(A) = dim(domain)</text>
+    <text x="400" y="129">Spectral (Hermitian): A = U diag(&#955;&#8321;,&#8230;) U^&#8727;</text>
+    <text x="400" y="158">SVD: A = U &#931; V^T, singular values &#963;&#8321; &#8805; &#8230; &#8805; 0</text>
+    <text x="400" y="187">Characteristic: det(A &#8722; &#955;I) = 0 defines spectrum</text>
+    <text x="400" y="216">Cayley&#8722;Hamilton: p_A(A) = 0</text>
+    <text x="400" y="245">Jordan form: A = P J P&#8315;&#185; (generalized eigenspaces)</text>
+    <text x="400" y="289">Least squares: A^T A x&#770; = A^T b minimizes &#x2016;A x &#8722; b&#x2016;&#8322;</text>
+    <text x="400" y="331">Newton: x_{k+1} = x_k &#8722; J(x_k)^{-1} F(x_k)</text>
+    <text x="28" y="376">Banach fixed point: strict contraction on complete space</text>
+    <text x="28" y="405"> Euler&#8211;Mascheroni: &#947; = lim (H&#x2099; &#8722; ln n) </text>
+    <text x="28" y="434">Bernoulli numbers &amp; &#950;(2k) on even integers</text>
+    <text x="28" y="463">Wilson: (p&#8722;1)! &#8801; &#8722;1 (mod p), p prime</text>
+    <text x="28" y="492">Fermat little: a^(p&#8722;1) &#8801; 1 (mod p) if gcd(a,p)=1</text>
+    <text x="28" y="521">Chinese remainder (coprime moduli)</text>
+    <text x="28" y="550">Prime number theorem: &#960;(x) ~ x / ln x</text>
+    <text x="28" y="579">Dirichlet on arithmetic progressions</text>
+    <text x="28" y="608">RSA: m^(ed) &#8801; m (mod n) when ed &#8801; 1 (mod &#966;(n))</text>
+    <text x="28" y="637">Lagrange four squares (1770)</text>
+    <text x="28" y="666">Heine&#8211;Borel in &#8477;&#8319;: compact &#8660; closed &amp; bounded</text>
+    <text x="28" y="695">Bolzano&#8211;Weierstrass: bounded sequence &#8594; convergent subseq.</text>
+    <text x="400" y="376">Arzel&#224;&#8211;Ascoli: relative compactness in C(K)</text>
+    <text x="400" y="405">Dominated convergence (LDCT)</text>
+    <text x="400" y="434">Convolution: (f * g)(x) = &#8747; f(t) g(x&#8722;t) dt</text>
+    <text x="400" y="463">Fubini / Tonelli for product measures</text>
+    <text x="400" y="492">Plancherel &#8212; Parseval equality in L&#178; via Fourier transform</text>
+    <text x="400" y="521">Poisson summation (lattice &amp; dual)</text>
+    <text x="400" y="550">Central limit theorem (CLT)</text>
+    <text x="400" y="579">Bayes: P(A|B) = P(B|A) P(A) / P(B)</text>
+    <text x="400" y="608">Shannon: C = &#189; log&#8322;(1 + S/N) (AWGN)</text>
+    <text x="400" y="637">It&#244; lemma (stochastic calculus)</text>
+    <text x="400" y="666">Hahn&#8211;Banach; open mapping; closed graph</text>
+    <text x="400" y="695">Millennium problems: RH, P vs NP, Navier&#8211;Stokes, &#8230;</text>
+  </g>
+  <g class="wx" stroke="none">
+    <text x="28" y="732">Bessel J&#957;, Y&#957;; Legendre polynomials</text>
+    <text x="400" y="732">Isomorphism theorems; Zorn &#8660; Axiom of Choice variants</text>
+  </g>
+</svg>
