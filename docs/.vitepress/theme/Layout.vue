@@ -7,17 +7,27 @@ import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
 type DecorKey = "journey" | "misc";
 
 const route = useRoute();
-const { frontmatter } = useData();
+const { frontmatter, site } = useData();
 
-const isHome = computed(() => {
-  const p = route.path.replace(/\/$/, "") || "/";
-  return p === "/" || p.endsWith("/index.html");
+/** Strip VitePress `base` so `/personal-homepage/` becomes `/` on GitHub Pages. */
+const normalizedPath = computed(() => {
+  const base = site.value.base.replace(/\/$/, "");
+  let p = route.path.replace(/\/$/, "") || "/";
+  if (base && (p === base || p.startsWith(`${base}/`))) {
+    p = p.slice(base.length) || "/";
+  }
+  if (p.endsWith("/index.html")) {
+    p = p.replace(/\/index\.html$/, "") || "/";
+  }
+  return p.startsWith("/") ? p : `/${p}`;
 });
 
+const isHome = computed(() => frontmatter.value.layout === "home");
+
 const decorMode = computed((): DecorKey | null => {
-  const normalized = route.path.replace(/\/$/, "") || "/";
-  if (normalized === "/interest-journey") return "journey";
-  if (normalized === "/miscellaneous") return "misc";
+  const p = normalizedPath.value;
+  if (p === "/interest-journey") return "journey";
+  if (p === "/miscellaneous") return "misc";
   return null;
 });
 
