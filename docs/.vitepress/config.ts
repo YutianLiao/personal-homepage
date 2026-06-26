@@ -31,10 +31,35 @@ export default defineConfig({
     nav: [
       { text: "Home", link: "/" },
       { text: "Interest Journey", link: "/interest-journey" },
+      { text: "Hello Agent", link: "/hello-agent/" },
       { text: "Miscellaneous", link: "/miscellaneous" },
       { text: "Blog", link: "/blog/" },
       { text: "CV", link: "/cv" }
     ],
+    sidebar: {
+      "/hello-agent/": [
+        {
+          text: "Hello Agent",
+          link: "/hello-agent/",
+          items: [
+            { text: "Overview", link: "/hello-agent/" },
+            {
+              text: "Seq2Seq 与注意力机制",
+              link: "/hello-agent/seq2seq-attention-tutorial"
+            }
+          ]
+        }
+      ],
+      "/blog/": [
+        {
+          text: "Blog",
+          items: [
+            { text: "Index", link: "/blog/" },
+            { text: "Start Here", link: "/blog/2026-05-hello-vitepress" }
+          ]
+        }
+      ]
+    },
     socialLinks: [
       { icon: "github", link: "https://github.com/" }
     ],

@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>Seq2Seq 与注意力机制入门教程</title>
+<meta name="author" content="学习笔记">
+<meta name="description" content="从零系统阅读 Sutskever et al. (2014) Sequence to Sequence Learning with Neural Networks，理解 RNN、LSTM、Encoder-Decoder 与 Attention 演进主线。">
+<meta name="keywords" content="Seq2Seq, LSTM, RNN, 神经机器翻译, Attention, Encoder-Decoder, BLEU">
+<meta name="generator" content="Kami">
+<style>
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W04.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "TsangerJinKai02";
+    src: url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/TsangerJinKai02-W05.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+  }
+  @page {
+    size: A4;
+    margin: 20mm 22mm 22mm 22mm;
+    background: #f5f4ed;
+    @top-right {
+      content: string(section-title);
+      font-family: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", Georgia, serif;
+      font-size: 8pt;
+      color: #6b6a64;
+    }
+    @bottom-center {
+      content: counter(page) "  ·  Seq2Seq 入门教程";
+      font-family: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", Georgia, serif;
+      font-size: 9pt;
+      color: #6b6a64;
+    }
+  }
+  @page:first { @top-right { content: ""; } @bottom-center { content: ""; } }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --parchment: #f5f4ed; --ivory: #faf9f5; --near-black: #141413;
+    --dark-warm: #3d3d3a; --olive: #504e49; --stone: #6b6a64;
+    --brand: #9B1C1C; --border: #e8e6dc; --border-soft: #e5e3d8; --tag-bg: #FCE8E8;
+    --serif: "TsangerJinKai02", "Source Han Serif SC", "Noto Serif CJK SC", "Songti SC", "STSong", Georgia, serif;
+    --sans: var(--serif);
+    --rhythm-module: 14pt; --rhythm-section: 18pt;
+  }
+  html, body { background: var(--parchment); }
+  @media screen { body { max-width: 210mm; margin: 0 auto; padding: 20mm 22mm 22mm 22mm; } }
+  body { color: var(--near-black); font-family: var(--serif); font-size: 10.5pt; line-height: 1.55; letter-spacing: 0.3pt; widows: 3; orphans: 3; }
+  .cover { min-height: 240mm; display: flex; flex-direction: column; justify-content: space-between; padding: 40mm 0 0 0; break-after: page; }
+  .cover-eyebrow { font-size: 10pt; color: var(--brand); letter-spacing: 1pt; text-transform: uppercase; margin-bottom: 18pt; }
+  .cover-title { font-size: 32pt; font-weight: 500; color: var(--near-black); border-left: 3pt solid var(--brand); padding-left: 12pt; line-height: 1.15; margin-bottom: 16pt; }
+  .cover-sub { font-size: 13pt; color: var(--olive); line-height: 1.5; max-width: 90%; margin-bottom: 30pt; }
+  .cover-citation { font-size: 10pt; color: var(--stone); line-height: 1.65; margin-top: 20pt; max-width: 90%; }
+  .cover-citation a { color: var(--olive); text-decoration: none; border-bottom: 0.3pt solid var(--border); }
+  .cover-citation a:hover { color: var(--brand); border-bottom-color: var(--brand); }
+  html { scroll-behavior: smooth; }
+  .toc { break-after: page; padding-bottom: 20pt; }
+  .toc h2 { font-size: 22pt; font-weight: 500; margin-bottom: var(--rhythm-module); border-left: 2.5pt solid var(--brand); border-radius: 1.5pt; padding-left: 8pt; }
+  a.toc-item { display: flex; justify-content: space-between; align-items: baseline; padding: 7pt 4pt; border-bottom: 0.3pt dotted var(--border); font-size: 10.5pt; text-decoration: none; color: inherit; border-radius: 3pt; transition: background 0.15s; }
+  a.toc-item:last-of-type { border-bottom: none; }
+  a.toc-item:hover { background: var(--ivory); }
+  a.toc-item:hover .toc-title { color: var(--brand); }
+  .toc-num { color: var(--brand); font-weight: 500; min-width: 28pt; }
+  .toc-title { flex: 1; padding-left: 6pt; }
+  h1 { font-size: 22pt; font-weight: 500; line-height: 1.2; margin: 0 0 10pt 0; border-left: 2.5pt solid var(--brand); border-radius: 1.5pt; padding-left: 8pt; break-after: avoid; }
+  h2 { font-size: 16pt; font-weight: 500; line-height: 1.25; margin: 22pt 0 8pt 0; break-after: avoid; string-set: section-title content(); }
+  h3 { font-size: 13pt; font-weight: 500; line-height: 1.3; margin: 16pt 0 6pt 0; color: var(--dark-warm); break-after: avoid; }
+  h4 { font-size: 11.5pt; font-weight: 500; margin: 12pt 0 4pt 0; color: var(--dark-warm); }
+  .chapter-num { font-size: 10pt; color: var(--brand); letter-spacing: 1pt; text-transform: uppercase; margin-bottom: 6pt; }
+  .chapter { break-before: page; scroll-margin-top: 24pt; }
+  @media screen {
+    .toc { margin-bottom: 56pt; padding-bottom: 40pt; border-bottom: 0.5pt solid var(--border-soft); }
+    section.toc + .chapter { margin-top: 72pt; padding-top: 40pt; }
+    .chapter + .chapter { margin-top: 80pt; padding-top: 44pt; border-top: 0.5pt solid var(--border-soft); }
+  }
+  @media print {
+    .toc { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+    section.toc + .chapter,
+    .chapter + .chapter { margin-top: 0; padding-top: 0; border-top: none; }
+  }
+  p { margin: 0 0 10pt 0; line-height: 1.55; }
+  .lead { font-size: 12pt; line-height: 1.55; color: var(--dark-warm); margin-bottom: var(--rhythm-module); }
+  .hl { color: var(--brand); font-weight: 500; }
+  ul, ol { margin: 6pt 0 10pt 0; padding-left: 20pt; line-height: 1.55; }
+  ul li::marker, ol li::marker { color: var(--brand); }
+  blockquote, .quote { border-left: 2pt solid var(--brand); margin: 12pt 0; padding: 4pt 0 4pt 16pt; color: var(--olive); line-height: 1.55; break-inside: avoid; }
+  blockquote .cite, .quote .cite { display: block; font-size: 9pt; color: var(--stone); margin-top: 4pt; }
+  code { font-family: "JetBrains Mono", "SF Mono", Consolas, "TsangerJinKai02", monospace; font-size: 9pt; background: var(--ivory); padding: 1pt 4pt; border-radius: 2pt; color: var(--dark-warm); }
+  pre { font-family: "JetBrains Mono", "SF Mono", Consolas, "TsangerJinKai02", monospace; font-size: 9pt; line-height: 1.5; background: var(--ivory); border-radius: 4pt; padding: 10pt 14pt; margin: 10pt 0; white-space: pre-wrap; break-inside: avoid; }
+  pre code { background: transparent; padding: 0; }
+  table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 12pt 0; break-inside: avoid; }
+  table th { text-align: left; font-weight: 500; color: var(--brand); padding: 6pt 8pt; border-bottom: 1pt solid var(--border); }
+  table td { padding: 5pt 8pt; border-bottom: 0.3pt solid var(--border-soft); vertical-align: top; }
+  table.compact th, table.compact td { padding: 3pt 6pt; font-size: 8.5pt; }
+  table.striped tbody tr:nth-child(even) td { background: var(--ivory); }
+  .callout { background: var(--ivory); border-left: 2pt solid var(--brand); padding: 10pt 14pt; border-radius: 3pt; margin: 12pt 0; break-inside: avoid; }
+  .takeaway { background: var(--ivory); border-radius: 4pt; padding: 10pt 14pt; margin: 14pt 0; break-inside: avoid; }
+  .takeaway-label { font-size: 9pt; color: var(--brand); letter-spacing: 0.5pt; text-transform: uppercase; margin-bottom: 4pt; }
+  .tag { display: inline-block; background: var(--tag-bg); color: var(--brand); font-size: 9pt; font-weight: 500; padding: 1pt 6pt; border-radius: 3pt; margin-right: 4pt; }
+  figure { margin: 14pt 0; break-inside: avoid; }
+  figure svg { width: 100%; display: block; }
+  figure img { max-width: 100%; border-radius: 4pt; border: 0.5pt solid var(--border-soft); }
+  figcaption { font-size: 9pt; color: var(--stone); margin-top: 6pt; line-height: 1.45; }
+  .paper-fig img { box-shadow: 0 1pt 4pt rgba(20,20,19,0.08); }
+  .faq-q { color: var(--brand); font-weight: 500; margin-top: 14pt; }
+  strong { font-weight: 500; color: var(--near-black); }
+  strong.hl, blockquote strong, .callout strong, .takeaway strong { color: var(--brand); }
+  blockquote strong { font-weight: 500; }
+  a { color: var(--brand); }
+  .math, .equation {
+    font-family: "STIX Two Math", "Cambria Math", "Times New Roman", serif;
+    font-style: italic;
+    letter-spacing: 0;
+  }
+  .math sub, .equation sub, .math sup, .equation sup {
+    font-size: 0.72em;
+    line-height: 0;
+    font-style: italic;
+  }
+  .equation {
+    display: block;
+    text-align: center;
+    margin: 12pt 0;
+    padding: 12pt 14pt;
+    background: var(--ivory);
+    border-radius: 4pt;
+    font-size: 11pt;
+    line-height: 1.8;
+    break-inside: avoid;
+  }
+  pre.eq { font-family: "STIX Two Math", "Cambria Math", "Times New Roman", serif; font-style: italic; text-align: center; }
+  figcaption .math { font-size: inherit; }
+  .example {
+    background: #fff;
+    border: 0.5pt solid var(--border);
+    border-left: 2.5pt solid var(--brand);
+    padding: 10pt 14pt;
+    margin: 12pt 0;
+    border-radius: 3pt;
+    break-inside: avoid;
+  }
+  .example-label {
+    font-size: 9pt;
+    color: var(--brand);
+    font-weight: 500;
+    letter-spacing: 0.3pt;
+    margin-bottom: 6pt;
+  }
+  .example p:last-child { margin-bottom: 0; }
+  .term { color: var(--brand); font-weight: 500; }
+</style>
+</head>
+<body>
+
+<!-- 封面 -->
+<section class="cover">
+  <div>
+    <div class="cover-eyebrow">论文精读</div>
+    <div class="cover-title">Sequence to Sequence<br>Learning with Neural Networks</div>
+    <div class="cover-citation">
+      基于论文 Ilya Sutskever, Oriol Vinyals, Quoc V. Le · Google<br>
+      arXiv:1409.3215 · NIPS 2014<br>
+      <a href="https://arxiv.org/pdf/1409.3215">https://arxiv.org/pdf/1409.3215</a>
+    </div>
+  </div>
+</section>
+
+<!-- 目录 -->
+<section class="toc">
+  <h2>目录</h2>
+  <a class="toc-item" href="#ch-00"><span class="toc-num">00</span><span class="toc-title">阅读路线与前置知识</span></a>
+  <a class="toc-item" href="#ch-01"><span class="toc-num">01</span><span class="toc-title">论文定位：为什么这篇工作重要</span></a>
+  <a class="toc-item" href="#ch-02"><span class="toc-num">02</span><span class="toc-title">问题定义：DNN 为何不能 Seq→Seq</span></a>
+  <a class="toc-item" href="#ch-03"><span class="toc-num">03</span><span class="toc-title">RNN 基础与长期依赖</span></a>
+  <a class="toc-item" href="#ch-04"><span class="toc-num">04</span><span class="toc-title">LSTM：为何能优化长距离依赖</span></a>
+  <a class="toc-item" href="#ch-05"><span class="toc-num">05</span><span class="toc-title">Seq2Seq 模型架构</span></a>
+  <a class="toc-item" href="#ch-06"><span class="toc-num">06</span><span class="toc-title">三个关键工程技巧</span></a>
+  <a class="toc-item" href="#ch-07"><span class="toc-num">07</span><span class="toc-title">训练目标、解码与 Beam Search</span></a>
+  <a class="toc-item" href="#ch-08"><span class="toc-num">08</span><span class="toc-title">训练细节与工程优化</span></a>
+  <a class="toc-item" href="#ch-09"><span class="toc-num">09</span><span class="toc-title">权重共享、BPTT 与训练机制</span></a>
+  <a class="toc-item" href="#ch-10"><span class="toc-num">10</span><span class="toc-title">实验结果与模型分析</span></a>
+  <a class="toc-item" href="#ch-11"><span class="toc-num">11</span><span class="toc-title">固定向量瓶颈与 Attention 铺垫</span></a>
+  <a class="toc-item" href="#ch-12"><span class="toc-num">12</span><span class="toc-title">论文时间线与后续学习路径</span></a>
+  <a class="toc-item" href="#ch-13"><span class="toc-num">13</span><span class="toc-title">FAQ 精选问答</span></a>
+  <a class="toc-item" href="#ch-appendix"><span class="toc-num">A</span><span class="toc-title">附录：术语表与 Conclusion 译文</span></a>
+</section>
+
+<!-- 00 阅读路线 -->
+<section class="chapter" id="ch-00">
+  <div class="chapter-num">00 · Reading Path</div>
+  <h1>阅读路线与前置知识</h1>
+  <p class="lead">本教程按<span class="hl">依赖顺序</span>组织：先理解为什么需要<strong>序列到序列学习（Sequence-to-Sequence，Seq2Seq）</strong>，再学<strong>循环神经网络（Recurrent Neural Network，RNN）</strong>与<strong>长短期记忆网络（Long Short-Term Memory，LSTM）</strong>，最后进入模型、训练与<strong>注意力机制（Attention）</strong>铺垫。无需事先系统学过深度学习，但需接受「向量、矩阵乘法、softmax、梯度下降」等基础概念。</p>
+
+  <h2>推荐阅读顺序</h2>
+  <ol>
+    <li>第 01–02 章：建立问题意识——翻译是变长序列映射。</li>
+    <li>第 03–04 章：理解 RNN 的局限与 LSTM 的改进机理（优化层面，而非「记忆力」神话）。</li>
+    <li>第 05–08 章：读懂论文核心模型与训练流程。</li>
+    <li>第 09 章：澄清 LSTM 权重共享、BPTT 等常见困惑。</li>
+    <li>第 10–12 章：实验结论、固定向量瓶颈、Attention 演进主线。</li>
+    <li>第 13 章 + 附录：FAQ 与术语速查。</li>
+  </ol>
+
+  <div class="takeaway">
+    <div class="takeaway-label">三条演进主线</div>
+    <p style="margin:0">    <span class="tag">2014</span> Sutskever — Seq2Seq + LSTM 编码器-解码器（Encoder-Decoder）<br>
+    <span class="tag">2014</span> Bahdanau — Attention（注意力）缓解固定向量瓶颈<br>
+    <span class="tag">2017</span> Vaswani — Transformer 彻底取代 RNN 序列建模</p>
+  </div>
+</section>
+
+<!-- 01 论文定位 -->
+<section class="chapter" id="ch-01">
+  <div class="chapter-num">01 · Positioning</div>
+  <h1>论文定位：为什么这篇工作重要</h1>
+  <p class="lead">《Sequence to Sequence Learning with Neural Networks》（2014）是现代 <span class="hl">序列到序列（Sequence-to-Sequence，Seq2Seq）</span>框架的开山之作，也是<strong>神经机器翻译（Neural Machine Translation，NMT）</strong>——用神经网络端到端完成翻译，而非传统统计流水线——真正开始的标志。</p>
+
+  <p>在这篇论文之前，将输入序列映射到输出序列通常依赖复杂的人工设计：语法规则、词对齐模型、翻译词典、人工特征等。本文首次在大规模任务上证明：<strong class="hl">一个端到端神经网络可以直接学习「序列 → 序列」的映射</strong>。</p>
+
+  <pre><code>English sentence  →  Neural Network  →  French sentence</code></pre>
+
+  <figure class="paper-fig">
+    <img src="assets/paper-page-1.png" alt="论文 Abstract 原文截图">
+    <figcaption>图 0-1. 论文 Abstract 原文。核心结论：LSTM 在 WMT'14 英译法上 BLEU 34.8（<span class="term">BLEU</span>：Bilingual Evaluation Understudy，机器翻译自动评测分数，比较译文与人工参考的 n-gram 重叠，越高越好），首次显著超越纯 <span class="term">SMT</span>（Statistical Machine Translation，统计机器翻译）基线 33.3。</figcaption>
+  </figure>
+
+  <blockquote>
+    Deep Neural Networks (DNNs) are powerful models that have achieved excellent performance on difficult learning tasks. Although DNNs work well whenever large labeled training sets are available, <strong>they cannot be used to map sequences to sequences</strong>.
+    <span class="cite">— Abstract, Sutskever et al. (2014)</span>
+  </blockquote>
+
+  <div class="example">
+    <div class="example-label">入门例子 · 论文在翻译任务上做了什么</div>
+    <p>假设输入英文 <code>I love you</code>，期望输出法文 <code>Je t'aime</code>。</p>
+    <p><strong>实验 A · 独立神经翻译（Standalone NMT）</strong>：模型自己从英文直接生成法文，不借助任何传统翻译系统。就像学生闭卷考试——全程靠神经网络。</p>
+    <p><strong>实验 B · 重打分（Rescoring / Reranking）</strong>：先让传统<strong>统计机器翻译（Statistical Machine Translation，SMT）</strong>系统给出 1000 个候选译文，再由 LSTM 给每个候选打分，选最高分的。就像先让多位译者各写一版草稿，再由评委挑出最好的一版。神经网络进入翻译领域时，常走 B 再走向 A。</p>
+  </div>
+</section>
+
+<!-- 02 DNN 局限 -->
+<section class="chapter" id="ch-02">
+  <div class="chapter-num">02 · Problem</div>
+  <h1>问题定义：DNN 为何不能 Seq→Seq</h1>
+  <p class="lead">论文中的 <span class="term">DNN</span>（Deep Neural Network，深度神经网络）在这里特指<strong>前馈神经网络（Feedforward Network）</strong>：构图时输入、输出向量维度就固定死了，不能随句子变长变短。</p>
+
+  <figure>
+    <svg viewBox="0 0 960 280" xmlns="http://www.w3.org/2000/svg">
+      <defs><pattern id="dots1" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="#E3E2DC"/></pattern></defs>
+      <rect width="100%" height="100%" fill="#f5f4ed"/><rect width="100%" height="100%" fill="url(#dots1)" opacity="0.55"/>
+      <text x="80" y="38" fill="#9B1C1C" font-size="13" font-weight="600" font-family="monospace" letter-spacing="3">FIGURE  1</text>
+      <text x="195" y="38" fill="#504e49" font-size="13" font-family="monospace" letter-spacing="3">固定长度 DNN 的输入输出契约</text>
+      <line x1="80" y1="52" x2="880" y2="52" stroke="#9B1C1C" stroke-width="0.8"/>
+      <rect x="80" y="100" width="160" height="64" rx="6" fill="#FDF2F2" stroke="#9B1C1C" stroke-width="1.2"/>
+      <text x="160" y="128" fill="#6b6a64" font-size="14" font-family="monospace" text-anchor="middle">INPUT</text>
+      <text x="160" y="152" fill="#141413" font-size="20" font-style="italic" text-anchor="middle"><tspan font-style="italic">x</tspan><tspan font-style="normal"> ∈ ℝ</tspan><tspan baseline-shift="super" font-size="14">100</tspan></text>
+      <line x1="240" y1="132" x2="360" y2="132" stroke="#9B1C1C" stroke-width="1.4"/>
+      <path d="M352 128 L360 132 L352 136" fill="none" stroke="#9B1C1C" stroke-width="1.5"/>
+      <rect x="360" y="100" width="200" height="64" rx="6" fill="#faf9f5" stroke="#504e49" stroke-width="1"/>
+      <text x="460" y="128" fill="#6b6a64" font-size="14" font-family="monospace" text-anchor="middle">DNN</text>
+      <text x="460" y="152" fill="#141413" font-size="22" font-weight="600" text-anchor="middle">前馈网络</text>
+      <line x1="560" y1="132" x2="680" y2="132" stroke="#504e49" stroke-width="1.2"/>
+      <path d="M672 128 L680 132 L672 136" fill="none" stroke="#504e49" stroke-width="1.5"/>
+      <rect x="680" y="100" width="160" height="64" rx="6" fill="#faf9f5" stroke="#504e49" stroke-width="1"/>
+      <text x="760" y="128" fill="#6b6a64" font-size="14" font-family="monospace" text-anchor="middle">OUTPUT</text>
+      <text x="760" y="152" fill="#141413" font-size="20" font-style="italic" text-anchor="middle"><tspan font-style="italic">y</tspan><tspan font-style="normal"> ∈ ℝ</tspan><tspan baseline-shift="super" font-size="14">10</tspan></text>
+      <text x="80" y="220" fill="#504e49" font-size="16" font-family="serif">维度在构图时即固定，无法表达「3 词输入 → 2 词输出」这类变长映射。</text>
+    </svg>
+    <figcaption>图 2-1. 前馈 DNN 要求输入、输出向量维度固定；翻译等任务中序列长度事先未知，因此不能直接套用。</figcaption>
+  </figure>
+
+  <h2>翻译任务中的长度不匹配</h2>
+  <table class="compact striped">
+    <thead><tr><th>例句</th><th>输入长度</th><th>输出长度</th></tr></thead>
+    <tbody>
+      <tr><td>"I love you" → "Je t'aime"</td><td>3 words</td><td>2 words</td></tr>
+      <tr><td>"This paper proposes …" → 法文译文</td><td>~20 words</td><td>~27 words</td></tr>
+    </tbody>
+  </table>
+
+  <p>引言先列举若干天然是序列形式的任务：语音识别、机器翻译、问答（问题词序列 → 答案词序列）。它们的共同点是<strong class="hl">长度事先无法确定</strong>。</p>
+
+  <blockquote>
+    Despite their flexibility and power, DNNs can only be applied to problems whose inputs and targets can be sensibly encoded with vectors of fixed dimensionality. It is a significant limitation, since many important problems are best expressed with sequences whose lengths are not known a-priori.
+    <span class="cite">— §1 Introduction</span>
+  </blockquote>
+
+  <p>这段话说明的是<span class="hl">前馈 DNN 的根本限制</span>：输入与目标必须能编码为固定维向量，因而与变长序列任务不匹配。</p>
+
+  <div class="example">
+    <div class="example-label">入门例子 · 固定长度 DNN 为什么搞不定翻译</div>
+    <p>假设你硬把 <code>I love you</code> 塞进一个长度 100 的向量：前 3 维存词，后面 97 维全是 0。那 <code>This paper proposes a new method</code> 有 6 个词，<code>Je t'aime</code> 只有 3 个词——输入输出长度每次都不一样，网络接口却在设计时就写死了「100 进、10 出」。这不是「多训练几次」能解决的，是<strong>结构不匹配</strong>。</p>
+  </div>
+
+</section>
+
+<!-- 03 RNN -->
+<section class="chapter" id="ch-03">
+  <div class="chapter-num">03 · RNN</div>
+  <h1>RNN 基础与长期依赖</h1>
+  <p class="lead"><span class="term">RNN</span>（Recurrent Neural Network，循环神经网络）把前馈网络改成「带记忆」：每读入一个词，就更新一次<strong>隐藏状态（hidden state）</strong>——可以理解为模型此刻对「已读内容」的压缩摘要。</p>
+
+  <div class="example">
+    <div class="example-label">入门例子 · 读句子 "I love you" 时 RNN 在做什么</div>
+    <p>把每个词依次喂入，隐藏状态逐步更新（下表概率为示意）：</p>
+    <table class="compact striped">
+      <thead><tr><th>时刻</th><th>读入词 <span class="math"><i>x</i><sub>t</sub></span></th><th>更新后 <span class="math"><i>h</i><sub>t</sub></span>「记住了什么」</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>I</td><td>句首是人称代词</td></tr>
+        <tr><td>2</td><td>love</td><td>主语 + 动词「爱」</td></tr>
+        <tr><td>3</td><td>you</td><td>完整语义：「我爱你」</td></tr>
+      </tbody>
+    </table>
+    <p>关键：<span class="math"><i>h</i><sub>3</sub></span> 里既有 <code>you</code> 的信息，也通过链式更新保留了 <code>I</code> 和 <code>love</code>。同一套权重 <span class="math"><i>W</i><sub>hx</sub>, <i>W</i><sub>hh</sub></span> 在每个时刻重复使用。</p>
+  </div>
+
+  <h2>标准 RNN 更新公式</h2>
+  <p>论文 §2 给出（原文用 sigmoid，实践中常用 tanh）：</p>
+  <div class="equation"><span class="math"><i>h</i><sub>t</sub> = σ(<i>W</i><sub>hx</sub> · <i>x</i><sub>t</sub> + <i>W</i><sub>hh</sub> · <i>h</i><sub>t−1</sub>)<br><i>y</i><sub>t</sub> = <i>W</i><sub>yh</sub> · <i>h</i><sub>t</sub></span></div>
+  <ul>
+    <li><span class="math"><i>W</i><sub>hx</sub> · <i>x</i><sub>t</sub></span>：当前时刻输入携带的新信息。</li>
+    <li><span class="math"><i>W</i><sub>hh</sub> · <i>h</i><sub>t−1</sub></span>：上一时刻隐藏状态携带的历史信息。</li>
+    <li><span class="math">σ</span>：非线性激活（tanh 或 sigmoid）。</li>
+  </ul>
+  <p>直觉：<strong><span class="math"><i>h</i><sub>t</sub></span> = 新信息 + 旧记忆</strong>（经线性变换与非线性压缩）。</p>
+
+  <figure>
+    <svg viewBox="0 0 960 320" xmlns="http://www.w3.org/2000/svg">
+      <defs><pattern id="dots2" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="#E3E2DC"/></pattern></defs>
+      <rect width="100%" height="100%" fill="#f5f4ed"/><rect width="100%" height="100%" fill="url(#dots2)" opacity="0.55"/>
+      <text x="80" y="38" fill="#9B1C1C" font-size="13" font-weight="600" font-family="monospace" letter-spacing="3">FIGURE  2</text>
+      <text x="195" y="38" fill="#504e49" font-size="13" font-family="monospace" letter-spacing="3">RNN 按时间步展开（Unrolling）</text>
+      <line x1="80" y1="52" x2="880" y2="52" stroke="#9B1C1C" stroke-width="0.8"/>
+      <!-- time steps -->
+      <rect x="60" y="120" width="100" height="56" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="110" y="152" fill="#141413" font-size="18" font-style="italic" text-anchor="middle"><tspan>x</tspan><tspan baseline-shift="sub" font-size="12">1</tspan></text>
+      <rect x="200" y="120" width="100" height="56" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="250" y="152" fill="#141413" font-size="18" font-style="italic" text-anchor="middle"><tspan>x</tspan><tspan baseline-shift="sub" font-size="12">2</tspan></text>
+      <rect x="340" y="120" width="100" height="56" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="390" y="152" fill="#141413" font-size="18" font-style="italic" text-anchor="middle"><tspan>x</tspan><tspan baseline-shift="sub" font-size="12">3</tspan></text>
+      <text x="480" y="152" fill="#6b6a64" font-size="20" text-anchor="middle">…</text>
+      <rect x="520" y="120" width="100" height="56" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="570" y="152" fill="#141413" font-size="18" font-style="italic" text-anchor="middle"><tspan>x</tspan><tspan baseline-shift="sub" font-size="12">T</tspan></text>
+      <rect x="60" y="220" width="100" height="56" rx="6" fill="#FDF2F2" stroke="#9B1C1C" stroke-width="1.2"/><text x="110" y="252" fill="#9B1C1C" font-size="18" font-style="italic" font-weight="600" text-anchor="middle"><tspan>h</tspan><tspan baseline-shift="sub" font-size="12">1</tspan></text>
+      <rect x="200" y="220" width="100" height="56" rx="6" fill="#FDF2F2" stroke="#9B1C1C" stroke-width="1.2"/><text x="250" y="252" fill="#9B1C1C" font-size="18" font-style="italic" font-weight="600" text-anchor="middle"><tspan>h</tspan><tspan baseline-shift="sub" font-size="12">2</tspan></text>
+      <rect x="340" y="220" width="100" height="56" rx="6" fill="#FDF2F2" stroke="#9B1C1C" stroke-width="1.2"/><text x="390" y="252" fill="#9B1C1C" font-size="18" font-style="italic" font-weight="600" text-anchor="middle"><tspan>h</tspan><tspan baseline-shift="sub" font-size="12">3</tspan></text>
+      <rect x="520" y="220" width="100" height="56" rx="6" fill="#FDF2F2" stroke="#9B1C1C" stroke-width="1.2"/><text x="570" y="252" fill="#9B1C1C" font-size="18" font-style="italic" text-anchor="middle" font-weight="600"><tspan>h</tspan><tspan baseline-shift="sub" font-size="12">T</tspan></text>
+      <line x1="110" y1="176" x2="110" y2="220" stroke="#504e49" stroke-width="1.2"/>
+      <line x1="250" y1="176" x2="250" y2="220" stroke="#504e49" stroke-width="1.2"/>
+      <line x1="390" y1="176" x2="390" y2="220" stroke="#504e49" stroke-width="1.2"/>
+      <line x1="570" y1="176" x2="570" y2="220" stroke="#504e49" stroke-width="1.2"/>
+      <line x1="160" y1="248" x2="200" y2="248" stroke="#9B1C1C" stroke-width="1.4"/>
+      <path d="M192 244 L200 248 L192 252" fill="none" stroke="#9B1C1C" stroke-width="1.5"/>
+      <line x1="300" y1="248" x2="340" y2="248" stroke="#9B1C1C" stroke-width="1.4"/>
+      <path d="M332 244 L340 248 L332 252" fill="none" stroke="#9B1C1C" stroke-width="1.5"/>
+      <line x1="440" y1="248" x2="520" y2="248" stroke="#9B1C1C" stroke-width="1.4"/>
+      <path d="M512 244 L520 248 L512 252" fill="none" stroke="#9B1C1C" stroke-width="1.5"/>
+      <text x="80" y="300" fill="#504e49" font-size="15"><tspan font-style="italic">同一套 W</tspan><tspan baseline-shift="sub" font-size="11">hx</tspan><tspan font-style="italic">, W</tspan><tspan baseline-shift="sub" font-size="11">hh</tspan><tspan> 在所有时间步共享；展开后等价于极深的前馈网络。</tspan></text>
+    </svg>
+    <figcaption>图 3-1. RNN 沿时间轴展开：每个 <span class="math"><i>h</i><sub>t</sub></span> 依赖 <span class="math"><i>x</i><sub>t</sub></span> 与 <span class="math"><i>h</i><sub>t−1</sub></span>。训练时的 <span class="term">BPTT</span>（Backpropagation Through Time，沿时间反向传播）就是把这条链展开成深层网络再求梯度——详见第 09 章。</figcaption>
+  </figure>
+
+  <h2>长期依赖与梯度消失</h2>
+  <p>考虑句子：<code>I …（中间隔 100 词）… love</code>。词 <code>I</code> 的信息须经 <span class="math"><i>h</i><sub>1</sub>→<i>h</i><sub>2</sub>→…→<i>h</i><sub>100</sub></span> 才能影响后面，路径极长。</p>
+  <p>训练时，损失对早期状态的梯度为连乘形式：</p>
+  <div class="equation"><span class="math">∂<i>h</i><sub>T</sub> / ∂<i>h</i><sub>1</sub> = ∏<sub><i>i</i>=2</sub><sup><i>T</i></sup> ∂<i>h</i><sub><i>i</i></sub> / ∂<i>h</i><sub><i>i</i>−1</sub></span></div>
+  <p>若每项平均 &lt; 1（如 <span class="math">0.9<sup>100</sup> ≈ 2.7×10<sup>−5</sup></span>），梯度几乎消失；若平均 &gt; 1（如 <span class="math">1.1<sup>100</sup> ≈ 13780</span>），则梯度爆炸。这就是经典的 <strong class="hl">Vanishing / Exploding Gradient</strong>。</p>
+
+  <div class="callout">
+    <p>论文指出：用 RNN 把输入编码为固定向量、再用另一 RNN 解码，<strong class="hl">原则上可行</strong>（信息都在向量里），但会产生很长的依赖链，<strong class="hl">训练困难</strong>。这里强调的是<strong class="hl">优化问题</strong>，不是表达能力问题——理论上 RNN 可以表示该映射，实际上梯度传不过去。</p>
+  </div>
+
+  <h2>Seq2Seq 为何加剧该问题</h2>
+  <p>Encoder 读完整个句子才得到 <span class="math"><i>h</i><sub>T</sub></span>，Decoder 才开始生成。若 Decoder 第一个输出词主要依赖输入句首，则信息路径 ≈ 编码步数 + 解码步数，长句上可超过 100 步。</p>
+  <p class="equation" style="font-size:10.5pt">A → B → C → D → E → <span class="math"><i>h</i><sub>5</sub></span> → Decoder 生成 <span class="math">α</span> …</p>
+  <div class="example">
+    <div class="example-label">入门例子 · 长句里「I」怎么影响后面的「love」</div>
+    <p>句子 <code>I …（100 个词）… love</code>：词 <code>I</code> 的信息要经过 100 次 <span class="math"><i>h</i><sub>t</sub>→<i>h</i><sub>t+1</sub></span> 传递才能影响 <code>love</code> 处的预测。训练时梯度也要沿同一路径反向走 100 步；每步乘以一个 &lt;1 的数，100 步后梯度就接近 0——模型不是「看不见」<code>I</code>，而是<strong>学不到如何用它</strong>。</p>
+  </div>
+  <p>论文原文：<em>"difficult to train due to long term dependencies"</em>（长期依赖导致训练困难）——指优化难度，而非「模型记不住」。</p>
+</section>
+
+<!-- 04 LSTM -->
+<section class="chapter" id="ch-04">
+  <div class="chapter-num">04 · LSTM</div>
+  <h1>LSTM：为何能优化长距离依赖</h1>
+  <p class="lead"><span class="term">LSTM</span>（Long Short-Term Memory，长短期记忆网络）的核心贡献不是「三个门」本身，而是引入<span class="hl">细胞状态（Cell State）<span class="math"><i>c</i><sub>t</sub></span></span>，使误差可在记忆通道上近似恒等传播（<span class="term">CEC</span>，Constant Error Carousel，恒定误差传送带）。</p>
+
+  <blockquote>
+    … the Long Short-Term Memory (LSTM) [16] is known to learn problems with long range temporal dependencies, so an LSTM may succeed in this setting.
+    <span class="cite">— §2 The model</span>
+  </blockquote>
+
+  <h2>细胞状态更新</h2>
+  <div class="equation"><span class="math"><i>c</i><sub>t</sub> = <i>f</i><sub>t</sub> ⊙ <i>c</i><sub>t−1</sub> + <i>i</i><sub>t</sub> ⊙ <i>g</i><sub>t</sub></span></div>
+  <ul>
+    <li><strong>遗忘门 <span class="math"><i>f</i><sub>t</sub></span></strong>：决定上一时刻细胞状态中哪些信息被丢弃。</li>
+    <li><strong>输入门 <span class="math"><i>i</i><sub>t</sub></span></strong>：决定当前新信息哪些值得写入。</li>
+    <li><strong>候选记忆 <span class="math"><i>g</i><sub>t</sub></span></strong>：待写入的新内容。</li>
+    <li><strong>输出门 <span class="math"><i>o</i><sub>t</sub></span></strong>：决定从 <span class="math"><i>c</i><sub>t</sub></span> 中提取什么作为隐藏状态 <span class="math"><i>h</i><sub>t</sub></span>。</li>
+  </ul>
+  <div class="example">
+    <div class="example-label">入门例子 · 用 "I love you" 理解四个门</div>
+    <p>读到 <code>love</code> 时，LSTM 可以决定：</p>
+    <ul>
+      <li><strong>遗忘门 <span class="math"><i>f</i><sub>t</sub></span></strong>：前面的 <code>I</code> 还要保留吗？（翻译里通常要保留）</li>
+      <li><strong>输入门 <span class="math"><i>i</i><sub>t</sub></span></strong>：<code>love</code> 这条新信息写入多少？</li>
+      <li><strong>候选 <span class="math"><i>g</i><sub>t</sub></span></strong>：把 <code>love</code> 编码成什么内容？</li>
+      <li><strong>输出门 <span class="math"><i>o</i><sub>t</sub></span></strong>：从记忆里取出多少用于当前输出 <span class="math"><i>h</i><sub>t</sub></span>？</li>
+    </ul>
+    <p>若 <span class="math"><i>f</i><sub>t</sub>≈1</span>，细胞状态 <span class="math"><i>c</i><sub>t</sub></span> 几乎原样传递——<code>I</code> 的信息不必每步都经过剧烈改写，梯度也能沿 <span class="math"><i>c</i><sub>t</sub></span> 通道走捷径。</p>
+  </div>
+
+  <p>当 <span class="math"><i>f</i><sub>t</sub> ≈ 1</span> 时，<span class="math"><i>c</i><sub>t</sub> ≈ <i>c</i><sub>t−1</sub></span>，信息可沿 cell state 几乎不衰减地传播；反向传播时 <span class="math">∂<i>c</i><sub>t</sub>/∂<i>c</i><sub>t−1</sub> ≈ 1</span>，梯度不会像普通 RNN 那样被反复压缩。</p>
+
+  <figure>
+    <svg viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg">
+      <defs><pattern id="dots3" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="#E3E2DC"/></pattern></defs>
+      <rect width="100%" height="100%" fill="#f5f4ed"/><rect width="100%" height="100%" fill="url(#dots3)" opacity="0.55"/>
+      <text x="80" y="38" fill="#9B1C1C" font-size="13" font-weight="600" font-family="monospace" letter-spacing="3">FIGURE  3</text>
+      <text x="195" y="38" fill="#504e49" font-size="13" font-family="monospace" letter-spacing="3">LSTM 单元结构（简化示意）</text>
+      <line x1="80" y1="52" x2="880" y2="52" stroke="#9B1C1C" stroke-width="0.8"/>
+      <!-- cell state highway -->
+      <line x1="100" y1="120" x2="860" y2="120" stroke="#9B1C1C" stroke-width="2"/>
+      <text x="100" y="108" fill="#9B1C1C" font-size="14">CELL STATE <tspan font-style="italic">c</tspan><tspan baseline-shift="sub" font-size="10">t−1</tspan> ───────────────────────────────► <tspan font-style="italic">c</tspan><tspan baseline-shift="sub" font-size="10">t</tspan></text>
+      <!-- gates -->
+      <rect x="200" y="160" width="120" height="48" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="260" y="190" fill="#141413" font-size="16" text-anchor="middle"><tspan>遗忘门 </tspan><tspan font-style="italic">f</tspan><tspan baseline-shift="sub" font-size="11">t</tspan></text>
+      <rect x="380" y="160" width="120" height="48" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="440" y="190" fill="#141413" font-size="16" text-anchor="middle"><tspan>输入门 </tspan><tspan font-style="italic">i</tspan><tspan baseline-shift="sub" font-size="11">t</tspan></text>
+      <rect x="560" y="160" width="120" height="48" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="620" y="190" fill="#141413" font-size="16" text-anchor="middle"><tspan>候选 </tspan><tspan font-style="italic">g</tspan><tspan baseline-shift="sub" font-size="11">t</tspan></text>
+      <rect x="740" y="160" width="120" height="48" rx="6" fill="#FDF2F2" stroke="#9B1C1C" stroke-width="1.2"/><text x="800" y="190" fill="#9B1C1C" font-size="16" font-weight="600" text-anchor="middle"><tspan>输出门 </tspan><tspan font-style="italic">o</tspan><tspan baseline-shift="sub" font-size="11">t</tspan></text>
+      <rect x="380" y="260" width="200" height="56" rx="6" fill="#FDF2F2" stroke="#9B1C1C" stroke-width="1.2"/>
+      <text x="480" y="294" fill="#9B1C1C" font-size="20" font-weight="600" text-anchor="middle"><tspan>隐藏状态 </tspan><tspan font-style="italic">h</tspan><tspan baseline-shift="sub" font-size="12">t</tspan></text>
+      <line x1="480" y1="208" x2="480" y2="260" stroke="#504e49" stroke-width="1"/>
+      <line x1="800" y1="208" x2="800" y2="240" stroke="#9B1C1C" stroke-width="1"/>
+      <line x1="800" y1="240" x2="580" y2="288" stroke="#504e49" stroke-width="1"/>
+      <text x="100" y="360" fill="#504e49" font-size="15"><tspan font-style="italic">f</tspan><tspan baseline-shift="sub" font-size="11">t</tspan><tspan>≈1 时，</tspan><tspan font-style="italic">c</tspan><tspan baseline-shift="sub" font-size="11">t</tspan><tspan> 沿水平「高速公路」传递；</tspan><tspan font-style="italic">h</tspan><tspan baseline-shift="sub" font-size="11">t</tspan><tspan> 由 </tspan><tspan font-style="italic">o</tspan><tspan baseline-shift="sub" font-size="11">t</tspan><tspan> 从 </tspan><tspan font-style="italic">c</tspan><tspan baseline-shift="sub" font-size="11">t</tspan><tspan> 中读取。</tspan></text>
+    </svg>
+    <figcaption>图 4-1. LSTM 简化结构：细胞状态提供近似恒等的误差传播通道（CEC），缓解 vanishing gradient。</figcaption>
+  </figure>
+
+  <h2>RNN vs LSTM 对比</h2>
+  <table class="compact striped">
+    <thead><tr><th>维度</th><th>标准 RNN</th><th>LSTM</th></tr></thead>
+    <tbody>
+      <tr><td>状态</td><td>仅隐藏状态 <span class="math"><i>h</i><sub>t</sub></span></td><td>隐藏状态 <span class="math"><i>h</i><sub>t</sub></span> + 细胞状态 <span class="math"><i>c</i><sub>t</sub></span></td></tr>
+      <tr><td>长期依赖</td><td>梯度连乘易消失/爆炸</td><td>CEC 使 <span class="math">∂<i>c</i><sub>t</sub>/∂<i>c</i><sub>t−1</sub> ≈ 1</span></td></tr>
+      <tr><td>在 Seq2Seq 中</td><td>理论上可行，训练极难</td><td>论文选用，能学习长距离时间依赖</td></tr>
+      <tr><td>梯度裁剪</td><td>常需要</td><td>仍需要（LSTM 缓解消失，但不杜绝爆炸）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 05 Seq2Seq 架构 -->
+<section class="chapter" id="ch-05">
+  <div class="chapter-num">05 · Architecture</div>
+  <h1>Seq2Seq 模型架构</h1>
+  <p class="lead">论文方案：<strong class="hl">编码器（Encoder）</strong> LSTM 把整句源语言读完后压成一个固定向量 <span class="math"><i>v</i></span>；<strong class="hl">解码器（Decoder）</strong> LSTM 以 <span class="math"><i>v</i></span> 为初始记忆，<strong>自回归（autoregressive）</strong>地一个词一个词生成目标语言——每生成一个词，就把它喂回 Decoder 作为下一步输入。</p>
+
+  <div class="example">
+    <div class="example-label">入门例子 · "I love you" → "Je t'aime" 全流程（简化）</div>
+    <p><strong>① Encoder 读源句</strong>（论文会反转源句，此处先忽略）：依次读 <code>I</code> → <code>love</code> → <code>you</code> → <code>&lt;EOS&gt;</code>（End Of Sequence，句末标记）。读完后末状态即为 <span class="math"><i>v</i></span>——整句英文的 8000 维「摘要」。</p>
+    <p><strong>② Decoder 生成法文</strong>：以 <span class="math"><i>v</i></span> 初始化，预测第一个词 → <code>Je</code>；把 <code>Je</code> 喂回，预测 → <code>t'aime</code>；再喂回，预测 → <code>&lt;EOS&gt;</code>，停止。</p>
+    <p><strong>③ 概率怎么算</strong>：每个位置对词表里所有词做 <span class="term">softmax</span>（归一化指数函数，把分数变成概率分布），选出概率最高的词（或交给 Beam Search，见第 07 章）。</p>
+  </div>
+
+  <h2>条件概率分解</h2>
+  <div class="equation"><span class="math"><i>p</i>(<i>y</i><sub>1</sub>,…,<i>y</i><sub><i>T</i>′</sub> | <i>x</i><sub>1</sub>,…,<i>x</i><sub><i>T</i></sub>) = ∏<sub><i>t</i>=1</sub><sup><i>T</i>′</sup> <i>p</i>(<i>y</i><sub>t</sub> | <i>v</i>, <i>y</i><sub>1</sub>,…,<i>y</i><sub>t−1</sub>)</span></div>
+  <p>其中 <span class="math"><i>v</i></span> 为 Encoder 最后时刻的隐藏状态；每个 <span class="math"><i>p</i>(<i>y</i><sub>t</sub>|…)</span> 为词表上的 softmax。句子以特殊符号 <code>&lt;EOS&gt;</code> 结束，从而对任意长度序列定义分布。</p>
+
+  <figure>
+    <svg viewBox="0 0 960 420" xmlns="http://www.w3.org/2000/svg">
+      <defs><pattern id="dots4" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="0.9" fill="#E3E2DC"/></pattern></defs>
+      <rect width="100%" height="100%" fill="#f5f4ed"/><rect width="100%" height="100%" fill="url(#dots4)" opacity="0.55"/>
+      <text x="80" y="38" fill="#9B1C1C" font-size="13" font-weight="600" font-family="monospace" letter-spacing="3">FIGURE  4</text>
+      <text x="195" y="38" fill="#504e49" font-size="13" font-family="monospace" letter-spacing="3">Encoder-Decoder LSTM（对应论文 Figure 1）</text>
+      <line x1="80" y1="52" x2="880" y2="52" stroke="#9B1C1C" stroke-width="0.8"/>
+      <!-- Encoder -->
+      <text x="80" y="88" fill="#504e49" font-size="14" font-family="monospace">ENCODER（源句反转读取）</text>
+      <rect x="80" y="100" width="72" height="48" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="116" y="130" fill="#141413" font-size="16" text-anchor="middle">C</text>
+      <rect x="168" y="100" width="72" height="48" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="204" y="130" fill="#141413" font-size="16" text-anchor="middle">B</text>
+      <rect x="256" y="100" width="72" height="48" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="292" y="130" fill="#141413" font-size="16" text-anchor="middle">A</text>
+      <rect x="344" y="100" width="88" height="48" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="388" y="130" fill="#141413" font-size="14" text-anchor="middle">EOS</text>
+      <rect x="80" y="168" width="352" height="56" rx="6" fill="#FDF2F2" stroke="#9B1C1C" stroke-width="1.4"/>
+      <text x="256" y="202" fill="#9B1C1C" font-size="18" font-weight="600" text-anchor="middle">4-layer Encoder LSTM</text>
+      <!-- context -->
+      <rect x="480" y="148" width="120" height="72" rx="6" fill="#FDF2F2" stroke="#9B1C1C" stroke-width="1.6"/>
+      <text x="540" y="178" fill="#9B1C1C" font-size="14" font-family="monospace" text-anchor="middle">CONTEXT</text>
+      <text x="540" y="202" fill="#141413" font-size="18" font-style="italic" font-weight="600" text-anchor="middle"><tspan font-style="italic">v</tspan><tspan font-style="normal" font-size="14"> (8000-d)</tspan></text>
+      <line x1="432" y1="196" x2="480" y2="184" stroke="#9B1C1C" stroke-width="1.4"/>
+      <path d="M472 180 L480 184 L472 188" fill="none" stroke="#9B1C1C" stroke-width="1.5"/>
+      <!-- Decoder -->
+      <text x="640" y="88" fill="#504e49" font-size="14" font-family="monospace">DECODER（生成目标句）</text>
+      <rect x="640" y="168" width="280" height="56" rx="6" fill="#FDF2F2" stroke="#9B1C1C" stroke-width="1.4"/>
+      <text x="780" y="202" fill="#9B1C1C" font-size="18" font-weight="600" text-anchor="middle">4-layer Decoder LSTM</text>
+      <line x1="600" y1="184" x2="640" y2="196" stroke="#9B1C1C" stroke-width="1.4"/>
+      <path d="M632 192 L640 196 L632 200" fill="none" stroke="#9B1C1C" stroke-width="1.5"/>
+      <rect x="640" y="260" width="56" height="44" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="668" y="288" fill="#141413" font-size="15" text-anchor="middle">W</text>
+      <rect x="708" y="260" width="56" height="44" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="736" y="288" fill="#141413" font-size="15" text-anchor="middle">X</text>
+      <rect x="776" y="260" width="56" height="44" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="804" y="288" fill="#141413" font-size="15" text-anchor="middle">Y</text>
+      <rect x="844" y="260" width="56" height="44" rx="6" fill="#faf9f5" stroke="#504e49"/><text x="872" y="288" fill="#141413" font-size="14" text-anchor="middle">Z</text>
+      <line x1="668" y1="224" x2="668" y2="260" stroke="#504e49"/>
+      <line x1="736" y1="224" x2="736" y2="260" stroke="#504e49"/>
+      <line x1="804" y1="224" x2="804" y2="260" stroke="#504e49"/>
+      <line x1="872" y1="224" x2="872" y2="260" stroke="#504e49"/>
+      <text x="80" y="360" fill="#504e49" font-size="15">源句 "a b c" 反转为 "c b a" 后输入；Encoder 末状态 <tspan font-style="italic">v</tspan> 初始化 Decoder，逐步生成 α β γ 直至 &lt;EOS&gt;。</text>
+    </svg>
+    <figcaption>图 5-1. 论文 Figure 1 的示意重构：双 LSTM、源句反转、固定维上下文向量 <span class="math"><i>v</i></span> 连接编解码器。</figcaption>
+  </figure>
+
+  <figure class="paper-fig">
+    <img src="assets/paper-page-2.png" alt="论文 Figure 1 原文">
+    <figcaption>图 5-2. 论文原文 Figure 1 截图：模型读取 "ABC" 输出 "WXYZ"，源句反转引入更多短期依赖，使优化更容易。</figcaption>
+  </figure>
+
+  <blockquote>
+    The idea is to use one LSTM to read the input sequence, one timestep at a time, to obtain large fixed-dimensional vector representation, and then to use another LSTM to extract the output sequence from that vector.
+    <span class="cite">— §1 Introduction</span>
+  </blockquote>
+
+  <p>与论文描述的细微差别：实际模型使用<strong class="hl">两个独立 LSTM</strong>（非同一网络兼编解码）、<strong class="hl">4 层深度</strong>、<strong class="hl">源句反转</strong>——见下一章。</p>
+</section>
+
+<!-- 06 三个 Trick -->
+<section class="chapter" id="ch-06">
+  <div class="chapter-num">06 · Tricks</div>
+  <h1>三个关键工程技巧</h1>
+
+  <h2>Trick 1：两个独立的 LSTM</h2>
+  <p>Encoder 与 Decoder 各用一套 LSTM，而非共享同一网络。</p>
+  <blockquote>
+    … increases the number of model parameters at negligible computational cost …
+    <span class="cite">— §2</span>
+  </blockquote>
+  <p><strong>本质</strong>：增加模型容量（Model Capacity，模型能存储的模式量）。编码（理解）与解码（生成）是两种不同能力。</p>
+  <div class="example">
+    <div class="example-label">入门例子 · 为什么要两个 LSTM</div>
+    <p>类比：Encoder 像「读英文小说做笔记」，Decoder 像「根据笔记写法文作文」。让同一个人用同一套笔记格式兼做两件事，往往互相牵制。拆成两个 LSTM，参数量几乎翻倍，但各自专精，论文发现几乎不增加额外计算负担。</p>
+  </div>
+
+  <h2>Trick 2：Deep LSTM（4 层）</h2>
+  <blockquote>
+    … deep LSTMs significantly outperformed shallow LSTMs …
+    <span class="cite">— §2</span>
+  </blockquote>
+  <p>每增加一层，困惑度约降低 10%。<strong>本质</strong>：增强表示能力（Representation Power）。以 2014 年标准，4 层已属「很深」。</p>
+
+  <h2>Trick 3：Reverse Input Sentence（源句反转）</h2>
+  <p>将源语言词序反转，目标句不变：</p>
+  <div class="equation" style="font-size:10.5pt;line-height:2">原始：&nbsp; a &nbsp; b &nbsp; c &nbsp;→&nbsp; <span class="math">α β γ</span><br>反转后： c &nbsp; b &nbsp; a &nbsp;→&nbsp; <span class="math">α β γ</span></div>
+  <div class="example">
+    <div class="example-label">入门例子 · 源句反转如何缩短「第一条词对第一条词」的距离</div>
+    <p>英 → 法：<code>I am happy</code> → <code>Je suis heureux</code>。正常顺序下，Encoder 先读 <code>I</code>，但要等很久 Decoder 才在末尾生成 <code>heureux</code>，首尾对齐路径极长。</p>
+    <p>反转源句为 <code>happy am I</code> 后：Encoder 最后读到的词是 <code>I</code>，紧接着 Decoder 就要生成句首 <code>Je</code>——<strong>源句第一个实义词与目标句第一个词在时间上紧邻</strong>，梯度更容易建立联系。论文 BLEU 从 25.9 提到 30.6，困惑度从 5.8 降到 4.7。</p>
+  </div>
+  <p>效果：测试困惑度 5.8→4.7，BLEU 25.9→30.6（单模型，beam=12；<span class="term">beam</span> 见第 07 章）。</p>
+
+  <figure class="paper-fig">
+    <img src="assets/paper-page-4.png" alt="论文 3.3 节 Reversing the Source Sentences">
+    <figcaption>图 6-1. 论文 §3.3 原文截图：反转源句大幅降低 minimal time lag，使反向传播更容易在源句与目标句之间「建立通信」。</figcaption>
+  </figure>
+
+  <blockquote>
+    By reversing the words in the source sentence, the average distance between corresponding words in the source and target language is unchanged. However, the first few words in the source language are now very close to the first few words in the target language, so the problem's minimal time lag is greatly reduced.
+    <span class="cite">— §3.3</span>
+  </blockquote>
+
+  <table class="compact striped">
+    <thead><tr><th>技巧</th><th>改变的是什么</th><th>类型</th></tr></thead>
+    <tbody>
+      <tr><td>双 LSTM</td><td>参数量 / 容量</td><td>模型能力</td></tr>
+      <tr><td>4 层 LSTM</td><td>层次表示深度</td><td>模型能力</td></tr>
+      <tr><td>源句反转</td><td>输入-输出信息路径长度</td><td>优化难度（非模型容量）</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 07 训练目标 -->
+<section class="chapter" id="ch-07">
+  <div class="chapter-num">07 · Training Objective</div>
+  <h1>训练目标、解码与 Beam Search</h1>
+
+  <h2>数据集</h2>
+  <p>论文使用 <span class="term">WMT'14</span>（Workshop on Machine Translation，机器翻译国际评测）英译法任务，筛选子集 <strong>1200 万句对</strong>。词表：源语言 16 万词，目标语言 8 万词；遇到词表外的词（<span class="term">OOV</span>，Out-of-Vocabulary）统一替换为 <code>UNK</code>（Unknown 未知词标记）。</p>
+
+  <h2>训练目标</h2>
+  <div class="equation"><span class="math">maximize Σ<sub>(<i>S</i>,<i>T</i>)</sub> (1/|<i>S</i>|) · log <i>p</i>(<i>T</i> | <i>S</i>)</span></div>
+  <p>即：给定源句 <span class="math"><i>S</i></span>，让模型给<strong>正确译文</strong> <span class="math"><i>T</i></span> 尽可能高的概率；除以源句长度做归一化。</p>
+
+  <div class="example">
+    <div class="example-label">入门例子 · 训练时在优化什么</div>
+    <p>源句 <code>I love you</code>，正确译文 <code>Je t'aime</code>。训练希望：</p>
+    <p><span class="math">log <i>p</i>(</span><code>Je t'aime</code><span class="math"> | </span><code>I love you</code><span class="math">)</span> 尽可能大——即模型「看到英文，给正确法文很高分；给乱译的句子很低分」。</p>
+  </div>
+
+  <h2>推理：argmax 与 Beam Search</h2>
+  <div class="equation"><span class="math"><i>T̂</i> = argmax<sub><i>T</i></sub> <i>p</i>(<i>T</i> | <i>S</i>)</span></div>
+  <p>推理时要找概率最高的整句译文 <span class="math"><i>T̂</i></span>。但法文句子有无穷多种组合，无法穷举。<span class="term">Beam Search</span>（束搜索）是实用的近似算法：每步只保留当前最有希望的 <span class="math">B</span> 条「半成品句子」（部分假设），不断扩展、筛选，直到生成 <code>&lt;EOS&gt;</code>。</p>
+
+  <div class="example">
+    <div class="example-label">入门例子 · 翻译 "you love I"（源句反转后）→ 法文，对比 beam=1 与 beam=2</div>
+    <p>为便于手算，假设 Decoder 词表极小，每步只有三个候选，概率为示意值。真实论文词表有 8 万词，但原理相同。</p>
+
+    <p><strong>第 1 步：预测第一个法文词</strong></p>
+    <table class="compact striped">
+      <thead><tr><th>候选首词</th><th>概率（示意）</th></tr></thead>
+      <tbody>
+        <tr><td><code>Je</code>（正确开头）</td><td>0.55</td></tr>
+        <tr><td><code>Tu</code>（也合理，但本句不对）</td><td>0.30</td></tr>
+        <tr><td><code>Il</code></td><td>0.15</td></tr>
+      </tbody>
+    </table>
+
+    <p><strong>beam=1（贪心解码，Greedy）</strong>：只保留概率最高的一条路径。</p>
+    <ul>
+      <li>第 1 步选 <code>Je</code>（0.55）</li>
+      <li>第 2 步在 <code>Je</code> 后假设 <code>t'aime</code> 概率 0.70 → 累计 0.55×0.70=0.385</li>
+      <li>输出 <code>Je t'aime</code>，碰巧正确——<strong>但一旦某步贪心选错（如先选了 <code>Tu</code>），后面无法回头</strong></li>
+    </ul>
+
+    <p><strong>beam=2</strong>：每步保留概率最高的 2 条前缀。</p>
+    <table class="compact striped">
+      <thead><tr><th>步骤</th><th>保留的 2 条路径（累计概率）</th></tr></thead>
+      <tbody>
+        <tr><td>第 1 步</td><td><code>Je</code> (0.55) · <code>Tu</code> (0.30)</td></tr>
+        <tr><td>第 2 步</td><td><code>Je t'aime</code> (0.385) · <code>Je vous aime</code> (0.11) — <code>Tu</code> 分支扩展后概率太低被淘汰</td></tr>
+        <tr><td>第 3 步</td><td><code>Je t'aime &lt;EOS&gt;</code> 胜出 → 最终译文 <code>Je t'aime</code></td></tr>
+      </tbody>
+    </table>
+    <p>beam=2 的意义：<strong>允许模型在前几步「暂时保留次优选择」</strong>，避免一步走错满盘皆输。论文发现 beam=2 已能拿到 beam=12 的大部分收益，因为集成多模型后边际收益递减。</p>
+  </div>
+
+  <div class="callout">
+    <p><strong>论文经验</strong>：beam=1 已有不错表现；beam=2 即可获得大部分收益（Table 1）。5 模型集成 + beam=2 的 BLEU 34.50，甚至优于单模型 beam=12 的 26.17（未反转）——说明<strong>模型集成与源句反转</strong>比单纯加大 beam 更划算。</p>
+  </div>
+
+  <h2>Rescoring 实验</h2>
+  <div class="example">
+    <div class="example-label">入门例子 · 重打分怎么工作</div>
+    <p>SMT 系统对 <code>I love you</code> 可能给出 1000 个候选，例如：</p>
+    <ol>
+      <li><code>Je t'aime</code> — SMT 分 0.82</li>
+      <li><code>Je vous aime</code> — SMT 分 0.79</li>
+      <li><code>Tu m'aimes</code> — SMT 分 0.75</li>
+    </ol>
+    <p>LSTM 分别计算 <span class="math">log <i>p</i>(<i>T</i>|<i>S</i>)</span>，与 SMT 分数<strong>等权平均</strong>后重排。若 LSTM 给 <code>Je t'aime</code> 很高分，它会被推到第一位。5 模型集成可达 BLEU <strong>36.5</strong>，接近当年最佳 37.0。</p>
+  </div>
+</section>
+
+<!-- 08 训练细节 -->
+<section class="chapter" id="ch-08">
+  <div class="chapter-num">08 · Training Details</div>
+  <h1>训练细节与工程优化</h1>
+
+  <figure class="paper-fig">
+    <img src="assets/paper-page-3.png" alt="论文训练细节与实验设置">
+    <figcaption>图 8-1. 论文 §3.2–3.4 原文截图：训练目标、Beam Search 解码、反转源句与超参数设置。</figcaption>
+  </figure>
+
+  <h2>模型配置（§3.4）</h2>
+  <table class="compact striped">
+    <thead><tr><th>项</th><th>值</th></tr></thead>
+    <tbody>
+      <tr><td>深度</td><td>4 层 LSTM</td></tr>
+      <tr><td>宽度</td><td>每层 1000 cells</td></tr>
+      <tr><td>词嵌入</td><td>1000 维</td></tr>
+      <tr><td>词表</td><td>源 160k / 目标 80k</td></tr>
+      <tr><td>句向量</td><td>8000 实数（4×1000 隐藏 + 1000 细胞状态）</td></tr>
+      <tr><td>总参数</td><td>384M（其中 64M 为纯循环连接）</td></tr>
+      <tr><td>初始化</td><td>Uniform[-0.08, 0.08]</td></tr>
+      <tr><td>优化器</td><td><span class="term">SGD</span>（Stochastic Gradient Descent，随机梯度下降），无 momentum，学习率 lr=0.7；5 个 epoch 后每半 epoch 减半</td></tr>
+      <tr><td>Batch</td><td>每批 128 句；梯度除以 128 做平均</td></tr>
+      <tr><td>训练时长</td><td>7.5 个 epoch；8 块 GPU 约 10 天</td></tr>
+    </tbody>
+  </table>
+
+  <h2>梯度裁剪（Gradient Clipping）</h2>
+  <p>LSTM 缓解梯度消失（vanishing），但仍可能出现梯度爆炸（exploding）。每 batch 计算梯度范数 <span class="math"><i>s</i> = ‖<i>g</i>‖<sub>2</sub></span>；若 <span class="math"><i>s</i> &gt; 5</span>，则按比例缩放到 5，防止一步更新把权重「冲飞」。</p>
+  <div class="example">
+    <div class="example-label">入门例子 · 梯度裁剪</div>
+    <p>假设某 batch 算得 <span class="math">‖<i>g</i>‖<sub>2</sub> = 20</span>，阈值 5。不裁剪的话，参数更新步长是正常情况的 4 倍，训练可能震荡甚至发散。裁剪后等效于把梯度缩小为原来的 <span class="math">5/20 = 1/4</span>，更新更稳。</p>
+  </div>
+
+  <h2>分桶（Bucketing）</h2>
+  <p>随机组 batch 时，一句长句会把整批 padding 到该句长度，短句大量计算浪费在 <code>&lt;PAD&gt;</code>（填充符，无意义占位）上。按长度分桶，使同批句子长度接近，训练加速约 <strong class="hl">2×</strong>。</p>
+  <div class="example">
+    <div class="example-label">入门例子 · 分桶为什么快 2 倍</div>
+    <p>一个 batch 里混了两句话：</p>
+    <ul>
+      <li>短句 <code>I love you</code>（3 词）</li>
+      <li>长句 <code>The conference …</code>（50 词）</li>
+    </ul>
+    <p>不分工时：短句被 pad 到 50，前 3 个位置是真词，后 47 个全是 <code>&lt;PAD&gt;</code>，LSTM 仍要对 47 步空转。分桶后：3–5 词的句子单独成批，只 pad 到 5；50 词附近的句子另成一批——<strong>几乎不算 pad，GPU 不算冤枉账</strong>。</p>
+  </div>
+
+  <h2>并行化（§3.5）</h2>
+  <p>单卡约 1700 词/秒。8 块 <span class="term">GPU</span>（Graphics Processing Unit，图形处理器；深度学习里借来做大规模矩阵运算）：4 层 LSTM 各跑一层（流水线）；另 4 块拆分 softmax（1000×80000 的大矩阵乘法）。最终约 <strong class="hl">6300 词/秒</strong>。</p>
+</section>
+
+<!-- 09 权重共享 -->
+<section class="chapter" id="ch-09">
+  <div class="chapter-num">09 · Weight Sharing</div>
+  <h1>权重共享、BPTT 与训练机制</h1>
+  <p class="lead">本章集中回答 LSTM「怎么训练」「输入很长怎么办」「同一层 1000 个单元是否共享权重」等常见问题。</p>
+
+  <h2><span class="term">BPTT</span>（Backpropagation Through Time，沿时间反向传播）</h2>
+  <p>把 RNN 按时间展开成「极深的前馈网络」，再对<strong>共享权重</strong>做标准反向传播；每个时间步的梯度贡献<strong>相加</strong>后，才更新同一套 <span class="math"><i>W</i></span>。</p>
+  <div class="example">
+    <div class="example-label">入门例子 · 用 "I love you" 理解 BPTT</div>
+    <p>前向：读 <code>I</code>→<code>love</code>→<code>you</code>，得到 <span class="math"><i>h</i><sub>1</sub>,<i>h</i><sub>2</sub>,<i>h</i><sub>3</sub></span>，计算损失 <span class="math"><i>L</i></span>（比如预测下一个词对不对）。</p>
+    <p>反向：从 <span class="math"><i>L</i></span> 出发，先算 <span class="math">∂<i>L</i>/∂<i>h</i><sub>3</sub></span>，再传到 <span class="math"><i>h</i><sub>2</sub></span>、<span class="math"><i>h</i><sub>1</sub></span>——路径就是图 3-1 那条链。对 <span class="math"><i>W</i><sub>hh</sub></span> 的更新 = 三个时间步各自算出的梯度<strong>之和</strong>。翻译任务中 Encoder 必须读完整句，因此做<strong>完整 BPTT</strong>，不能半路截断。</p>
+  </div>
+
+  <h2>批次内时间步长</h2>
+  <p>单个 batch 内时间步数由该批<strong>最长句子</strong>决定（固定）；不同 batch 之间可不同——这正是分桶的意义。</p>
+
+  <h2>同一层内权重共享</h2>
+  <p>一层 1000 个 LSTM 单元<strong>共享同一套权重矩阵 <span class="math"><i>W</i></span></strong>。这让 1000 路计算融合为一次 <span class="term">GEMM</span>（General Matrix Multiply，通用矩阵乘法），<span class="term">GPU</span> 可接近峰值吞吐。</p>
+  <div class="example">
+    <div class="example-label">入门例子 · 权重共享 vs 不共享</div>
+    <p>不共享：1000 个单元各有一套 <span class="math"><i>W</i></span>，参数量 ×1000，且无法合并成一个大矩阵，GPU 并行度差。共享：所有单元、所有时间步用<strong>同一个</strong> <span class="math"><i>W</i></span>，一次矩阵乘法处理整层——这是深度学习能 scale 到亿级参数的关键工程前提之一。</p>
+  </div>
+  <p>若每层每单元独立参数：还会破坏<strong>平移等变性</strong>（同样模式出现在不同位置，应学到相同处理方式）——不会带来收益。</p>
+
+  <h3>数值例：2 维隐藏、3 时间步（共享 W）</h3>
+  <div class="equation" style="text-align:left;font-size:10pt;line-height:1.7">
+<span class="math">设 <i>W</i><sub>hh</sub> 为 2×2，<i>h</i><sub>0</sub> = [0, 0]<br><br>
+<i>t</i>=1: <i>h</i><sub>1</sub> = tanh(<i>W</i><sub>hx</sub>·<i>x</i><sub>1</sub> + <i>W</i><sub>hh</sub>·<i>h</i><sub>0</sub>)<br>
+<i>t</i>=2: <i>h</i><sub>2</sub> = tanh(<i>W</i><sub>hx</sub>·<i>x</i><sub>2</sub> + <i>W</i><sub>hh</sub>·<i>h</i><sub>1</sub>) &nbsp;← 仍是同一个 <i>W</i><sub>hh</sub><br>
+<i>t</i>=3: <i>h</i><sub>3</sub> = tanh(<i>W</i><sub>hx</sub>·<i>x</i><sub>3</sub> + <i>W</i><sub>hh</sub>·<i>h</i><sub>2</sub>)<br><br>
+反向传播：∂<i>L</i>/∂<i>W</i><sub>hh</sub> = ∂<i>L</i>/∂<i>W</i><sub>hh</sub>|<sub>1</sub> + ∂<i>L</i>/∂<i>W</i><sub>hh</sub>|<sub>2</sub> + ∂<i>L</i>/∂<i>W</i><sub>hh</sub>|<sub>3</sub>
+</span></div>
+  <p>「每行数字不同」≠「权重不共享」：它们同属一个矩阵 W；共享的是<strong>参数对象</strong>，不是数值复制。</p>
+</section>
+
+<!-- 10 实验 -->
+<section class="chapter" id="ch-10">
+  <div class="chapter-num">10 · Experiments</div>
+  <h1>实验结果与模型分析</h1>
+
+  <h2>主要 BLEU 结果（WMT'14 test ntst14）</h2>
+  <table class="compact striped">
+    <thead><tr><th>方法</th><th>BLEU</th></tr></thead>
+    <tbody>
+      <tr><td>SMT 基线 [29]</td><td>33.30</td></tr>
+      <tr><td>单 forward LSTM, beam=12</td><td>26.17</td></tr>
+      <tr><td>单 reversed LSTM, beam=12</td><td>30.59</td></tr>
+      <tr><td>5 reversed LSTM 集成, beam=2</td><td>34.50</td></tr>
+      <tr><td><strong class="hl">5 reversed LSTM 集成, beam=12</strong></td><td><strong class="hl">34.81</strong></td></tr>
+      <tr><td>SMT 1000-best + 5 LSTM 重打分</td><td>36.5</td></tr>
+      <tr><td>当年最佳 WMT'14 [9]</td><td>37.0</td></tr>
+    </tbody>
+  </table>
+
+  <p>这是历史上<strong class="hl">首次</strong>纯神经网络在大规模机器翻译上显著超越纯 <span class="term">SMT</span> 基线。</p>
+
+  <div class="example">
+    <div class="example-label">入门例子 · 怎么读懂 BLEU 34.81</div>
+    <p>不必死记公式：BLEU 越高，说明模型译文越接近人工参考。论文中：</p>
+    <ul>
+      <li>SMT 基线 33.30 — 当年很强的传统系统</li>
+      <li>纯 LSTM 集成 34.81 — <strong>首次</strong>纯神经网络超过 SMT</li>
+      <li>LSTM 重打分 SMT 36.5 — 神经网络 + 传统系统合力</li>
+      <li>当年最佳 37.0 — 天花板</li>
+    </ul>
+    <p>受限词表（8 万词）意味着遇到罕见词只能输出 <code>UNK</code>，BLEU 会被扣分；尽管如此仍超基线。</p>
+  </div>
+
+  <h2>长句表现</h2>
+  <p>令人意外的是，反转训练后 LSTM 在长句上表现良好（Figure 3）：35 词以内几乎无衰减。论文 Table 3 给出多条长句翻译样例。</p>
+
+  <h2>句向量可视化（§3.8）</h2>
+  <figure class="paper-fig">
+    <img src="assets/paper-fig2-6.png" alt="论文 Figure 2 句向量 PCA 可视化">
+    <figcaption>图 10-1. 论文 Figure 2：把 LSTM 隐藏状态做 <span class="term">PCA</span>（Principal Component Analysis，主成分分析，一种降维可视化）投影到 2D。语义相近的句子聚在一起；对词序敏感，对主动/被动改写相对不敏感。</figcaption>
+  </figure>
+
+  <blockquote>
+    … the representations are sensitive to the order of words, while being fairly insensitive to the replacement of an active voice with a passive voice.
+    <span class="cite">— §3.8 Model Analysis</span>
+  </blockquote>
+</section>
+
+<!-- 11 Attention 铺垫 -->
+<section class="chapter" id="ch-11">
+  <div class="chapter-num">11 · Bottleneck</div>
+  <h1>固定向量瓶颈与 Attention 铺垫</h1>
+  <p class="lead">句向量可视化证明 Encoder 能学到有意义的表示；同时也暴露<span class="hl">固定向量瓶颈</span>——整句无论多长，最终只压进一个 <span class="math"><i>v</i></span>。这正是后续 <span class="term">Attention</span>（注意力机制）要解决的问题。</p>
+
+  <div class="example">
+    <div class="example-label">入门例子 · 固定向量为什么成为瓶颈</div>
+    <p>翻译一句 80 词的学术长句。Encoder 读完后，所有信息——主语、大量修饰语、从句结构——都要塞进同一个 8000 维的 <span class="math"><i>v</i></span>。Decoder 生成第 1 个词时看一次 <span class="math"><i>v</i></span>，生成第 50 个词时还是只看这同一个 <span class="math"><i>v</i></span>，无法「回头」精确定位源句第 37 个词说了什么。</p>
+    <p>类比：让你读完整篇论文后记下全部细节，然后闭卷默写译文——没有笔记、不能翻页，长文必然丢信息。Attention 的做法相当于：写译文每个词时，都允许你<strong>扫一眼原文最相关的句子片段</strong>。</p>
+  </div>
+
+  <ul>
+    <li>无论句子多长，最终压缩进 <strong>8000 维</strong>向量（4 层×1000 隐藏 + 1000 细胞状态）。</li>
+    <li>长句信息丢失严重；OOV（词表外）词大量出现为 <code>UNK</code>。</li>
+    <li>Decoder 每个生成步只能「回头看」这一个向量，无法对不同源位置动态加权。</li>
+  </ul>
+
+  <p>论文 Related Work 已引用 Bahdanau et al. [2]：他们用<strong class="hl">注意力机制</strong>克服 Cho et al. 在长句上的性能问题。两篇工作几乎同期：Sutskever（NIPS 2014，投稿更早）在定稿时看到 Bahdanau 预印本并引用；Bahdanau（arXiv 2014.09，ICLR 2015）是对固定向量瓶颈的<strong class="hl">直接改进</strong>。</p>
+
+  <div class="takeaway">
+    <div class="takeaway-label">演进逻辑</div>
+    <p style="margin:0">Seq2Seq 固定向量 <span class="math"><i>c</i></span> → 长句/对齐困难 → Attention 让 Decoder 每步访问全部 Encoder 状态 → Transformer 用自注意力取代 RNN 本身</p>
+  </div>
+</section>
+
+<!-- 12 学习路径 -->
+<section class="chapter" id="ch-12">
+  <div class="chapter-num">12 · Roadmap</div>
+  <h1>论文时间线与后续学习路径</h1>
+
+  <table class="compact striped">
+    <thead><tr><th>时间</th><th>论文</th><th>贡献</th></tr></thead>
+    <tbody>
+      <tr><td>NIPS 2014</td><td>Sutskever et al.</td><td>Deep LSTM Encoder-Decoder，源句反转，纯 NMT 超 SMT</td></tr>
+      <tr><td>arXiv 2014.09 / ICLR 2015</td><td>Bahdanau et al.</td><td>Attention：动态对齐，缓解瓶颈</td></tr>
+      <tr><td>NIPS 2017</td><td>Vaswani et al.</td><td>Transformer：自注意力，并行训练</td></tr>
+    </tbody>
+  </table>
+
+  <h2>建议阅读顺序</h2>
+  <ol>
+    <li><strong>本文</strong> — Seq2Seq 框架与工程技巧</li>
+    <li><strong>Bahdanau et al. (2014)</strong> — Attention 机制诞生</li>
+    <li><strong>Vaswani et al. (2017)</strong> — Transformer</li>
+  </ol>
+  <p>这三篇构成从 Seq2Seq → Attention → Transformer 的完整主线，也是理解现代 Agent 与注意力机制的推荐路径。</p>
+</section>
+
+<!-- 13 FAQ -->
+<section class="chapter" id="ch-13">
+  <div class="chapter-num">13 · FAQ</div>
+  <h1>FAQ 精选问答</h1>
+
+  <p class="faq-q">Q1. LSTM 单元是怎么训练权重的？</p>
+  <p>通过 BPTT：时间展开 → 反向传播 → 各时间步梯度对共享 W 求和 → 梯度裁剪 → SGD 更新。</p>
+
+  <p class="faq-q">Q2. 输入很长怎么办？</p>
+  <p>本文编码器必须读完整句，用完整 BPTT。手段：LSTM 缓解消失、源句反转缩短有效路径、梯度裁剪防爆炸、分桶提高效率。截断 BPTT 不用于标准 MT。</p>
+
+  <p class="faq-q">Q3. 训练时时间步长是否固定？</p>
+  <p>batch 内固定（由最长句决定）；batch 间可变。分桶使同批长度接近。</p>
+
+  <p class="faq-q">Q4. 每个 LSTM 单元的权重是单一的吗？</p>
+  <p>同一层内 1000 单元共享一套 W；不同层不共享。所有时间步复用同一 W。</p>
+
+  <p class="faq-q">Q5. 四个门分别做什么？</p>
+  <p><span class="math"><i>f</i><sub>t</sub></span> 遗忘旧记忆；<span class="math"><i>i</i><sub>t</sub></span> 选择写入；<span class="math"><i>g</i><sub>t</sub></span> 候选内容；<span class="math"><i>o</i><sub>t</sub></span> 控制输出。核心通道是 cell state <span class="math"><i>c</i><sub>t</sub></span>。</p>
+
+  <p class="faq-q">Q6. 每单元独立权重会更好吗？</p>
+  <p>不会。参数量爆炸、无法并行、破坏等变性。</p>
+
+  <p class="faq-q">Q7. 共享权重如何变成矩阵乘法？</p>
+  <p>千路标量运算叠成 <span class="math"><i>h</i> = <i>W</i>·<i>x</i> + <i>b</i></span>，一次 GEMM 利用 GPU 吞吐。</p>
+
+  <p class="faq-q">Q8. 每行数字不同是否意味着权重不同？</p>
+  <p>行对应输出维度分量；共享的是整个参数矩阵 W，不是「每个单元一份拷贝」。</p>
+
+  <p class="faq-q">Q9. 能否给一个共享权重的数值例子？</p>
+  <p>见第 09 章 2 维隐藏、3 步展开；关键是 <span class="math"><i>W</i><sub>hh</sub></span> 在 <span class="math"><i>t</i>=1,2,3</span> 为同一矩阵，梯度三项相加。</p>
+
+  <p class="faq-q">Q10. 不同 batch 顺序会导致 W 不同吗？</p>
+  <p>结构上不会（共享是架构硬约束）。数值上不同 mini-batch 顺序 → 不同梯度轨迹 → 收敛值有差异，与任何 NN 训练的随机性相同。</p>
+
+  <p class="faq-q">Q11. 为什么反转源句有效？</p>
+  <p>不缩短平均对齐距离，但让句首源词靠近句首目标词，减小 minimal time lag，优化更容易；长句收益尤其大。</p>
+
+  <p class="faq-q">Q12. LSTM 还需要梯度裁剪吗？</p>
+  <p>需要。LSTM 主要缓解消失；爆炸仍可能发生。本文阈值 5。</p>
+
+  <p class="faq-q">Q13. beam=2 为何够用？</p>
+  <p>集成多模型后，扩大 beam 边际收益递减；论文 Table 1 显示 beam=2 已接近 beam=12 的集成表现。</p>
+
+  <p class="faq-q">Q14. 固定 8000 维向量够用吗？</p>
+  <p>中等长度尚可；更长句子、更复杂对齐仍受限——这是读 Bahdanau Attention 的前提。</p>
+</section>
+
+<!-- 附录 -->
+<section class="chapter" id="ch-appendix">
+  <div class="chapter-num">A · Appendix</div>
+  <h1>附录：术语表与 Conclusion 译文</h1>
+
+  <h2>术语表</h2>
+  <p style="font-size:9.5pt;color:var(--olive);margin-bottom:10pt">正文采用「首次出现全称 + 缩写」规则；下表供速查。</p>
+  <table class="compact striped">
+    <thead><tr><th>术语</th><th>含义</th></tr></thead>
+    <tbody>
+      <tr><td>Seq2Seq</td><td>序列到序列学习；变长输入映射到变长输出</td></tr>
+      <tr><td>Encoder / Decoder</td><td>编码器读源句；解码器生成目标句</td></tr>
+      <tr><td>BPTT</td><td>沿时间反向传播</td></tr>
+      <tr><td>CEC</td><td>Constant Error Carousel；LSTM 细胞状态上的恒等误差通道</td></tr>
+      <tr><td>BLEU</td><td>机器翻译自动评测指标（n-gram 精确率）</td></tr>
+      <tr><td>Beam Search</td><td>保留 top-B 部分假设的启发式解码</td></tr>
+      <tr><td>UNK / OOV</td><td>词表外词；本文替换为 UNK 特殊 token</td></tr>
+      <tr><td>SMT</td><td>统计机器翻译（phrase-based 等传统方法）</td></tr>
+      <tr><td>Rescoring</td><td>对候选列表重新打分排序</td></tr>
+    </tbody>
+  </table>
+
+  <h2>§5 Conclusion 译文</h2>
+  <blockquote>
+    我们证明：一个词汇表有限、几乎不对问题结构做假设的大型深度 LSTM，在大规模 MT 任务上可以超越词表无限的 SMT 系统。LSTM 在 MT 上的成功表明，只要有足够训练数据，该简单方法在许多其他序列学习问题上也会表现良好。
+    <br><br>
+    我们对源句反转带来的巨大提升感到惊讶，并得出结论：<strong class="hl">寻找具有最多短期依赖的问题编码至关重要</strong>，因为它们使学习问题简单得多。虽然我们无法在未反转数据上训练标准 RNN（如图 1），但我们相信反转后标准 RNN 应可轻松训练（未实验验证）。
+    <br><br>
+    我们也惊讶于 LSTM 能正确翻译极长句子——最初认为有限记忆会导致失败。更重要的是，我们证明简单、直接、相对未优化的方法即可击败 SMT，后续工作很可能带来更高精度。
+    <span class="cite">— §5 Conclusion（译文）</span>
+  </blockquote>
+
+  <h2>参考文献</h2>
+  <ul>
+    <li>Sutskever, Vinyals, Le. <em>Sequence to Sequence Learning with Neural Networks.</em> NIPS 2014. <a href="https://arxiv.org/pdf/1409.3215">arXiv:1409.3215</a></li>
+    <li>Bahdanau, Cho, Bengio. <em>Neural Machine Translation by Jointly Learning to Align and Translate.</em> ICLR 2015. arXiv:1409.0473</li>
+    <li>Vaswani et al. <em>Attention Is All You Need.</em> NIPS 2017.</li>
+  </ul>
+</section>
+
+</body>
+</html>

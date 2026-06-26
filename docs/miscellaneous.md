@@ -12,8 +12,8 @@ Personal notes and memories are kept private.
 
 ## Collections
 
-- [My Favourite Movies](https://www.yutianliao.com/movies.html)
-- [Open Problems](https://www.yutianliao.com/open-problems.html)
+- [My Favourite Movies](./collections/movies.md)
+- [Open Problems](./collections/open-problems.md)
 
 ## Certificates and Online Degrees
 

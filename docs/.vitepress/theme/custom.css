@@ -700,3 +700,77 @@ body {
 .vp-corner-decorations {
   display: none !important;
 }
+
+/* Tables (Hello Agent roadmap, etc.) */
+.vp-doc table {
+  width: 100%;
+  margin: 1.25rem 0 1.5rem;
+  border-collapse: collapse;
+  font-size: 0.94rem;
+  line-height: 1.5;
+}
+
+.vp-doc th,
+.vp-doc td {
+  padding: 0.55rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--site-border);
+}
+
+.vp-doc th {
+  font-family: var(--site-sans);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--site-text-muted);
+  border-bottom: 1px solid var(--site-border-strong);
+}
+
+.vp-doc tr:hover td {
+  background: color-mix(in srgb, var(--site-accent-soft) 40%, transparent);
+}
+
+.vp-doc blockquote > p:first-child strong {
+  font-family: var(--site-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--site-accent);
+  font-style: normal;
+}
+
+/* Hello Agent — full-width embedded tutorial (content HTML unchanged) */
+.VPPage .container,
+.VPPage .content {
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+.VPPage .content-container {
+  max-width: none !important;
+  padding: 0 !important;
+}
+
+.VPPage .vp-doc._seq2seq-attention-tutorial,
+.VPPage .vp-doc {
+  padding: 0 !important;
+  max-width: none !important;
+}
+
+.hello-agent-embed {
+  width: 100%;
+  max-width: 210mm;
+  margin: 0 auto;
+  background: #f5f4ed;
+  box-shadow: 0 0 0 1px var(--site-border);
+}
+
+@media (min-width: 960px) {
+  .hello-agent-embed {
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+  }
+}
