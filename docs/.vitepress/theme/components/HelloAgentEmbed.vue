@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { withBase } from "vitepress";
 
-const src = withBase("/hello-agent/seq2seq-attention-tutorial-document.html");
+const props = defineProps<{
+  slug: string;
+  title?: string;
+}>();
+
+const src = withBase(`/hello-agent/${props.slug}/${props.slug}-document.html`);
 </script>
 
 <template>
@@ -9,7 +14,7 @@ const src = withBase("/hello-agent/seq2seq-attention-tutorial-document.html");
     <iframe
       class="hello-agent-embed__frame"
       :src="src"
-      title="Seq2Seq 与注意力机制入门教程"
+      :title="title ?? slug"
       loading="lazy"
     />
   </div>

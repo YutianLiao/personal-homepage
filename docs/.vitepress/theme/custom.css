@@ -91,6 +91,20 @@ body {
   border-top: none;
 }
 
+/* Section dividers between h2 blocks (Interest Journey, Miscellaneous, Blog, …) */
+.vp-doc h2:not(:first-of-type) {
+  margin-top: 2.5rem;
+  padding-top: 2rem;
+}
+
+.vp-doc h2:not(:first-of-type)::before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-bottom: 1.75rem;
+  background: linear-gradient(to right, transparent, var(--site-border-strong), transparent);
+}
+
 .vp-doc h2 .header-anchor,
 .vp-doc h3 .header-anchor {
   opacity: 0;
@@ -374,16 +388,27 @@ body {
   min-width: 0;
 }
 
-.VPHero .vp-home-hero-mascot {
-  width: 100%;
-  max-width: 260px;
+.VPHero .vp-hero-mascot-wrap {
   justify-self: end;
+  align-self: start;
+  margin: 0.15rem 0 0;
+  line-height: 0;
+}
+
+.VPHero .vp-home-hero-mascot {
+  display: block;
+  width: 100%;
+  max-width: 210px;
   aspect-ratio: 4 / 5;
   object-fit: cover;
-  object-position: center 20%;
-  border: 1px solid var(--site-border);
-  box-shadow: var(--site-shadow-md);
-  background: var(--site-surface);
+  object-position: center 18%;
+  opacity: 0.55;
+  border: none;
+  box-shadow: none;
+  background: transparent;
+  filter: grayscale(0.12) contrast(0.9) brightness(1.04);
+  -webkit-mask-image: linear-gradient(100deg, transparent 4%, rgba(0, 0, 0, 0.45) 22%, #000 48%, #000 90%, transparent 100%);
+  mask-image: linear-gradient(100deg, transparent 4%, rgba(0, 0, 0, 0.45) 22%, #000 48%, #000 90%, transparent 100%);
 }
 
 .VPHero .vp-hero-tagline-comment {
@@ -394,6 +419,22 @@ body {
   font-style: italic;
   color: var(--site-text-muted);
   max-width: 38rem;
+}
+
+.VPHero .vp-hero-math-euler {
+  margin: 1.35rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--site-border);
+  max-width: 12rem;
+}
+
+.VPHero .vp-hero-math-formula {
+  font-family: var(--site-serif);
+  font-size: 0.92rem;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  color: var(--site-text-muted);
+  opacity: 0.72;
 }
 
 .VPHero .vp-hero-comment-pipe {
@@ -655,8 +696,13 @@ body {
   }
 
   .VPHero .vp-home-hero-mascot {
-    max-width: min(240px, 80vw);
+    max-width: min(200px, 72vw);
+    opacity: 0.5;
+  }
+
+  .VPHero .vp-hero-mascot-wrap {
     justify-self: start;
+    margin-top: 0.75rem;
   }
 
   .VPHome .home-timeline-column {
@@ -695,6 +741,140 @@ body {
 
 .VPHome.VPHome {
   margin-bottom: 2.5rem !important;
+}
+
+/* ── Home math decor: anchored per section, borderless, tone-on-tone ── */
+.home-math-piece {
+  position: absolute;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.home-math-piece__art {
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.VPHome .VPHero .main {
+  position: relative;
+}
+
+.VPHome .home-features-custom {
+  position: relative;
+  overflow: visible;
+}
+
+.VPHome .home-timeline-module {
+  position: relative;
+  overflow: visible;
+}
+
+.VPHome .home-timeline-intro {
+  position: relative;
+}
+
+/* 数独 — 叠在 Hero 导航按钮右侧，不占文档流 */
+.VPHome .VPHero .main > .actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 1.35rem;
+  position: relative;
+  z-index: 1;
+}
+
+.vp-hero-actions-with-sudoku {
+  position: absolute;
+  left: clamp(17.5rem, 52%, 33rem);
+  bottom: 0;
+  margin: 0;
+  width: min(138px, 21vw);
+  height: min(138px, 21vw);
+  z-index: 0;
+}
+
+.vp-hero-actions-with-sudoku .home-math-piece--sudoku {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vp-hero-actions-with-sudoku .home-math-piece--sudoku .home-math-piece__art {
+  opacity: 0.8;
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 45%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 45%, transparent 100%);
+}
+
+/* Ramsey — 与 Timeline 标题垂直居中对齐 */
+.home-math-piece--ramsey {
+  right: max(-1.25rem, -3vw);
+  top: 0.38rem;
+  transform: translateY(-50%);
+  width: min(248px, 38vw);
+  height: min(248px, 38vw);
+}
+
+.home-math-piece--ramsey .home-math-piece__art {
+  opacity: 0.94;
+  -webkit-mask-image: radial-gradient(ellipse 88% 88% at 52% 46%, #000 42%, transparent 100%);
+  mask-image: radial-gradient(ellipse 88% 88% at 52% 46%, #000 42%, transparent 100%);
+}
+
+/* 公式水印 — Biography / Features 区右上 */
+.home-math-piece--formulas {
+  right: max(0.5rem, 2vw);
+  top: 0.25rem;
+  width: min(280px, 40vw);
+  height: min(210px, 30vw);
+}
+
+.home-math-piece--formulas .home-math-piece__art {
+  opacity: 0.26;
+  -webkit-mask-image: radial-gradient(ellipse 85% 85% at 68% 38%, #000 22%, transparent 100%);
+  mask-image: radial-gradient(ellipse 85% 85% at 68% 38%, #000 22%, transparent 100%);
+}
+
+.VPHome .home-timeline-intro .home-timeline-heading,
+.VPHome .home-timeline-intro .home-timeline-sub {
+  position: relative;
+  z-index: 1;
+}
+
+.VPHome .VPHero .heading,
+.VPHome .VPHero .tagline,
+.VPHome .VPHero .vp-hero-math-euler,
+.VPHome .VPHero .actions,
+.VPHome .home-features-custom .VPFeatures,
+.VPHome .home-timeline-module > :not(.home-math-piece) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .home-math-piece--formulas {
+    display: none;
+  }
+
+  .vp-hero-actions-with-sudoku {
+    left: auto;
+    right: 0;
+    bottom: -0.25rem;
+    width: min(118px, 30vw);
+    height: min(118px, 30vw);
+  }
+
+  .home-math-piece--ramsey {
+    width: min(150px, 40vw);
+    height: min(150px, 40vw);
+    right: -0.5rem;
+    top: 0.38rem;
+    transform: translateY(-50%);
+  }
 }
 
 .vp-corner-decorations {
@@ -754,10 +934,15 @@ body {
   padding: 0 !important;
 }
 
+.VPPage .vp-doc.hello-agent-tutorial,
 .VPPage .vp-doc._seq2seq-attention-tutorial,
 .VPPage .vp-doc {
   padding: 0 !important;
   max-width: none !important;
+}
+
+.VPPage .vp-doc.hello-agent-tutorial > h1 {
+  display: none !important;
 }
 
 .hello-agent-embed {

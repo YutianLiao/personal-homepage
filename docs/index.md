@@ -29,9 +29,11 @@ features:
 
 <section class="home-timeline-module" aria-labelledby="home-timeline-heading">
   <div class="home-timeline-intro">
+    <HomeMathPiece name="ramsey" />
     <h2 id="home-timeline-heading" class="home-timeline-heading">Timeline</h2>
-    <p class="home-timeline-sub">Milestones in study and work</p>
+    <p class="home-timeline-sub">Milestones in life</p>
   </div>
+
 
 
   <div class="home-timeline-frame">

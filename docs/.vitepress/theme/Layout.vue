@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import { useRoute, useData, withBase } from "vitepress";
 import DefaultLayout from "vitepress/dist/client/theme-default/Layout.vue";
+import HomeMathPiece from "./components/HomeMathPiece.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
 
 type DecorKey = "journey" | "misc";
@@ -61,24 +62,36 @@ function hideBroken(e: Event) {
             <span v-if="heroName" class="name clip" v-html="heroName"></span>
             <span v-if="heroText" class="text" v-html="heroText"></span>
           </div>
-          <img
-            class="vp-home-hero-mascot"
-            :src="withBase('/decorative/home-hero.png')"
-            alt=""
-            loading="lazy"
-            @error="hideBroken"
-          />
+          <figure class="vp-hero-mascot-wrap">
+            <img
+              class="vp-home-hero-mascot"
+              :src="withBase('/decorative/home-hero.png')"
+              alt=""
+              loading="lazy"
+              @error="hideBroken"
+            />
+          </figure>
         </div>
       </h1>
       <p v-if="heroTagline" class="tagline vp-hero-tagline-comment">
         <span class="vp-hero-comment-pipe" aria-hidden="true">|</span>
         <span v-html="heroTagline"></span>
       </p>
+      <p class="vp-hero-math-euler" aria-hidden="true">
+        <span class="vp-hero-math-formula">e<sup>i&pi;</sup> + 1 = 0</span>
+      </p>
+    </template>
+
+    <template v-if="isHome" #home-hero-actions-after>
+      <div class="vp-hero-actions-with-sudoku">
+        <HomeMathPiece name="sudoku" />
+      </div>
     </template>
 
     <!-- Replace default-home features grid: interactive Biography + same layout (built-in VPFeatures stays hidden via CSS). -->
     <template v-if="isHome" #home-features-before>
       <div class="home-features-custom">
+        <HomeMathPiece name="formulas" />
         <HomeVPHomeFeatures />
       </div>
     </template>

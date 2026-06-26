@@ -1,4 +1,5 @@
 import { defineConfig } from "vitepress";
+import helloAgentSidebar from "./hello-agent-sidebar.json";
 
 /** Note: Vite aliases do not replace the pre-bundled default `VPHomeFeatures`. Interactive Biography is injected via Layout `#home-features-before` + CSS that hides the duplicate built-in grid. */
 
@@ -37,19 +38,7 @@ export default defineConfig({
       { text: "CV", link: "/cv" }
     ],
     sidebar: {
-      "/hello-agent/": [
-        {
-          text: "Hello Agent",
-          link: "/hello-agent/",
-          items: [
-            { text: "Overview", link: "/hello-agent/" },
-            {
-              text: "Seq2Seq 与注意力机制",
-              link: "/hello-agent/seq2seq-attention-tutorial"
-            }
-          ]
-        }
-      ],
+      "/hello-agent/": helloAgentSidebar,
       "/blog/": [
         {
           text: "Blog",

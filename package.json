@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "sync:notes": "node scripts/sync-notes.mjs",
+    "predev": "npm run sync:notes",
+    "prebuild": "npm run sync:notes",
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
     "build:pages": "GITHUB_REPOSITORY=YutianLiao/personal-homepage vitepress build docs",
@@ -11,6 +14,7 @@
     "preview:pages": "npm run build:pages && vitepress preview docs"
   },
   "devDependencies": {
-    "vitepress": "^1.6.3"
+    "vitepress": "^1.6.3",
+    "yaml": "^2.9.0"
   }
 }
