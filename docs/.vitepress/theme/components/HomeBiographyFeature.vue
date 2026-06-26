@@ -120,9 +120,9 @@ onBeforeUnmount(() => {
 }
 
 .home-bio-feature__hit:focus-visible {
-  outline: 1px solid var(--tufte-link, #a00000);
-  outline-offset: 4px;
-  border-radius: 0;
+  outline: 2px solid var(--site-accent, #9f1239);
+  outline-offset: 3px;
+  border-radius: 8px;
 }
 
 .home-bio-overlay {
@@ -138,21 +138,22 @@ onBeforeUnmount(() => {
 .home-bio-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(17, 17, 17, 0.35);
+  background: rgba(28, 25, 23, 0.4);
+  backdrop-filter: blur(4px);
 }
 
 .home-bio-dialog {
   position: relative;
   z-index: 1;
-  width: min(864px, 100%);
+  width: min(40rem, 100%);
   max-height: min(88vh, 880px);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  border-radius: 0;
-  border: 1px solid rgba(0, 0, 0, 0.18);
-  background: #fffff8;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  border-radius: 10px;
+  border: 1px solid var(--site-border-strong, rgba(28, 25, 23, 0.16));
+  background: var(--site-surface, #fff);
+  box-shadow: var(--site-shadow-md, 0 12px 40px rgba(28, 25, 23, 0.09));
 }
 
 .home-bio-dialog__head {
@@ -167,41 +168,42 @@ onBeforeUnmount(() => {
 
 .home-bio-dialog__head h2 {
   margin: 0;
-  font-family: "Gill Sans", "Gill Sans MT", "Lato", Calibri, sans-serif;
-  font-size: 1.25rem;
-  font-weight: 500;
-  font-style: italic;
-  letter-spacing: normal;
-  text-transform: none;
+  font-family: var(--site-sans, "Source Sans 3", sans-serif);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-style: normal;
+  color: var(--site-text-muted, #78716c);
 }
 
 .home-bio-dialog__close {
   flex-shrink: 0;
-  font-family: "Gill Sans", "Gill Sans MT", "Lato", Calibri, sans-serif;
-  font-size: 0.88rem;
-  font-weight: 400;
-  letter-spacing: 0.02em;
-  text-transform: none;
+  font-family: var(--site-sans, "Source Sans 3", sans-serif);
+  font-size: 0.82rem;
+  font-weight: 500;
   cursor: pointer;
-  padding: 0.35rem 0.7rem;
-  border-radius: 5px;
-  border: 1px solid #555;
+  padding: 0.35rem 0.75rem;
+  border-radius: 6px;
+  border: 1px solid var(--site-border-strong, rgba(28, 25, 23, 0.16));
   background: transparent;
-  color: #555;
-  transition: background 0.15s ease;
+  color: var(--site-text-secondary, #44403c);
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .home-bio-dialog__close:hover {
-  background: #dddddd;
-  color: #333;
+  background: var(--site-accent-soft, rgba(159, 18, 57, 0.07));
+  border-color: var(--site-accent, #9f1239);
+  color: var(--site-accent, #9f1239);
 }
 
 .home-bio-dialog__body {
-  padding: 1.1rem 1.35rem 1.35rem;
+  padding: 1.25rem 1.5rem 1.5rem;
   overflow-y: auto;
-  font-size: var(--site-body-font-size, 0.75rem);
-  line-height: 1.7;
-  color: var(--vp-c-text-1);
+  font-family: var(--site-serif, "Source Serif 4", serif);
+  font-size: var(--site-body-size, 1.0625rem);
+  line-height: 1.72;
+  color: var(--site-text, #1c1917);
   white-space: pre-wrap;
 }
 

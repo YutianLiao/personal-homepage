@@ -76,9 +76,9 @@ const grid = computed(() => {
 
 .container {
   margin: 0 auto;
-  max-width: var(--site-content-max-width, 1000px);
-  padding-left: var(--site-gutter, clamp(1.25rem, 4vw, 2.5rem));
-  padding-right: var(--site-gutter, clamp(1.25rem, 4vw, 2.5rem));
+  max-width: var(--site-page-max, 72rem);
+  padding-left: var(--site-gutter, clamp(1.25rem, 4.5vw, 2.75rem));
+  padding-right: var(--site-gutter, clamp(1.25rem, 4.5vw, 2.75rem));
   box-sizing: border-box;
 }
 
