@@ -1,18 +1,25 @@
 import { defineConfig } from "vitepress";
+import { withMermaid } from "vitepress-plugin-mermaid";
 import helloAgentSidebar from "./hello-agent-sidebar.json";
+import { transformHelloAgentPageData } from "./transformHelloAgent";
 
 /** Note: Vite aliases do not replace the pre-bundled default `VPHomeFeatures`. Interactive Biography is injected via Layout `#home-features-before` + CSS that hides the duplicate built-in grid. */
 
 const repoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
 const base = repoName ? `/${repoName}/` : "/";
 
-export default defineConfig({
+export default withMermaid(
+  defineConfig({
   base,
   lang: "zh-CN",
   title: "Yutian Liao",
   description: "极简个人主页:研究,写作与学习记录",
   cleanUrls: true,
   appearance: false,
+  transformPageData: transformHelloAgentPageData,
+  markdown: {
+    math: true
+  },
   head: [
     ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
     ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
@@ -32,10 +39,10 @@ export default defineConfig({
     nav: [
       { text: "Home", link: "/" },
       { text: "Interest Journey", link: "/interest-journey" },
-      { text: "Hello Agent", link: "/hello-agent/" },
       { text: "Miscellaneous", link: "/miscellaneous" },
+      { text: "CV", link: "/cv" },
       { text: "Blog", link: "/blog/" },
-      { text: "CV", link: "/cv" }
+      { text: "Hello Agent", link: "/hello-agent/" }
     ],
     sidebar: {
       "/hello-agent/": helloAgentSidebar,
@@ -60,4 +67,5 @@ export default defineConfig({
       copyright: "Copyright © 2026 Yutian Liao"
     }
   }
-});
+  })
+);

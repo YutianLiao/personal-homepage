@@ -922,40 +922,128 @@ body {
   font-style: normal;
 }
 
-/* Hello Agent — full-width embedded tutorial (content HTML unchanged) */
-.VPPage .container,
-.VPPage .content {
-  max-width: none !important;
-  padding: 0 !important;
+/* Hello Agent — doc pages (native Markdown) */
+.hello-agent-reading-time {
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+  text-align: right;
+  font-size: 0.8125rem;
+  color: var(--vp-c-text-2);
 }
 
-.VPPage .content-container {
-  max-width: none !important;
-  padding: 0 !important;
+.hello-agent-pager {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 1rem;
+  margin: 2.5rem 0 0;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--vp-c-divider);
 }
 
-.VPPage .vp-doc.hello-agent-tutorial,
-.VPPage .vp-doc._seq2seq-attention-tutorial,
-.VPPage .vp-doc {
-  padding: 0 !important;
-  max-width: none !important;
+.hello-agent-pager__spacer {
+  flex: 1;
 }
 
-.VPPage .vp-doc.hello-agent-tutorial > h1 {
-  display: none !important;
+.hello-agent-pager__link {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  max-width: 48%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
 }
 
-.hello-agent-embed {
+.hello-agent-pager__link:hover {
+  border-color: var(--site-accent);
+  background: var(--vp-c-bg-soft);
+}
+
+.hello-agent-pager__link--next {
+  margin-left: auto;
+  text-align: right;
+}
+
+.hello-agent-pager__label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--site-accent);
+}
+
+.hello-agent-pager__title {
+  font-size: 0.9375rem;
+  color: var(--vp-c-text-1);
+  line-height: 1.4;
+}
+
+.vp-doc.hello-agent-page blockquote {
+  border-left: 3px solid var(--site-accent);
+  background: var(--vp-c-bg-soft);
+  padding: 0.75rem 1rem;
+  margin: 1.25rem 0;
+}
+
+.vp-doc.hello-agent-page blockquote > p {
+  margin: 0;
+}
+
+.vp-doc.hello-agent-page img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* Hello Agent — MathJax */
+.vp-doc.hello-agent-page mjx-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+}
+
+.vp-doc.hello-agent-page mjx-container[display="true"] {
+  margin: 1.25rem 0;
+}
+
+/* Hello Agent — tables & figures */
+.vp-doc.hello-agent-page table {
+  display: block;
   width: 100%;
-  max-width: 210mm;
-  margin: 0 auto;
-  background: #f5f4ed;
-  box-shadow: 0 0 0 1px var(--site-border);
+  overflow-x: auto;
+  margin: 1.25rem 0;
+  font-size: 0.9rem;
+  border-collapse: collapse;
 }
 
-@media (min-width: 960px) {
-  .hello-agent-embed {
-    margin-top: 0.5rem;
-    margin-bottom: 2rem;
-  }
+.vp-doc.hello-agent-page th,
+.vp-doc.hello-agent-page td {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--vp-c-divider);
+  text-align: left;
+}
+
+.vp-doc.hello-agent-page th {
+  background: var(--vp-c-bg-soft);
+  font-weight: 600;
+}
+
+.vp-doc.hello-agent-page .hello-agent-figure {
+  overflow-x: auto;
+  margin: 1.5rem 0;
+  padding: 0.5rem 0;
+}
+
+.vp-doc.hello-agent-page .hello-agent-figure svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.vp-doc.hello-agent-page .mermaid {
+  margin: 1.25rem 0;
 }

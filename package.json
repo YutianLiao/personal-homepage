@@ -4,9 +4,10 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "sync:notes": "node scripts/sync-notes.mjs",
-    "predev": "npm run sync:notes",
-    "prebuild": "npm run sync:notes",
+    "build:hello-agent": "node scripts/build-hello-agent.mjs",
+    "convert:seq2seq": "node scripts/convert-seq2seq.mjs",
+    "predev": "npm run build:hello-agent",
+    "prebuild": "npm run build:hello-agent",
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
     "build:pages": "GITHUB_REPOSITORY=YutianLiao/personal-homepage vitepress build docs",
@@ -14,7 +15,11 @@
     "preview:pages": "npm run build:pages && vitepress preview docs"
   },
   "devDependencies": {
+    "jsdom": "^29.1.1",
+    "markdown-it-mathjax3": "^4.3.2",
+    "mermaid": "^11.16.0",
+    "turndown": "^7.2.4",
     "vitepress": "^1.6.3",
-    "yaml": "^2.9.0"
+    "vitepress-plugin-mermaid": "^2.0.17"
   }
 }
