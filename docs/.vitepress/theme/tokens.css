@@ -52,7 +52,8 @@
   --site-pager-title-size: 0.9375rem;
 
   /* Demo layout */
-  --demo-panel-gap: 1.25rem;
+  --demo-docs-col: minmax(260px, 36%);
+  --demo-panel-gap: 1.5rem;
   --demo-chip-gap: 0.4rem;
   --demo-chip-radius: 4px;
   --demo-chip-padding: 0.3rem 0.5rem;

@@ -19,9 +19,22 @@ function visWhitespace(text: string): string | undefined {
   return undefined;
 }
 
-function bytesEqual(a: Uint8Array, b: number[]): boolean {
-  if (a.length !== b.length) return false;
-  return a.every((v, i) => v === b[i]);
+/** True when bytes form a complete, valid UTF-8 codepoint sequence. */
+export function isValidUtf8(bytes: number[] | Uint8Array): boolean {
+  const arr = bytes instanceof Uint8Array ? bytes : new Uint8Array(bytes);
+  if (arr.length === 0) return false;
+  try {
+    const decoded = new TextDecoder("utf-8", { fatal: true }).decode(arr);
+    const re = new TextEncoder().encode(decoded);
+    return re.length === arr.length && re.every((b, i) => b === arr[i]);
+  } catch {
+    return false;
+  }
+}
+
+function hexDisplay(bytes: number[]): { text: string; display: string; partialUtf8: boolean } {
+  const hex = bytes.map((b) => b.toString(16).padStart(2, "0")).join(" ");
+  return { text: "", display: hex, partialUtf8: true };
 }
 
 /** Decode bytes for display; fall back to hex when not valid standalone UTF-8. */
@@ -30,22 +43,24 @@ export function formatFromBytes(bytes: number[]): {
   display: string;
   partialUtf8: boolean;
 } {
-  const arr = new Uint8Array(bytes);
-  const decoded = new TextDecoder("utf-8", { fatal: false }).decode(arr);
-  const roundTrip = bytesEqual(new TextEncoder().encode(decoded), bytes);
-  const hasReplacement = decoded.includes("\uFFFD");
+  if (bytes.length === 0) {
+    return { text: "", display: "∅", partialUtf8: true };
+  }
 
-  if (roundTrip && !hasReplacement) {
+  if (isValidUtf8(bytes)) {
+    const decoded = new TextDecoder("utf-8").decode(new Uint8Array(bytes));
     const vis = visWhitespace(decoded);
     return { text: decoded, display: vis ?? decoded, partialUtf8: false };
   }
 
-  const hex = bytes.map((b) => b.toString(16).padStart(2, "0")).join(" ");
-  return { text: decoded, display: hex, partialUtf8: true };
+  return hexDisplay(bytes);
 }
 
 export function tokenDisplay(token: Token): string {
   if (token.display) return token.display;
+  if (token.partialUtf8 && token.bytes?.length) {
+    return token.bytes.map((b) => b.toString(16).padStart(2, "0")).join(" ");
+  }
   if (token.text === " ") return "␣";
   if (token.text === "\n") return "↵";
   if (token.text === "\t") return "⇥";
@@ -62,9 +77,20 @@ export function kindColorIndex(kind: TokenKind): number {
   return idx >= 0 ? idx : 0;
 }
 
+export function countCjkChars(text: string): number {
+  return [...text].filter((ch) => /\p{Script=Han}/u.test(ch)).length;
+}
+
+export function countLatinLetters(text: string): number {
+  const m = text.match(/[a-zA-Z]/g);
+  return m ? m.length : 0;
+}
+
 export const SAMPLE_TEXTS = [
   "Hello, world! 你好世界",
   "Tokenization bridges raw text and neural networks.",
   "GPT-4 uses BPE on UTF-8 bytes with a large vocabulary.",
-  "BERT uses WordPiece with ## prefixes for subwords."
+  "BERT uses WordPiece with ## prefixes for subwords.",
+  "同样长度的中文往往比英文消耗更多 token。",
+  "The quick brown fox jumps over the lazy dog."
 ];
