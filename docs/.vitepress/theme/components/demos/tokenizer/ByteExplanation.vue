@@ -17,5 +17,10 @@
       <li><strong>优点</strong>：词表固定 256；无 UNK；与 BPE 组合后成为现代 LLM 标配。</li>
       <li><strong>缺点</strong>：单字符被拆成多 token，序列变长；裸字节流对人类不直观。</li>
     </ul>
+    <h4>References</h4>
+    <ul class="tokenizer-explanation__refs">
+      <li><a href="https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank" rel="noopener noreferrer">Radford et al. 2019 — GPT-2 (byte-level BPE)</a></li>
+      <li><a href="https://arxiv.org/abs/1508.07909" target="_blank" rel="noopener noreferrer">Sennrich et al. 2016 — BPE</a></li>
+    </ul>
   </div>
 </template>

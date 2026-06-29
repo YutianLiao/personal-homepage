@@ -9,6 +9,8 @@ personal-homepage/
 ├── ARCHITECTURE.md
 ├── hello-agent/              # 学习模块内容源
 ├── cs336/                    # 学习模块内容源
+├── demos/                    # Demo 内容源
+├── DESIGN.md                 # 站点视觉规范
 ├── scripts/
 │   ├── build-learning-modules.mjs
 │   └── convert-seq2seq.mjs
@@ -54,18 +56,23 @@ personal-homepage/
 注册：`docs/.vitepress/demos.json`
 
 ```
+demos/                          # 内容源（类比 hello-agent/）
+└── tokenizer/README.md
+
 docs/demos/
-├── index.md              # 总览
-└── tokenizer.md          # layout: page + <demo-tokenizer />
+├── index.md                    # 总览
+└── tokenizer/index.md          # 单 demo 页面（无独立 overview）
 
 docs/.vitepress/theme/components/demos/
 ├── TokenizerDemo.vue
-└── tokenizer/            # 算法子模块
+└── tokenizer/
 ```
+
+设计规范：`DESIGN.md`。组件约定：`theme/components/demos/README.md`。
 
 与 Learning 差异：Demo 为交互式 Vue 组件，无 build 同步脚本。nav/sidebar 由 `demos.json` 驱动。
 
-新增 Demo：`demos.json` 注册 → `docs/demos/{id}.md` → `theme/index.ts` 注册组件。详见 `theme/components/demos/README.md`。
+新增 Demo：`demos.json` 注册 → `docs/demos/{id}/index.md` → `theme/index.ts` 注册组件。
 
 ## UI tokens
 

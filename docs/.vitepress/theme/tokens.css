@@ -52,12 +52,10 @@
   --site-pager-title-size: 0.9375rem;
 
   /* Demo layout */
-  --demo-col-left: minmax(240px, 300px);
-  --demo-col-right: minmax(220px, 280px);
   --demo-panel-gap: 1.25rem;
-  --demo-chip-gap: 0.45rem;
-  --demo-chip-radius: 6px;
-  --demo-chip-padding: 0.35rem 0.55rem;
+  --demo-chip-gap: 0.4rem;
+  --demo-chip-radius: 4px;
+  --demo-chip-padding: 0.3rem 0.5rem;
 
   /* Token chip palette (border / background) */
   --demo-token-color-0: #9f1239;

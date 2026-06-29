@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import { withBase } from "vitepress";
 import type { BpeEncodingId, Token, TokenKind } from "./tokenizer/types";
 import {
   TOKENIZER_MODULES,
@@ -24,8 +23,6 @@ const error = ref("");
 const hoveredIndex = ref<number | null>(null);
 const ready = ref(false);
 
-const mascotSrc = withBase("/decorative/demo-tokenizer.png");
-
 const currentModule = computed(() => getTokenizerById(algorithmId.value)!);
 const showBpeEncoding = computed(() => algorithmId.value === "bpe");
 
@@ -33,11 +30,22 @@ const stats = computed(() => {
   const text = inputText.value;
   const count = tokens.value.length;
   const chars = [...text].length;
+  const partialUtf8 = tokens.value.filter((t) => t.partialUtf8).length;
   const unknown = tokens.value.filter(
-    (t) => t.kind === "special" && t.text.includes("UNK")
+    (t) => t.kind === "special" && /UNK/i.test(t.text)
   ).length;
   const ratio = count > 0 ? (chars / count).toFixed(2) : "—";
-  return { chars, count, ratio, unknown };
+  return { chars, count, ratio, partialUtf8, unknown };
+});
+
+const extraStat = computed(() => {
+  if (algorithmId.value === "wordpiece") {
+    return { label: "未知词 (UNK)", value: stats.value.unknown };
+  }
+  if (algorithmId.value === "bpe" || algorithmId.value === "byte") {
+    return { label: "UTF-8 字节片段", value: stats.value.partialUtf8 };
+  }
+  return null;
 });
 
 const legendKinds = computed(() => {
@@ -73,7 +81,7 @@ function chipStyle(kind: TokenKind, index: number) {
     "--chip-color": `var(--demo-token-color-${colorIdx})`,
     "--chip-bg": `var(--demo-token-bg-${colorIdx})`,
     opacity: hoveredIndex.value === null || active ? "1" : "0.45",
-    transform: active ? "translateY(-2px)" : "none"
+    transform: active ? "translateY(-1px)" : "none"
   };
 }
 
@@ -93,54 +101,36 @@ watch([inputText, algorithmId, bpeEncodingId], async () => {
 
 <template>
   <div class="tokenizer-demo">
-    <header class="tokenizer-demo__header">
-      <div>
-        <p class="tokenizer-demo__eyebrow">Interactive Demo</p>
-        <h2 class="tokenizer-demo__title">Tokenizer Visualizer</h2>
-        <p class="tokenizer-demo__subtitle">输入文本，选择算法，实时查看 token 切分、ID 与字节表示。</p>
+    <section class="tokenizer-demo__intro">
+      <div class="tokenizer-demo__intro-block">
+        <h2 class="tokenizer-demo__section-label">什么是分词器</h2>
+        <div class="tokenizer-demo__prose">
+          <p>
+            神经网络只能处理数字，不能直接「阅读」字符串。分词器（Tokenizer）负责把原始文本变成
+            <strong>token 序列</strong>，再映射为整数 ID，供 Embedding 层查表。可以把它理解为人类语言与模型之间的编码器：同一段话，不同分词策略会得到不同长度的 ID 序列，进而影响计算成本与语义粒度。
+          </p>
+          <p>
+            若按<strong>词</strong>切分，词表会随语料膨胀，且大量未登录词（OOV）无法表示；若按<strong>字符</strong>切分，词表极小，但序列过长、难以捕获词级语义。现代大模型普遍采用<strong>子词（Subword）</strong>方案——在词级与字符级之间折中：常见词保持完整，生僻词拆成更小的片段，并用有限大小的词表覆盖海量文本。
+          </p>
+          <p>
+            常见子词算法包括 BPE（GPT 系列）、WordPiece（BERT）、SentencePiece（T5 / LLaMA 等）。它们共享一个目标：在可控词表规模下，尽量保留语义单元、避免 UNK，并高效处理多语言与符号。下方 Demo 从最简单的空格切分出发，逐步过渡到 GPT 与 BERT 的真实词表，帮助你直观感受「同一句话，不同切法」的差异。
+          </p>
+        </div>
       </div>
-      <figure class="tokenizer-demo__mascot" aria-hidden="true">
-        <img
-          :src="mascotSrc"
-          alt=""
-          loading="lazy"
-          @error="($event.target as HTMLImageElement).style.display = 'none'"
-        />
-      </figure>
-    </header>
 
-    <div class="tokenizer-demo__grid">
-      <!-- Left: explanations -->
-      <aside class="tokenizer-demo__panel tokenizer-demo__panel--left">
-        <section class="tokenizer-demo__section">
-          <h3>什么是分词器？</h3>
-          <p>
-            分词器（Tokenizer）把原始文本映射为离散 token 序列，再转为整数 ID 供神经网络 embedding 查表。它是 NLP
-            流水线的第一道关口：切分粒度直接影响序列长度、词表大小与模型泛化。
-          </p>
-          <p>
-            现代 LLM 多采用<strong>子词</strong>方案（BPE / WordPiece / SentencePiece），在词级语义与字符级覆盖之间折中。本
-            Demo 对比从朴素空格切分到 GPT、BERT 真实词表的多种策略。
-          </p>
-        </section>
+      <div class="tokenizer-demo__intro-block tokenizer-demo__intro-block--algo">
+        <header class="tokenizer-demo__algo-head">
+          <h2 class="tokenizer-demo__section-label">{{ currentModule.meta.name }}</h2>
+          <span class="tokenizer-demo__badge">{{ currentModule.meta.complexity }}</span>
+        </header>
+        <p class="tokenizer-demo__summary">{{ currentModule.meta.summary }}</p>
+        <component :is="currentModule.Explanation" />
+      </div>
+    </section>
 
-        <section class="tokenizer-demo__section tokenizer-demo__section--algo">
-          <div class="tokenizer-demo__algo-head">
-            <h3>{{ currentModule.meta.name }}</h3>
-            <span class="tokenizer-demo__badge">{{ currentModule.meta.complexity }}</span>
-          </div>
-          <p class="tokenizer-demo__summary">{{ currentModule.meta.summary }}</p>
-          <component :is="currentModule.Explanation" />
-          <ul v-if="currentModule.meta.refs?.length" class="tokenizer-demo__refs">
-            <li v-for="ref in currentModule.meta.refs" :key="ref.url">
-              <a :href="ref.url" target="_blank" rel="noopener noreferrer">{{ ref.label }}</a>
-            </li>
-          </ul>
-        </section>
-      </aside>
-
-      <!-- Center: input + visualization -->
-      <main class="tokenizer-demo__panel tokenizer-demo__panel--center">
+    <section class="tokenizer-demo__workbench" aria-label="分词交互区">
+      <div class="tokenizer-demo__workbench-head">
+        <h2 class="tokenizer-demo__section-label">试一试</h2>
         <div class="tokenizer-demo__controls">
           <label class="tokenizer-demo__field">
             <span>算法</span>
@@ -150,7 +140,6 @@ watch([inputText, algorithmId, bpeEncodingId], async () => {
               </option>
             </select>
           </label>
-
           <label v-if="showBpeEncoding" class="tokenizer-demo__field">
             <span>BPE 词表</span>
             <select v-model="bpeEncodingId">
@@ -158,120 +147,106 @@ watch([inputText, algorithmId, bpeEncodingId], async () => {
               <option value="o200k_base">o200k_base (GPT-4o)</option>
             </select>
           </label>
-
           <button type="button" class="tokenizer-demo__btn" @click="loadSample">载入示例</button>
         </div>
+      </div>
 
-        <label class="tokenizer-demo__textarea-wrap">
-          <span class="tokenizer-demo__label">输入文本</span>
-          <textarea
-            v-model="inputText"
-            class="tokenizer-demo__textarea"
-            rows="4"
-            placeholder="输入任意文本..."
-            spellcheck="false"
-          />
-        </label>
+      <label class="tokenizer-demo__textarea-wrap">
+        <span class="tokenizer-demo__label">输入文本</span>
+        <textarea
+          v-model="inputText"
+          class="tokenizer-demo__textarea"
+          rows="3"
+          placeholder="输入任意文本..."
+          spellcheck="false"
+        />
+      </label>
 
-        <div class="tokenizer-demo__viz">
-          <div class="tokenizer-demo__viz-head">
-            <span class="tokenizer-demo__label">Token 可视化</span>
-            <span v-if="loading" class="tokenizer-demo__status">加载词表中…</span>
-          </div>
-
-          <p v-if="error" class="tokenizer-demo__error">{{ error }}</p>
-
-          <div v-else-if="tokens.length === 0" class="tokenizer-demo__empty">输入文本以查看 token</div>
-
-          <div v-else class="tokenizer-demo__chips" role="list">
-            <button
-              v-for="(token, index) in tokens"
-              :key="index"
-              type="button"
-              class="tokenizer-demo__chip"
-              :class="`tokenizer-demo__chip--${token.kind}`"
-              :style="chipStyle(token.kind, index)"
-              role="listitem"
-              :title="token.text"
-              @mouseenter="hoveredIndex = index"
-              @mouseleave="hoveredIndex = null"
-              @focus="hoveredIndex = index"
-              @blur="hoveredIndex = null"
-            >
-              <span class="tokenizer-demo__chip-text">{{ tokenDisplay(token) }}</span>
-              <span v-if="token.id !== undefined" class="tokenizer-demo__chip-id">#{{ token.id }}</span>
-            </button>
-          </div>
+      <div class="tokenizer-demo__viz">
+        <div class="tokenizer-demo__viz-head">
+          <span class="tokenizer-demo__label">Token 可视化</span>
+          <span v-if="loading" class="tokenizer-demo__status">加载词表中…</span>
         </div>
-      </main>
+        <p v-if="error" class="tokenizer-demo__error">{{ error }}</p>
+        <div v-else-if="tokens.length === 0" class="tokenizer-demo__empty">输入文本以查看 token</div>
+        <div v-else class="tokenizer-demo__chips" role="list">
+          <button
+            v-for="(token, index) in tokens"
+            :key="index"
+            type="button"
+            class="tokenizer-demo__chip"
+            :class="{ 'tokenizer-demo__chip--partial': token.partialUtf8 }"
+            :style="chipStyle(token.kind, index)"
+            role="listitem"
+            :title="token.partialUtf8 ? `bytes: ${bytesLabel(token.bytes)}` : token.text"
+            @mouseenter="hoveredIndex = index"
+            @mouseleave="hoveredIndex = null"
+          >
+            <span class="tokenizer-demo__chip-text">{{ tokenDisplay(token) }}</span>
+            <span v-if="token.id !== undefined" class="tokenizer-demo__chip-id">#{{ token.id }}</span>
+          </button>
+        </div>
+      </div>
 
-      <!-- Right: stats + table -->
-      <aside class="tokenizer-demo__panel tokenizer-demo__panel--right">
-        <section class="tokenizer-demo__stats">
-          <h3>统计</h3>
-          <dl class="tokenizer-demo__stat-grid">
-            <div>
-              <dt>字符数</dt>
-              <dd>{{ stats.chars }}</dd>
-            </div>
-            <div>
-              <dt>Token 数</dt>
-              <dd>{{ stats.count }}</dd>
-            </div>
-            <div>
-              <dt>字符 / Token</dt>
-              <dd>{{ stats.ratio }}</dd>
-            </div>
-            <div>
-              <dt>未知词</dt>
-              <dd>{{ stats.unknown }}</dd>
-            </div>
-          </dl>
-        </section>
-
-        <section v-if="legendKinds.length" class="tokenizer-demo__legend">
-          <h3>图例</h3>
-          <ul>
-            <li v-for="kind in legendKinds" :key="kind">
-              <span
-                class="tokenizer-demo__legend-swatch"
-                :style="{ background: `var(--demo-token-bg-${kindColorIndex(kind)})` }"
-              />
-              {{ TOKEN_KIND_LABELS[kind] }}
-            </li>
-          </ul>
-        </section>
-
-        <section class="tokenizer-demo__table-wrap">
-          <h3>Token 详情</h3>
-          <div class="tokenizer-demo__table-scroll">
-            <table class="tokenizer-demo__table">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Token</th>
-                  <th>ID</th>
-                  <th>Bytes</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="(token, index) in tokens"
-                  :key="index"
-                  :class="{ 'is-active': hoveredIndex === index }"
-                  @mouseenter="hoveredIndex = index"
-                  @mouseleave="hoveredIndex = null"
-                >
-                  <td>{{ index }}</td>
-                  <td><code>{{ tokenDisplay(token) }}</code></td>
-                  <td>{{ token.id ?? "—" }}</td>
-                  <td class="tokenizer-demo__bytes">{{ bytesLabel(token.bytes) }}</td>
-                </tr>
-              </tbody>
-            </table>
+      <div class="tokenizer-demo__metrics">
+        <dl class="tokenizer-demo__stat-row">
+          <div>
+            <dt>字符数</dt>
+            <dd>{{ stats.chars }}</dd>
           </div>
-        </section>
-      </aside>
-    </div>
+          <div>
+            <dt>Token 数</dt>
+            <dd>{{ stats.count }}</dd>
+          </div>
+          <div>
+            <dt>字符 / Token</dt>
+            <dd>{{ stats.ratio }}</dd>
+          </div>
+          <div v-if="extraStat">
+            <dt>{{ extraStat.label }}</dt>
+            <dd>{{ extraStat.value }}</dd>
+          </div>
+        </dl>
+        <ul v-if="legendKinds.length" class="tokenizer-demo__legend-inline">
+          <li v-for="kind in legendKinds" :key="kind">
+            <span
+              class="tokenizer-demo__legend-swatch"
+              :style="{ background: `var(--demo-token-bg-${kindColorIndex(kind)})` }"
+            />
+            {{ TOKEN_KIND_LABELS[kind] }}
+          </li>
+        </ul>
+      </div>
+
+      <div class="tokenizer-demo__table-wrap">
+        <span class="tokenizer-demo__label">Token 详情</span>
+        <div class="tokenizer-demo__table-scroll">
+          <table class="tokenizer-demo__table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Token</th>
+                <th>ID</th>
+                <th>Bytes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="(token, index) in tokens"
+                :key="index"
+                :class="{ 'is-active': hoveredIndex === index }"
+                @mouseenter="hoveredIndex = index"
+                @mouseleave="hoveredIndex = null"
+              >
+                <td>{{ index }}</td>
+                <td><code>{{ tokenDisplay(token) }}</code></td>
+                <td>{{ token.id ?? "—" }}</td>
+                <td class="tokenizer-demo__bytes">{{ bytesLabel(token.bytes) }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
   </div>
 </template>

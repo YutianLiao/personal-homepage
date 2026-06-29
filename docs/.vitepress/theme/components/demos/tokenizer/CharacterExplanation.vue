@@ -2,7 +2,7 @@
   <div class="tokenizer-explanation">
     <h4>原理</h4>
     <p>
-      字符级分词把每个 Unicode 标量值当作一个 token。早期 char-RNN、部分 CJK 模型会采用这一策略，以换取极小词表与任意字符串可编码性。
+      字符级分词把每个 Unicode 码点当作一个 token。早期 char-RNN、部分 CJK 模型会采用这一策略，以换取极小词表与任意字符串可编码性。
     </p>
     <h4>步骤</h4>
     <ol>
@@ -15,6 +15,11 @@
     <ul>
       <li><strong>优点</strong>：词表极小（通常 &lt; 5k）；任意字符串可表示；适合形态丰富语言。</li>
       <li><strong>缺点</strong>：序列极长，建模效率低；难以直接捕获词级语义。</li>
+    </ul>
+    <h4>References</h4>
+    <ul class="tokenizer-explanation__refs">
+      <li><a href="https://karpathy.github.io/2015/05/21/rnn-effectiveness/" target="_blank" rel="noopener noreferrer">Karpathy — The Unreasonable Effectiveness of Recurrent Neural Networks</a></li>
+      <li><a href="https://arxiv.org/abs/1508.07909" target="_blank" rel="noopener noreferrer">Sennrich et al. 2016 — Subword Units (对比字符级基线)</a></li>
     </ul>
   </div>
 </template>

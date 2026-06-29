@@ -7,6 +7,8 @@ export interface Token {
   kind: TokenKind;
   /** Visible label in chips (e.g. whitespace symbols). */
   display?: string;
+  /** BPE byte token that is not valid standalone UTF-8 (show hex instead of ?). */
+  partialUtf8?: boolean;
 }
 
 export interface TokenizerRef {

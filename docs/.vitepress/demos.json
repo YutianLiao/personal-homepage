@@ -3,8 +3,9 @@
     {
       "id": "tokenizer",
       "title": "Tokenizer Visualizer",
-      "route": "/demos/tokenizer",
-      "component": "demo-tokenizer"
+      "route": "/demos/tokenizer/",
+      "component": "demo-tokenizer",
+      "sourceDir": "demos/tokenizer"
     }
   ]
 }

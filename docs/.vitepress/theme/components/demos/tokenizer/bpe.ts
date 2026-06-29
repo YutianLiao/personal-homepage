@@ -1,5 +1,6 @@
 import type { Tiktoken } from "js-tiktoken";
 import type { BpeEncodingId, Token, TokenizerModule } from "./types";
+import { formatFromBytes } from "./utils";
 import BpeExplanation from "./BpeExplanation.vue";
 
 let encoding: Tiktoken | null = null;
@@ -25,7 +26,7 @@ function tokenBytes(enc: Tiktoken, id: number): number[] {
 }
 
 function isSpecialToken(text: string): boolean {
-  return /^<[^>]+>$/.test(text) || text === "";
+  return /^<[^>]+>$/.test(text);
 }
 
 export const bpeTokenizer: TokenizerModule = {
@@ -35,7 +36,8 @@ export const bpeTokenizer: TokenizerModule = {
     summary: "OpenAI tiktoken：GPT-3.5/4 使用的真实 BPE 词表与合并规则。",
     complexity: "O(n) 编码",
     refs: [
-      { label: "Sennrich et al. 2016 — BPE", url: "https://arxiv.org/abs/1508.07909" },
+      { label: "Sennrich et al. 2016 — Neural Machine Translation of Rare Words with Subword Units", url: "https://arxiv.org/abs/1508.07909" },
+      { label: "Radford et al. 2019 — Language Models are Unsupervised Multitask Learners (GPT-2, byte-level BPE)", url: "https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" },
       { label: "OpenAI tiktoken", url: "https://github.com/openai/tiktoken" }
     ]
   },
@@ -47,15 +49,9 @@ export const bpeTokenizer: TokenizerModule = {
     const ids = encoding.encode(text);
     return ids.map((id) => {
       const bytes = tokenBytes(encoding!, id);
-      const piece = new TextDecoder("utf-8", { fatal: false }).decode(new Uint8Array(bytes));
+      const { text: piece, display, partialUtf8 } = formatFromBytes(bytes);
       const kind = isSpecialToken(piece) ? "special" : "subword";
-      return {
-        text: piece,
-        id,
-        bytes,
-        kind,
-        display: piece === " " ? "␣" : piece === "\n" ? "↵" : undefined
-      };
+      return { text: piece, id, bytes, kind, display, partialUtf8 };
     });
   },
   Explanation: BpeExplanation

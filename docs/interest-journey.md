@@ -1,3 +1,7 @@
+---
+pageClass: interest-journey-page
+---
+
 # Interest Journey
 
 ## Some Online Resources

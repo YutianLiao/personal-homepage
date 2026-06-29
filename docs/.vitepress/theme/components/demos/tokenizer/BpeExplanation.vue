@@ -9,7 +9,7 @@
       <li><strong>cl100k_base</strong>：GPT-3.5 / GPT-4 系列（约 100k merges）。</li>
       <li><strong>o200k_base</strong>：GPT-4o 系列（约 200k merges）。</li>
     </ul>
-    <p>通过 <code>js-tiktoken</code> 加载与生产环境一致的真实编码表，token ID 与 API 对齐。</p>
+    <p>通过 <code>js-tiktoken</code> 加载与生产环境一致的真实编码表。中文等多字节字符常被拆成若干 UTF-8 字节片段——单个 token 可能不是完整字符，可视化中以十六进制显示。</p>
     <h4>编码步骤</h4>
     <ol>
       <li>文本先映射到 UTF-8 字节（byte-level BPE 基础）。</li>
@@ -22,6 +22,13 @@
     <ul>
       <li><strong>优点</strong>：词表可控；子词泛化好；与 GPT 系列完全兼容。</li>
       <li><strong>缺点</strong>：同一字符在不同上下文可能被不同切分；对人类不完全直观。</li>
+    </ul>
+    <h4>References</h4>
+    <ul class="tokenizer-explanation__refs">
+      <li><a href="https://arxiv.org/abs/1508.07909" target="_blank" rel="noopener noreferrer">Sennrich et al. 2016 — Neural Machine Translation of Rare Words with Subword Units</a></li>
+      <li><a href="https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" target="_blank" rel="noopener noreferrer">Radford et al. 2019 — GPT-2 Technical Report</a></li>
+      <li><a href="https://github.com/openai/tiktoken" target="_blank" rel="noopener noreferrer">OpenAI tiktoken</a></li>
+      <li><a href="https://platform.openai.com/tokenizer" target="_blank" rel="noopener noreferrer">OpenAI Tokenizer Playground</a></li>
     </ul>
   </div>
 </template>

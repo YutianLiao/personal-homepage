@@ -17,5 +17,10 @@
       <li><strong>优点</strong>：直观、可解释、无 OOV（未登录词）问题。</li>
       <li><strong>缺点</strong>：无法处理标点粘连；中文等无空格语言几乎无效；词表规模随语料膨胀。</li>
     </ul>
+    <h4>References</h4>
+    <ul class="tokenizer-explanation__refs">
+      <li><a href="https://web.stanford.edu/~jurafsky/slp3/" target="_blank" rel="noopener noreferrer">Jurafsky &amp; Martin — Speech and Language Processing (Tokenization)</a></li>
+      <li><a href="https://en.wikipedia.org/wiki/Lexical_analysis#Tokenization" target="_blank" rel="noopener noreferrer">Wikipedia — Lexical Analysis: Tokenization</a></li>
+    </ul>
   </div>
 </template>
