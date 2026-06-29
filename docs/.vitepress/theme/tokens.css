@@ -1,0 +1,91 @@
+/* Design tokens — adjust typography, spacing, and colors here */
+:root {
+  /* Colors */
+  --site-bg: #faf8f4;
+  --site-surface: #ffffff;
+  --site-text: #1c1917;
+  --site-text-secondary: #44403c;
+  --site-text-muted: #78716c;
+  --site-accent: #9f1239;
+  --site-accent-hover: #881337;
+  --site-accent-soft: rgba(159, 18, 57, 0.07);
+  --site-border: rgba(28, 25, 23, 0.09);
+  --site-border-strong: rgba(28, 25, 23, 0.16);
+  --site-rule: rgba(28, 25, 23, 0.45);
+
+  /* Fonts */
+  --site-serif: "Source Serif 4", "Iowan Old Style", Palatino, Georgia, serif;
+  --site-sans: "Source Sans 3", "Gill Sans", system-ui, sans-serif;
+  --site-body-size: 1.0625rem;
+  --site-line-height: 1.72;
+
+  /* Headings */
+  --site-h1-size: clamp(1.85rem, 4vw, 2.35rem);
+  --site-h1-line-height: 1.2;
+  --site-h1-weight: 600;
+  --site-h2-size: clamp(1.35rem, 2.5vw, 1.55rem);
+  --site-h2-weight: 500;
+  --site-h3-size: 1.15rem;
+  --site-h3-weight: 500;
+
+  /* Navigation */
+  --site-nav-title-size: 1.35rem;
+  --site-nav-link-size: 0.8rem;
+  --site-nav-link-weight: 500;
+  --site-nav-link-spacing: 0.06em;
+
+  /* Layout */
+  --site-content-max: 42rem;
+  --site-page-max: 72rem;
+  --site-gutter: clamp(1.25rem, 4.5vw, 2.75rem);
+  --site-radius: 8px;
+  --site-shadow-sm: 0 1px 3px rgba(28, 25, 23, 0.05);
+  --site-shadow-md: 0 12px 40px rgba(28, 25, 23, 0.09);
+
+  /* Tables */
+  --site-table-size: 0.94rem;
+  --site-table-header-size: 0.72rem;
+
+  /* Learning module chrome */
+  --site-reading-time-size: 0.8125rem;
+  --site-pager-label-size: 0.75rem;
+  --site-pager-title-size: 0.9375rem;
+
+  /* Demo layout */
+  --demo-col-left: minmax(240px, 300px);
+  --demo-col-right: minmax(220px, 280px);
+  --demo-panel-gap: 1.25rem;
+  --demo-chip-gap: 0.45rem;
+  --demo-chip-radius: 6px;
+  --demo-chip-padding: 0.35rem 0.55rem;
+
+  /* Token chip palette (border / background) */
+  --demo-token-color-0: #9f1239;
+  --demo-token-bg-0: rgba(159, 18, 57, 0.12);
+  --demo-token-color-1: #1d4ed8;
+  --demo-token-bg-1: rgba(29, 78, 216, 0.1);
+  --demo-token-color-2: #047857;
+  --demo-token-bg-2: rgba(4, 120, 87, 0.1);
+  --demo-token-color-3: #b45309;
+  --demo-token-bg-3: rgba(180, 83, 9, 0.12);
+  --demo-token-color-4: #6b7280;
+  --demo-token-bg-4: rgba(107, 114, 128, 0.12);
+  --demo-token-color-5: #7c3aed;
+  --demo-token-bg-5: rgba(124, 58, 237, 0.1);
+  --demo-token-color-6: #be123c;
+  --demo-token-bg-6: rgba(190, 18, 60, 0.1);
+
+  /* VitePress bridge */
+  --vp-c-brand-1: var(--site-accent);
+  --vp-c-brand-2: var(--site-accent-hover);
+  --vp-c-brand-3: #7f1d1d;
+  --vp-c-bg: var(--site-bg);
+  --vp-c-bg-soft: var(--site-surface);
+  --vp-c-bg-alt: #f5f2ec;
+  --vp-c-divider: var(--site-border);
+  --vp-c-text-1: var(--site-text);
+  --vp-c-text-2: var(--site-text-secondary);
+  --vp-c-text-3: var(--site-text-muted);
+  --vp-font-family-base: var(--site-serif);
+  --vp-font-family-mono: ui-monospace, "Cascadia Code", Menlo, monospace;
+}

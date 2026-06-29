@@ -1,0 +1,10 @@
+{
+  "demos": [
+    {
+      "id": "tokenizer",
+      "title": "Tokenizer Visualizer",
+      "route": "/demos/tokenizer",
+      "component": "demo-tokenizer"
+    }
+  ]
+}

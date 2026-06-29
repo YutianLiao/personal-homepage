@@ -182,7 +182,7 @@ function setupTurndown() {
       node.nodeName === "FIGURE" && node.querySelector("svg") && !node.querySelector("img"),
     replacement: (_content, node) => {
       const cap = node.querySelector("figcaption")?.textContent?.trim();
-      return `\n\n<div class="hello-agent-figure" v-pre>\n${node.outerHTML}\n</div>\n\n${cap ? `*${cap}*\n\n` : ""}`;
+      return `\n\n<div class="learning-module-figure" v-pre>\n${node.outerHTML}\n</div>\n\n${cap ? `*${cap}*\n\n` : ""}`;
     }
   });
 

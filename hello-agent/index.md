@@ -20,5 +20,3 @@ description: 从序列建模到 Agent 系统的长文学习笔记。
 1. 数学基础三篇（神经网络 → RNN → LSTM）
 2. [Seq2Seq 与注意力机制入门教程](./02-attention/01-seq2seq-tutorial)
 3. 后续 Attention / Transformer / Agent 笔记（待添加）
-
-见 [`README.md`](./README) 与仓库根目录 `ARCHITECTURE.md`。

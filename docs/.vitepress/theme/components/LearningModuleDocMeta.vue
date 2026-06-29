@@ -7,7 +7,7 @@ const label = computed(() => (page.value as { readingTime?: string }).readingTim
 </script>
 
 <template>
-  <p v-if="label" class="hello-agent-reading-time" aria-label="建议阅读时间">
+  <p v-if="label" class="learning-module-reading-time" aria-label="建议阅读时间">
     建议阅读 · {{ label }}
   </p>
 </template>

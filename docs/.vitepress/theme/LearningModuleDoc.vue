@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import VPDoc from "vitepress/dist/client/theme-default/components/VPDoc.vue";
-import HelloAgentDocMeta from "./components/HelloAgentDocMeta.vue";
-import HelloAgentPager from "./components/HelloAgentPager.vue";
+import LearningModuleDocMeta from "./components/LearningModuleDocMeta.vue";
+import LearningModulePager from "./components/LearningModulePager.vue";
 </script>
 
 <template>
   <VPDoc>
     <template #aside-top>
-      <HelloAgentDocMeta />
+      <LearningModuleDocMeta />
     </template>
     <template #doc-after>
-      <HelloAgentPager />
+      <LearningModulePager />
     </template>
   </VPDoc>
 </template>

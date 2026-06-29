@@ -1,0 +1,16 @@
+{
+  "modules": [
+    {
+      "id": "hello-agent",
+      "title": "Hello Agent",
+      "sourceDir": "hello-agent",
+      "route": "/hello-agent/"
+    },
+    {
+      "id": "cs336",
+      "title": "Stanford CS336",
+      "sourceDir": "cs336",
+      "route": "/cs336/"
+    }
+  ]
+}
