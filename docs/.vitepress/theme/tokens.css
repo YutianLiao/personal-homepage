@@ -57,7 +57,10 @@
 
   /* Demo layout */
   --demo-docs-col: minmax(260px, 36%);
-  --demo-panel-gap: 1.75rem;
+  --demo-panel-gap: 1.25rem;
+  --demo-panel-padding: 1.25rem 1.35rem;
+  --demo-panel-radius: var(--site-radius);
+  --demo-top-offset: 2.5rem;
   --demo-chip-gap: 0.35rem;
   --demo-chip-radius: 3px;
   --demo-chip-padding: 0.28rem 0.48rem;
