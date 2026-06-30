@@ -51,12 +51,17 @@
   --site-pager-label-size: 0.75rem;
   --site-pager-title-size: 0.9375rem;
 
+  /* UI labels (forms, stats, table headers) */
+  --site-label-size: 0.72rem;
+  --site-label-spacing: 0.08em;
+
   /* Demo layout */
   --demo-docs-col: minmax(260px, 36%);
-  --demo-panel-gap: 1.5rem;
-  --demo-chip-gap: 0.4rem;
-  --demo-chip-radius: 4px;
-  --demo-chip-padding: 0.3rem 0.5rem;
+  --demo-panel-gap: 1.75rem;
+  --demo-chip-gap: 0.35rem;
+  --demo-chip-radius: 3px;
+  --demo-chip-padding: 0.28rem 0.48rem;
+  --demo-label-size: var(--site-label-size);
 
   /* Token chip palette (border / background) */
   --demo-token-color-0: #9f1239;

@@ -35,7 +35,7 @@ pageClass: interest-journey-page
 
 ## Computer Science
 
-<details><summary><strong>Courses (17)</strong></summary>
+<details open><summary><strong>Courses (17)</strong></summary>
 
 - TUM: CIT4100003 Approximation Algorithms​
 - TUM: IN2030 Data Mining and Knowledge Discovery
@@ -57,7 +57,7 @@ pageClass: interest-journey-page
 
 </details>
 
-<details><summary><strong>Books (3)</strong></summary>
+<details open><summary><strong>Books (3)</strong></summary>
 
 - Grokking Algorithms: An Illustrated Guide for Programmers and Other Curious People by Aditya Bhargava
 - The Design of Approximation Algorithms by David P. Williamson and David B. Shmoys
@@ -67,7 +67,7 @@ pageClass: interest-journey-page
 
 ## Mathematics
 
-<details><summary><strong>Courses (32)</strong></summary>
+<details open><summary><strong>Courses (32)</strong></summary>
 
 - TUM: CIT4130019 Nonconvex Global Optimization
 - TUM: CIT413036 Mathematics of Reinforcement Learning
@@ -104,7 +104,7 @@ pageClass: interest-journey-page
 
 </details>
 
-<details><summary><strong>Books (16)</strong></summary>
+<details open><summary><strong>Books (16)</strong></summary>
 
 - Calculus by Dale Varberg, Edwin J. Purcell, Steven E. Rigdon
 - Duelling Idiots and Other Probability Puzzles by Paul J. Nahin
@@ -127,7 +127,7 @@ pageClass: interest-journey-page
 
 ## Statistics
 
-<details><summary><strong>Courses (6)</strong></summary>
+<details open><summary><strong>Courses (6)</strong></summary>
 
 - Warwick: ST111 Probability (Part A)
 - Warwick: ST112 Probability (Part B)​
@@ -138,7 +138,7 @@ pageClass: interest-journey-page
 
 </details>
 
-<details><summary><strong>Books (2)</strong></summary>
+<details open><summary><strong>Books (2)</strong></summary>
 
 - ​How to Lie With Statistics by Darrell Huff
 - Naked Statistics by Charles Wheelan
@@ -147,13 +147,13 @@ pageClass: interest-journey-page
 
 ## Finance
 
-<details><summary><strong>Courses (1)</strong></summary>
+<details open><summary><strong>Courses (1)</strong></summary>
 
 - Massachusetts Institute of Technology: MIT 15.S50 How To Win At Texas Hold'em Poker, January IAP 2016 ([Online Resources](https://ocw.mit.edu/courses/15-s50-how-to-win-at-texas-holdem-poker-january-iap-2016/pages/study-materials/))​
 
 </details>
 
-<details><summary><strong>Books (2)</strong></summary>
+<details open><summary><strong>Books (2)</strong></summary>
 
 - Taking Sides: Clashing Views in Business Ethics and Society by Lisa H. Newton, Elaine Eliason Englehardt and Michael Pritchard
 - 陆蓉 行为金融学讲义
@@ -162,7 +162,7 @@ pageClass: interest-journey-page
 
 ## Economics
 
-<details><summary><strong>Courses (3)</strong></summary>
+<details open><summary><strong>Courses (3)</strong></summary>
 
 - TUM: WI000978 Transportation Logistics
 - TUM: WI001034 Service and Health Care Operations Management
@@ -170,7 +170,7 @@ pageClass: interest-journey-page
 
 </details>
 
-<details><summary><strong>Books (16)</strong></summary>
+<details open><summary><strong>Books (16)</strong></summary>
 
 - Amazing Decisions: The Illustrated Guide to Improving Business Deals and Family Meals by Dan Ariely
 - Dollars and Sense: How We Misthink Money and How to Spend Smarter by Dan Ariely
@@ -193,7 +193,7 @@ pageClass: interest-journey-page
 
 ## Physics
 
-<details><summary><strong>Books (3)</strong></summary>
+<details open><summary><strong>Books (3)</strong></summary>
 
 - Physics: An Illustrated History of the Foundations of Science by Tom Jackson
 - ​上帝掷骰子吗? 量子物理史话 by 曹天元
@@ -203,7 +203,7 @@ pageClass: interest-journey-page
 
 ## Sociology
 
-<details><summary><strong>Books (13)</strong></summary>
+<details open><summary><strong>Books (13)</strong></summary>
 
 - Sociology: A Very Short Introduction by Steve Bruce
 - Taking Sides: Clashing Views in Crime and Criminology by Thomas Hickey
@@ -223,13 +223,13 @@ pageClass: interest-journey-page
 
 ## Political Sciences
 
-<details><summary><strong>Courses (1)</strong></summary>
+<details open><summary><strong>Courses (1)</strong></summary>
 
 - TUM: POL00011 Politics for Rocket Scientists: An Introduction to Political Science for Non-Political Scientists​
 
 </details>
 
-<details><summary><strong>Books (1)</strong></summary>
+<details open><summary><strong>Books (1)</strong></summary>
 
 - Taking Sides: Clashing Views on Political Issues
 
@@ -237,7 +237,7 @@ pageClass: interest-journey-page
 
 ## Others
 
-<details><summary><strong>Books (15)</strong></summary>
+<details open><summary><strong>Books (15)</strong></summary>
 
 - ​None​
 - Deep Web by Anonymus
