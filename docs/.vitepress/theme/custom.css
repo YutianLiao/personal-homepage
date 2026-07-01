@@ -1230,11 +1230,24 @@ body {
 
 .tokenizer-demo__panel-title {
   margin: 0 0 0.85rem;
-  font-family: var(--site-sans);
-  font-size: var(--site-h3-size);
-  font-style: italic;
-  font-weight: var(--site-h3-weight);
-  color: var(--site-text);
+  font-family: var(--site-sans) !important;
+  font-size: var(--site-h3-size) !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  font-synthesis: none;
+  letter-spacing: -0.015em;
+  color: var(--site-text) !important;
+}
+
+/* Beat `.vp-doc h3` inside demo pages so algo names match intro panel titles */
+.tokenizer-demo h3.tokenizer-demo__panel-title {
+  margin-top: 0;
+  font-family: var(--site-sans) !important;
+  font-size: var(--site-h3-size) !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  font-synthesis: none;
+  color: var(--site-text) !important;
 }
 
 .tokenizer-demo__panel-head {
