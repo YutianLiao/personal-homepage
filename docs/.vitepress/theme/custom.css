@@ -1228,7 +1228,8 @@ body {
   box-shadow: var(--site-shadow-sm);
 }
 
-.tokenizer-demo__panel-title {
+/* Stage column panel titles (visualization / stats) */
+.tokenizer-demo__stage .tokenizer-demo__panel-title {
   margin: 0 0 0.85rem;
   font-family: var(--site-sans) !important;
   font-size: var(--site-h3-size) !important;
@@ -1239,15 +1240,83 @@ body {
   color: var(--site-text) !important;
 }
 
-/* Beat `.vp-doc h3` inside demo pages so algo names match intro panel titles */
-.tokenizer-demo h3.tokenizer-demo__panel-title {
-  margin-top: 0;
+.tokenizer-demo__stage .tokenizer-demo__panel-head .tokenizer-demo__panel-title {
+  margin-bottom: 0;
+}
+
+/* Docs column: module title → section heading → body */
+.tokenizer-demo__docs .tokenizer-demo__panel-title {
+  margin: 0 0 0.9rem;
   font-family: var(--site-sans) !important;
-  font-size: var(--site-h3-size) !important;
-  font-style: italic !important;
+  font-size: var(--demo-doc-title-size) !important;
+  font-style: normal !important;
   font-weight: 600 !important;
   font-synthesis: none;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
   color: var(--site-text) !important;
+}
+
+.tokenizer-demo__docs h3.tokenizer-demo__panel-title {
+  margin-top: 0;
+}
+
+.tokenizer-demo__docs .tokenizer-demo__algo-head .tokenizer-demo__panel-title,
+.tokenizer-demo__docs .tokenizer-demo__panel-head .tokenizer-demo__panel-title {
+  margin-bottom: 0;
+}
+
+.tokenizer-demo__docs .tokenizer-demo__panel-body.site-prose {
+  font-family: var(--site-serif);
+  font-size: var(--demo-doc-body-size);
+  line-height: var(--demo-doc-line-height);
+  color: var(--site-text-secondary);
+}
+
+.tokenizer-demo__docs .tokenizer-demo__panel-body.site-prose p,
+.tokenizer-demo__docs .tokenizer-demo__panel-body.site-prose li {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.tokenizer-demo__docs .tokenizer-demo__subhead,
+.tokenizer-demo__docs .tokenizer-explanation > h4 {
+  margin: 1.15rem 0 0.4rem;
+  font-family: var(--site-sans) !important;
+  font-size: var(--demo-doc-section-size) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  font-style: normal !important;
+  font-synthesis: none;
+  color: var(--site-text) !important;
+}
+
+.tokenizer-demo__docs .tokenizer-explanation > h4::before {
+  content: "";
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.35rem;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  background: var(--site-accent);
+  vertical-align: 0.1em;
+}
+
+.tokenizer-demo__docs .tokenizer-explanation__lead {
+  margin-top: 0 !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  color: var(--site-text) !important;
+}
+
+.tokenizer-demo__docs .tokenizer-explanation p,
+.tokenizer-demo__docs .tokenizer-explanation li {
+  margin: 0.4rem 0;
+  font-size: inherit;
+  line-height: inherit;
+  color: var(--site-text-secondary);
 }
 
 .tokenizer-demo__panel-head {
@@ -1269,14 +1338,10 @@ body {
 
 .tokenizer-demo__panel-body p {
   margin: 0.5rem 0;
-  color: var(--site-text-secondary);
 }
 
-.tokenizer-demo__panel-body.site-prose p,
-.tokenizer-demo__panel-body.site-prose li {
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
+.tokenizer-demo__docs .tokenizer-demo__panel-body p {
+  color: var(--site-text-secondary);
 }
 
 .tokenizer-demo__note {
@@ -1308,16 +1373,6 @@ body {
   margin-bottom: 0;
 }
 
-.tokenizer-demo__subhead {
-  margin: 1.1rem 0 0.45rem;
-  font-family: var(--site-sans);
-  font-size: var(--fs-sm);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  font-style: normal;
-  color: var(--site-text);
-}
-
 .tokenizer-demo__badge {
   font-family: var(--vp-font-family-mono);
   font-size: 0.68rem;
@@ -1335,41 +1390,6 @@ body {
   font-size: 0.72em;
   line-height: 0;
   vertical-align: super;
-}
-
-.tokenizer-explanation__lead {
-  margin-top: 0 !important;
-  color: var(--site-text) !important;
-  font-size: 1.02em;
-}
-
-.tokenizer-explanation > h4 {
-  margin: 1.15rem 0 0.45rem;
-  font-family: var(--site-sans) !important;
-  font-size: var(--fs-sm) !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.1em !important;
-  text-transform: uppercase !important;
-  font-style: normal !important;
-  font-synthesis: none;
-  color: var(--site-text) !important;
-}
-
-.tokenizer-explanation > h4::before {
-  content: "";
-  display: inline-block;
-  width: 0.35rem;
-  height: 0.35rem;
-  margin-right: 0.45rem;
-  border-radius: 50%;
-  background: var(--site-accent);
-  vertical-align: 0.1em;
-}
-
-.tokenizer-explanation p,
-.tokenizer-explanation li {
-  margin: 0.45rem 0;
-  color: var(--site-text-secondary);
 }
 
 .tokenizer-explanation__complexity {
@@ -1417,12 +1437,12 @@ body {
   background: var(--site-bg);
 }
 
-.tokenizer-explanation__pros-cons-col h4 {
+.tokenizer-demo__docs .tokenizer-explanation__pros-cons-col h4 {
   margin-top: 0;
   font-family: var(--site-sans) !important;
-  font-size: var(--fs-sm) !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.08em !important;
+  font-size: 0.8125rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.06em !important;
   text-transform: uppercase !important;
   font-style: normal !important;
   color: var(--site-text) !important;
@@ -1434,7 +1454,11 @@ body {
 
 .tokenizer-explanation__pros-cons-col p {
   margin: 0.35rem 0 0;
-  font-size: 0.94rem;
+  font-size: inherit;
+}
+
+.tokenizer-demo__docs .tokenizer-explanation__complexity {
+  font-size: 0.8125rem;
 }
 
 .tokenizer-explanation ol,
