@@ -276,26 +276,59 @@ body {
   color: var(--site-accent) !important;
 }
 
-.VPFlyout .VPMenuLink,
-.VPMenu .VPMenuLink,
-.VPNavBarMenu .VPMenuLink,
-.VPNavScreenMenuGroup .VPMenuLink {
+/* Learning / Demo flyout triggers (desktop) */
+.VPNavBarMenu .VPFlyout .button,
+.VPNavBarMenu .VPFlyout .button .text {
   color: var(--site-text-muted) !important;
   transition: color 0.15s ease;
 }
 
-.VPFlyout .VPMenuLink:hover,
-.VPMenu .VPMenuLink:hover,
-.VPNavScreenMenuGroup .VPMenuLink:hover {
+.VPNavBarMenu .VPFlyout:hover .button .text {
   color: var(--site-accent) !important;
 }
 
-.VPFlyout .VPMenuLink.active,
-.VPMenu .VPMenuLink.active,
-.VPNavBarMenu .VPMenuLink.active,
-.VPNavScreenMenuGroup .VPMenuLink.active {
+.VPNavBarMenu .VPFlyout.active .button .text {
   color: var(--site-accent) !important;
   font-weight: 600;
+}
+
+/* Flyout dropdown items (desktop) */
+.VPFlyout .VPMenu .VPMenuLink .VPLink.link,
+.VPNavBarMenu .VPMenu .VPMenuLink .VPLink.link {
+  color: var(--site-text-muted) !important;
+  transition: color 0.15s ease;
+}
+
+.VPFlyout .VPMenu .VPMenuLink .VPLink.link:hover,
+.VPNavBarMenu .VPMenu .VPMenuLink .VPLink.link:hover {
+  color: var(--site-accent) !important;
+}
+
+.VPFlyout .VPMenu .VPMenuLink .VPLink.link.active,
+.VPNavBarMenu .VPMenu .VPMenuLink .VPLink.link.active {
+  color: var(--site-accent) !important;
+  font-weight: 600;
+}
+
+/* Mobile screen: Learning / Demo group buttons */
+.VPNavScreenMenuGroup > .button {
+  color: var(--site-text-muted) !important;
+  transition: color 0.15s ease;
+}
+
+.VPNavScreenMenuGroup > .button:hover,
+.VPNavScreenMenuGroup.open > .button {
+  color: var(--site-accent) !important;
+}
+
+/* Mobile screen: submenu links */
+.VPNavScreenMenuGroupLink.VPLink {
+  color: var(--site-text-muted) !important;
+  transition: color 0.15s ease;
+}
+
+.VPNavScreenMenuGroupLink.VPLink:hover {
+  color: var(--site-accent) !important;
 }
 
 .VPNavBarSearch {
@@ -1297,18 +1330,19 @@ body {
   font-size: 1.02em;
 }
 
-.tokenizer-explanation h4 {
+.tokenizer-explanation > h4 {
   margin: 1.15rem 0 0.45rem;
-  font-family: var(--site-sans);
-  font-size: var(--fs-sm);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-style: normal;
-  color: var(--site-text);
+  font-family: var(--site-sans) !important;
+  font-size: var(--fs-sm) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  font-style: normal !important;
+  font-synthesis: none;
+  color: var(--site-text) !important;
 }
 
-.tokenizer-explanation h4::before {
+.tokenizer-explanation > h4::before {
   content: "";
   display: inline-block;
   width: 0.35rem;
@@ -1372,6 +1406,13 @@ body {
 
 .tokenizer-explanation__pros-cons-col h4 {
   margin-top: 0;
+  font-family: var(--site-sans) !important;
+  font-size: var(--fs-sm) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  font-style: normal !important;
+  color: var(--site-text) !important;
 }
 
 .tokenizer-explanation__pros-cons-col h4::before {
