@@ -4,8 +4,8 @@ import CharacterExplanation from "./CharacterExplanation.vue";
 export const characterTokenizer: TokenizerModule = {
   meta: {
     id: "character",
-    name: "Character",
-    summary: "逐 Unicode 字符切分，每个字符一个 token。",
+    name: "字符分词 (Character)",
+    summary: "",
     complexity: "O(n)",
     refs: [
       {

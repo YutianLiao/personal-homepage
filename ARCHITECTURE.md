@@ -7,8 +7,9 @@ VitePress 个人主页。本地：`npm run dev` → `http://localhost:5173`。
 ```
 personal-homepage/
 ├── ARCHITECTURE.md
-├── hello-agent/              # 学习模块内容源
-├── cs336/                    # 学习模块内容源
+├── learning/                 # 学习模块内容源
+│   ├── hello-agent/
+│   └── cs336/
 ├── demos/                    # Demo 内容源
 ├── DESIGN.md                 # 站点视觉规范
 ├── scripts/
@@ -34,10 +35,10 @@ personal-homepage/
 
 注册：`docs/.vitepress/learning-modules.json`
 
-内容源目录结构（以 `hello-agent/` 为例）：
+内容源目录结构（以 `learning/hello-agent/` 为例）：
 
 ```
-{module}/
+learning/{module}/
 ├── index.md
 ├── NN-slug/part.json         # { "title": "分部名" }
 ├── NN-slug/assets/
@@ -56,7 +57,7 @@ personal-homepage/
 注册：`docs/.vitepress/demos.json`
 
 ```
-demos/                          # 内容源（类比 hello-agent/）
+demos/                          # 内容源（类比 learning/hello-agent/）
 └── tokenizer/README.md
 
 docs/demos/
@@ -88,11 +89,11 @@ docs/.vitepress/theme/components/demos/
 | --- | --- |
 | `npm run dev` | 开发 |
 | `npm run build:learning-modules` | 同步学习模块 |
-| `npm run convert:seq2seq` | HTML → `hello-agent/02-attention/01-seq2seq-tutorial.md` |
+| `npm run convert:seq2seq` | HTML → `learning/hello-agent/02-attention/01-seq2seq-tutorial.md` |
 
 ## Agent 检查
 
-- [ ] 学习模块内容只改 `{module}/`，未手改 `docs/{module}/`
+- [ ] 学习模块内容只改 `learning/{module}/`，未手改 `docs/{module}/`
 - [ ] 新模块已写入 `learning-modules.json` 并执行构建
 - [ ] 新 Demo 已写入 `demos.json` 并注册组件
 - [ ] `transformPageData` 在 `config.ts`

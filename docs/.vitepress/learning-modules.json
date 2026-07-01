@@ -3,13 +3,13 @@
     {
       "id": "hello-agent",
       "title": "Hello Agent",
-      "sourceDir": "hello-agent",
+      "sourceDir": "learning/hello-agent",
       "route": "/hello-agent/"
     },
     {
       "id": "cs336",
       "title": "Stanford CS336",
-      "sourceDir": "cs336",
+      "sourceDir": "learning/cs336",
       "route": "/cs336/"
     }
   ]

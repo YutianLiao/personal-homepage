@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Convert seq2seq HTML → hello-agent/02-attention/01-seq2seq-tutorial.md
+ * Convert seq2seq HTML → learning/hello-agent/02-attention/01-seq2seq-tutorial.md
  * 不包含 RNN/LSTM 基础章节（见 01-math-foundations/）。
  */
 import fs from "node:fs";
@@ -13,7 +13,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const htmlPath = path.resolve(root, "../../Notes/seq2seq-tutorial/seq2seq-attention-tutorial.html");
 const assetsSrc = path.resolve(root, "../../Notes/seq2seq-tutorial/assets");
-const helloRoot = path.join(root, "hello-agent");
+const helloRoot = path.join(root, "learning/hello-agent");
 
 const PARTS = {
   "00-preface": { title: "前言" },

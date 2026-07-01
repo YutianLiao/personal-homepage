@@ -12,9 +12,13 @@
 
 单 demo 页面不设 overview，总览在 `docs/demos/index.md`。
 
-## 分词器算法模块
+## 分词器（Tokenizer Visualizer）
+
+**内容编辑地图见仓库根目录 [`demos/tokenizer/README.md`](../../../../../../demos/tokenizer/README.md)。**
 
 目录：`theme/components/demos/tokenizer/`
 
 每个算法：`meta`、`tokenize()`、`init?()`、`Explanation.vue`（含 References）。  
 注册：`registry.ts` → `TOKENIZER_MODULES`。
+
+左侧固定说明与 UI 文案在 `TokenizerDemo.vue`。

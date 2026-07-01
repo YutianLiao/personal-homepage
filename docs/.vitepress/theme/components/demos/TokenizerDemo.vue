@@ -5,17 +5,18 @@
         <h3 class="tokenizer-demo__panel-title">什么是分词器</h3>
         <div class="tokenizer-demo__panel-body site-prose">
           <p>
-            神经网络只能处理数字，不能直接「阅读」字符串。分词器（Tokenizer）把原始文本变成
-            <strong>token 序列</strong>，再映射为整数 ID，供 Embedding 层查表。它是人类语言与模型之间的编码器：同一段话，不同分词策略会得到不同长度的 ID 序列，进而影响计算成本与语义粒度。
+            神经网络只能处理数字，不能直接「阅读」字符串。分词器（Tokenizer）先把原始文本切分成
+            <strong>token 序列</strong>，再根据词表将每个 token 映射成整数 ID，供 Embedding 层查表。它相当于人类语言与模型之间的编码器：同一段话，不同切分策略得到的 ID 序列长度不同，进而影响计算开销和语义粒度。
           </p>
+
+          <h4 class="tokenizer-demo__subhead">切分策略的取舍</h4>
           <p>
-            若按<strong>词</strong>切分，词表会随语料膨胀，且大量未登录词（OOV）无法表示；若按<strong>字符</strong>切分，词表极小，但序列过长。现代大模型普遍采用<strong>子词（Subword）</strong>方案——在词级与字符级之间折中。
+            如果按<strong>单词</strong>切分，词表会随语料迅速膨胀，且大量未登录词（OOV）无法表示；如果按<strong>字符</strong>切分，词表极小，但序列会非常长。现代大模型普遍采用<strong>子词（Subword）</strong>方案，在词级与字符级之间折中——高频词保持完整，低频词被拆成可复用的词根或片段。
           </p>
+
+          <h4 class="tokenizer-demo__subhead">常见子词算法</h4>
           <p>
-            常见子词算法包括 BPE（GPT 系列）、WordPiece（BERT）、SentencePiece（T5 / LLaMA 等）。下方 Demo 从空格切分出发，逐步过渡到 GPT 与 BERT 的真实词表。
-          </p>
-          <p class="tokenizer-demo__note">
-            <strong>计费提示：</strong>主流 API 按 <em>token 数量</em>计费，单价通常不区分语种。但同样信息量下，<strong>中文往往比英文消耗更多 token</strong>——每个汉字在 UTF-8 中占 3 字节，BPE 常会拆成多个子词片段；英文常见词反而可能整词对应一个 token。
+            常用的子词算法有 BPE（GPT 系列）、WordPiece（BERT）和 SentencePiece（T5 / LLaMA 等）。它们都是从数据中自动学习合并规则，用小词表覆盖广泛文本。
           </p>
         </div>
       </section>
@@ -23,10 +24,9 @@
       <section class="tokenizer-demo__panel">
         <header class="tokenizer-demo__algo-head">
           <h3 class="tokenizer-demo__panel-title">{{ currentModule.meta.name }}</h3>
-          <span class="tokenizer-demo__badge">{{ currentModule.meta.complexity }}</span>
+          <span class="tokenizer-demo__badge" v-html="currentModule.meta.complexity" />
         </header>
         <div class="tokenizer-demo__panel-body site-prose">
-          <p class="tokenizer-demo__summary">{{ currentModule.meta.summary }}</p>
           <component :is="currentModule.Explanation" />
         </div>
       </section>
@@ -118,10 +118,6 @@
             </div>
           </dl>
 
-          <p v-if="showPricingNote && stats.cjk > 0" class="tokenizer-demo__note tokenizer-demo__note--compact">
-            当前文本含 {{ stats.cjk }} 个汉字。BPE 下中文通常每字 1–3+ token，英文常见词往往整词为 1 token。
-          </p>
-
           <ul v-if="legendKinds.length" class="tokenizer-demo__legend-inline">
             <li v-for="kind in legendKinds" :key="kind">
               <span
@@ -179,7 +175,6 @@ import {
   SAMPLE_TEXTS,
   TOKEN_KIND_LABELS,
   bytesLabel,
-  countCjkChars,
   countLatinLetters,
   kindColorIndex,
   tokenDisplay
@@ -201,14 +196,13 @@ const stats = computed(() => {
   const text = inputText.value;
   const count = tokens.value.length;
   const chars = [...text].length;
-  const cjk = countCjkChars(text);
   const latin = countLatinLetters(text);
   const partialUtf8 = tokens.value.filter((t) => t.partialUtf8).length;
   const unknown = tokens.value.filter(
     (t) => t.kind === "special" && /UNK/i.test(t.text)
   ).length;
   const ratio = count > 0 ? (chars / count).toFixed(2) : "—";
-  return { chars, count, ratio, partialUtf8, unknown, cjk, latin };
+  return { chars, count, ratio, partialUtf8, unknown, latin };
 });
 
 const extraStat = computed(() => {
@@ -220,10 +214,6 @@ const extraStat = computed(() => {
   }
   return null;
 });
-
-const showPricingNote = computed(
-  () => stats.value.cjk > 0 || algorithmId.value === "bpe" || algorithmId.value === "byte"
-);
 
 const legendKinds = computed(() => {
   const kinds = new Set(tokens.value.map((t) => t.kind));

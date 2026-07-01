@@ -4,8 +4,8 @@ import WhitespaceExplanation from "./WhitespaceExplanation.vue";
 export const whitespaceTokenizer: TokenizerModule = {
   meta: {
     id: "whitespace",
-    name: "Whitespace",
-    summary: "按空白符切分，保留空格与换行作为独立 token。",
+    name: "空格分词 (Whitespace)",
+    summary: "",
     complexity: "O(n)",
     refs: [
       {

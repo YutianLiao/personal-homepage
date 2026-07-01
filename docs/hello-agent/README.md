@@ -1,7 +1,7 @@
 # Hello Agent
 
 ```
-hello-agent/
+learning/hello-agent/
 ├── index.md
 ├── 00-preface/
 ├── 01-math-foundations/

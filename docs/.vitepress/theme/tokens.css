@@ -109,7 +109,8 @@
   --site-panel-radius: var(--site-radius);
 
   /* ── Demo layout ── */
-  --demo-docs-col: minmax(260px, 36%);
+  --demo-docs-col: minmax(0, 1.55fr);
+  --demo-stage-col: minmax(0, 0.88fr);
   --demo-panel-gap: var(--site-panel-gap);
   --demo-panel-padding: var(--site-panel-padding);
   --demo-panel-radius: var(--site-panel-radius);

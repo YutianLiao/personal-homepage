@@ -1,6 +1,6 @@
 # Demos
 
-交互式 Demo 内容源（类比 `hello-agent/`）。
+交互式 Demo 内容源（类比 `learning/hello-agent/`）。
 
 ```
 demos/

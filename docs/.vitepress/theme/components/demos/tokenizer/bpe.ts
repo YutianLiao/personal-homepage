@@ -33,8 +33,8 @@ export const bpeTokenizer: TokenizerModule = {
   meta: {
     id: "bpe",
     name: "BPE (tiktoken)",
-    summary: "OpenAI tiktoken：GPT-3.5/4 使用的真实 BPE 词表与合并规则。",
-    complexity: "O(n) 编码",
+    summary: "",
+    complexity: "O(n)",
     refs: [
       { label: "Sennrich et al. 2016 — Neural Machine Translation of Rare Words with Subword Units", url: "https://arxiv.org/abs/1508.07909" },
       { label: "Radford et al. 2019 — Language Models are Unsupervised Multitask Learners (GPT-2, byte-level BPE)", url: "https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf" },

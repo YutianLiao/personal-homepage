@@ -60,8 +60,8 @@ export const wordpieceTokenizer: TokenizerModule = {
   meta: {
     id: "wordpiece",
     name: "WordPiece (BERT)",
-    summary: "bert-base-uncased 真实词表 + 贪心最长匹配子词切分。",
-    complexity: "O(n · L) 词长 L",
+    summary: "",
+    complexity: "O(n) · O(L<sup>2</sup>)",
     refs: [
       { label: "Devlin et al. 2019 — BERT", url: "https://arxiv.org/abs/1810.04805" },
       {

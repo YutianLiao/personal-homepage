@@ -251,7 +251,7 @@ body {
   font-size: var(--site-nav-link-size);
   font-weight: var(--site-nav-link-weight);
   letter-spacing: var(--site-nav-link-spacing);
-  color: var(--site-text-muted) !important;
+  color: var(--site-text) !important;
   transition: color 0.15s ease;
 }
 
@@ -267,11 +267,22 @@ body {
 }
 
 .VPNavBar .VPNavBarSocialLink a {
-  color: var(--site-text-muted) !important;
+  color: var(--site-text) !important;
   transition: color 0.15s ease;
 }
 
 .VPNavBar .VPNavBarSocialLink a:hover {
+  color: var(--site-accent) !important;
+}
+
+.VPFlyout .VPMenuLink,
+.VPMenu .VPMenuLink,
+.VPNavBarMenu .VPMenuLink {
+  color: var(--site-text) !important;
+}
+
+.VPFlyout .VPMenuLink:hover,
+.VPMenu .VPMenuLink:hover {
   color: var(--site-accent) !important;
 }
 
@@ -1148,7 +1159,7 @@ body {
 
 .tokenizer-demo {
   display: grid;
-  grid-template-columns: var(--demo-docs-col) 1fr;
+  grid-template-columns: var(--demo-docs-col) var(--demo-stage-col);
   gap: var(--demo-panel-gap);
   align-items: start;
   margin: 0 auto;
@@ -1157,13 +1168,6 @@ body {
 }
 
 .tokenizer-demo__docs {
-  display: flex;
-  flex-direction: column;
-  gap: var(--demo-panel-gap);
-  min-width: 0;
-}
-
-.tokenizer-demo__stage {
   display: flex;
   flex-direction: column;
   gap: var(--demo-panel-gap);
@@ -1246,25 +1250,43 @@ body {
   margin-bottom: 0;
 }
 
-.tokenizer-demo__badge {
+.tokenizer-demo__subhead {
+  margin: 1.1rem 0 0.45rem;
   font-family: var(--site-sans);
-  font-size: 0.68rem;
+  font-size: var(--fs-sm);
   font-weight: 600;
   letter-spacing: 0.04em;
-  padding: 0.12rem 0.45rem;
-  border-radius: 999px;
-  background: var(--site-accent-soft);
-  color: var(--site-accent);
+  font-style: normal;
+  color: var(--site-text);
 }
 
-.tokenizer-demo__summary {
-  margin: 0 0 0.65rem;
-  font-style: italic;
-  color: var(--site-text-muted);
+.tokenizer-demo__badge {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 6px;
+  border: 1px solid color-mix(in srgb, var(--site-secondary) 25%, var(--site-border));
+  background: var(--site-secondary-soft);
+  color: var(--site-secondary);
+  white-space: nowrap;
+}
+
+.tokenizer-demo__badge sup {
+  font-size: 0.72em;
+  line-height: 0;
+  vertical-align: super;
+}
+
+.tokenizer-explanation__lead {
+  margin-top: 0 !important;
+  color: var(--site-text) !important;
+  font-size: 1.02em;
 }
 
 .tokenizer-explanation h4 {
-  margin: 1rem 0 0.35rem;
+  margin: 1.15rem 0 0.45rem;
   font-family: var(--site-sans);
   font-size: var(--site-label-size);
   font-weight: 600;
@@ -1274,10 +1296,79 @@ body {
   color: var(--site-text-muted);
 }
 
+.tokenizer-explanation h4::before {
+  content: "";
+  display: inline-block;
+  width: 0.35rem;
+  height: 0.35rem;
+  margin-right: 0.45rem;
+  border-radius: 50%;
+  background: var(--site-accent);
+  vertical-align: 0.1em;
+}
+
 .tokenizer-explanation p,
 .tokenizer-explanation li {
-  margin: 0.4rem 0;
+  margin: 0.45rem 0;
   color: var(--site-text-secondary);
+}
+
+.tokenizer-explanation__complexity {
+  display: inline-block;
+  margin: 0.35rem 0 0.65rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--site-radius);
+  border: 1px dashed var(--site-border-strong);
+  background: var(--n-100);
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.88rem;
+  color: var(--site-text);
+}
+
+.tokenizer-explanation__complexity sup {
+  font-size: 0.75em;
+  vertical-align: super;
+}
+
+.tokenizer-explanation__steps {
+  margin: 0.5rem 0 0.75rem;
+  padding: 0.65rem 0.85rem 0.65rem 2rem;
+  border-left: 3px solid var(--site-accent-soft);
+  border-radius: 0 var(--site-radius) var(--site-radius) 0;
+  background: color-mix(in srgb, var(--site-accent-soft) 45%, var(--site-surface));
+  list-style: decimal;
+}
+
+.tokenizer-explanation__steps li {
+  margin: 0.35rem 0;
+  padding-left: 0.25rem;
+}
+
+.tokenizer-explanation__pros-cons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+  margin: 0.75rem 0 1rem;
+}
+
+.tokenizer-explanation__pros-cons-col {
+  padding: 0.75rem 0.85rem;
+  border: 1px solid var(--site-border);
+  border-radius: var(--site-radius);
+  background: var(--site-bg);
+}
+
+.tokenizer-explanation__pros-cons-col h4 {
+  margin-top: 0;
+}
+
+.tokenizer-explanation__pros-cons-col h4::before {
+  display: none;
+}
+
+.tokenizer-explanation__pros-cons-col p {
+  margin: 0.35rem 0 0;
+  font-size: 0.94rem;
 }
 
 .tokenizer-explanation ol,
@@ -1289,12 +1380,46 @@ body {
 .tokenizer-explanation__refs {
   margin: 0.35rem 0 0;
   padding-left: 1.1rem;
+  list-style: square;
+}
+
+.tokenizer-demo__stage {
+  display: flex;
+  flex-direction: column;
+  gap: var(--demo-panel-gap);
+  min-width: 0;
+  max-width: 26rem;
+  justify-self: end;
+  width: 100%;
 }
 
 .tokenizer-demo__viz-panel {
   display: flex;
   flex-direction: column;
   gap: 0;
+}
+
+.tokenizer-demo__stats-panel .tokenizer-demo__panel-title {
+  font-size: var(--fs-md);
+}
+
+.tokenizer-demo__stat-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.65rem;
+  margin: 0 0 1rem;
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+}
+
+.tokenizer-demo__stat-cell {
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--site-border);
+  border-radius: var(--site-radius);
+  background: linear-gradient(180deg, var(--site-surface) 0%, var(--n-100) 100%);
+  border-top: 2px solid var(--site-accent);
 }
 
 .tokenizer-demo__toolbar {
@@ -1504,21 +1629,6 @@ body {
   color: var(--site-text-muted);
 }
 
-.tokenizer-demo__stat-row {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(6.5rem, 1fr));
-  gap: 0.85rem 1rem;
-  margin: 0 0 1rem;
-  padding: 0.85rem;
-  border: 1px solid var(--site-border);
-  border-radius: var(--site-radius);
-  background: var(--site-bg);
-}
-
-.tokenizer-demo__stat-cell {
-  padding: 0.15rem 0;
-}
-
 .tokenizer-demo__stat-row dt {
   margin: 0;
   font-family: var(--site-sans);
@@ -1633,6 +1743,15 @@ body {
 
 @media (max-width: 960px) {
   .tokenizer-demo {
+    grid-template-columns: 1fr;
+  }
+
+  .tokenizer-demo__stage {
+    max-width: none;
+    justify-self: stretch;
+  }
+
+  .tokenizer-explanation__pros-cons {
     grid-template-columns: 1fr;
   }
 
