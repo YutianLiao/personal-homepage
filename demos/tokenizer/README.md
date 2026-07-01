@@ -28,6 +28,7 @@ theme/components/demos/tokenizer/
 ├── whitespace.ts + WhitespaceExplanation.vue
 ├── character.ts + CharacterExplanation.vue
 ├── byte.ts + ByteExplanation.vue
+├── unigram.ts + UnigramExplanation.vue
 ├── bpe.ts + BpeExplanation.vue
 └── wordpiece.ts + WordpieceExplanation.vue
 ```

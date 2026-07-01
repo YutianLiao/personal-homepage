@@ -3,12 +3,14 @@ import { bpeTokenizer } from "./bpe";
 import { byteTokenizer } from "./byte";
 import { characterTokenizer } from "./character";
 import { whitespaceTokenizer } from "./whitespace";
+import { unigramTokenizer } from "./unigram";
 import { wordpieceTokenizer } from "./wordpiece";
 
 export const TOKENIZER_MODULES: TokenizerModule[] = [
   whitespaceTokenizer,
   characterTokenizer,
   byteTokenizer,
+  unigramTokenizer,
   bpeTokenizer,
   wordpieceTokenizer
 ];

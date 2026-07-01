@@ -7,8 +7,8 @@ const encoder = new TextEncoder();
 export const byteTokenizer: TokenizerModule = {
   meta: {
     id: "byte",
-    name: "Byte-level (UTF-8)",
-    summary: "将文本编码为 UTF-8 字节序列，每字节一个 token。",
+    name: "字节分词 (Byte-level UTF-8)",
+    summary: "",
     complexity: "O(n)",
     refs: []
   },

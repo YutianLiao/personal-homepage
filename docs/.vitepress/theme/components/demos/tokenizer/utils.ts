@@ -87,10 +87,6 @@ export function countLatinLetters(text: string): number {
 }
 
 export const SAMPLE_TEXTS = [
-  "Hello, world! 你好世界",
-  "Tokenization bridges raw text and neural networks.",
-  "GPT-4 uses BPE on UTF-8 bytes with a large vocabulary.",
-  "BERT uses WordPiece with ## prefixes for subwords.",
-  "同样长度的中文往往比英文消耗更多 token。",
-  "The quick brown fox jumps over the lazy dog."
+  "安得广厦千万间，大庇天下寒士俱欢颜。",
+  "I have a dream that one day… the sons of former slaves and the sons of former slave-owners will be able to sit down together at the table of brotherhood."
 ];
