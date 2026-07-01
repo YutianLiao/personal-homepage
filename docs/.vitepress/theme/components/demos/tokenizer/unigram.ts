@@ -4,9 +4,7 @@ import UnigramExplanation from "./UnigramExplanation.vue";
 const MAX_PIECE = 14;
 const LOG_SINGLE = -3.4;
 
-/** Teaching vocabulary: piece → log probability */
 const PIECE_LOGP: [string, number][] = [
-  // English — sample sentence & common fragments
   ["I", -1.1],
   ["have", -1.6],
   ["a", -0.9],
@@ -21,6 +19,7 @@ const PIECE_LOGP: [string, number][] = [
   ["slaves", -2.1],
   ["and", -0.9],
   ["slave", -1.8],
+  ["slave-owners", -2.0],
   ["owners", -2.0],
   ["will", -1.4],
   ["be", -1.0],
@@ -37,19 +36,7 @@ const PIECE_LOGP: [string, number][] = [
   ["own", -2.3],
   ["ave", -2.5],
   ["ther", -2.6],
-  ["…", -2.8],
-  // Chinese — sample poem
-  ["安得", -1.4],
-  ["广厦", -1.5],
-  ["千万", -1.5],
-  ["间", -1.2],
-  ["大庇", -1.6],
-  ["天下", -1.3],
-  ["寒士", -1.6],
-  ["俱", -1.4],
-  ["欢颜", -1.5],
-  ["，", -1.0],
-  ["。", -1.0]
+  ["…", -2.8]
 ];
 
 function buildVocab(): Map<string, number> {
@@ -58,7 +45,7 @@ function buildVocab(): Map<string, number> {
     vocab.set(piece, logp);
   }
   const seed =
-    "安得广厦千万间，大庇天下寒士俱欢颜。I have a dream that one day the sons of former slaves and slave owners will be able to sit down together at table of brotherhood.,!?;:'\"-";
+    "I have a dream that one day the sons of former slaves and the sons of former slave-owners will be able to sit down together at the table of brotherhood.,!?;:'\"-";
   for (const ch of [...seed]) {
     if (!vocab.has(ch)) vocab.set(ch, LOG_SINGLE);
   }

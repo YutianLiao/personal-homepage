@@ -251,7 +251,7 @@ body {
   font-size: var(--site-nav-link-size);
   font-weight: var(--site-nav-link-weight);
   letter-spacing: var(--site-nav-link-spacing);
-  color: var(--site-text) !important;
+  color: var(--site-text-muted) !important;
   transition: color 0.15s ease;
 }
 
@@ -261,13 +261,14 @@ body {
   opacity: 1;
 }
 
-.VPNavBarMenuLink.active {
+.VPNavBarMenuLink.active,
+.VPNavScreenMenuLink.active {
   color: var(--site-accent) !important;
   font-weight: 600;
 }
 
 .VPNavBar .VPNavBarSocialLink a {
-  color: var(--site-text) !important;
+  color: var(--site-text-muted) !important;
   transition: color 0.15s ease;
 }
 
@@ -277,13 +278,24 @@ body {
 
 .VPFlyout .VPMenuLink,
 .VPMenu .VPMenuLink,
-.VPNavBarMenu .VPMenuLink {
-  color: var(--site-text) !important;
+.VPNavBarMenu .VPMenuLink,
+.VPNavScreenMenuGroup .VPMenuLink {
+  color: var(--site-text-muted) !important;
+  transition: color 0.15s ease;
 }
 
 .VPFlyout .VPMenuLink:hover,
-.VPMenu .VPMenuLink:hover {
+.VPMenu .VPMenuLink:hover,
+.VPNavScreenMenuGroup .VPMenuLink:hover {
   color: var(--site-accent) !important;
+}
+
+.VPFlyout .VPMenuLink.active,
+.VPMenu .VPMenuLink.active,
+.VPNavBarMenu .VPMenuLink.active,
+.VPNavScreenMenuGroup .VPMenuLink.active {
+  color: var(--site-accent) !important;
+  font-weight: 600;
 }
 
 .VPNavBarSearch {
@@ -1288,12 +1300,12 @@ body {
 .tokenizer-explanation h4 {
   margin: 1.15rem 0 0.45rem;
   font-family: var(--site-sans);
-  font-size: var(--site-label-size);
-  font-weight: 600;
-  letter-spacing: var(--site-label-spacing);
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
   font-style: normal;
-  color: var(--site-text-muted);
+  color: var(--site-text);
 }
 
 .tokenizer-explanation h4::before {

@@ -87,6 +87,5 @@ export function countLatinLetters(text: string): number {
 }
 
 export const SAMPLE_TEXTS = [
-  "安得广厦千万间，大庇天下寒士俱欢颜。",
   "I have a dream that one day… the sons of former slaves and the sons of former slave-owners will be able to sit down together at the table of brotherhood."
 ];
