@@ -15,7 +15,7 @@
 
 - **衬线正文 + 无衬线标题/标签**：英文 Source 系列 + 中文 Noto 思源系列，风格同源
 - **强调色** `--site-accent`（绯红）用于链接、锚点、细线；**辅助色** `--site-secondary`（墨蓝）用于次要强调
-- **层次**：`.site-panel` 卡片（浅边框 + surface + 轻阴影）优于纯发丝分隔线
+- **层次**：首页用发丝分隔线纵向排列；Demo 等交互模块用 `.site-panel` 卡片
 - **交互**：细边框 + 浅底色 hover；不用 scale 动画
 - **CJK**：`font-synthesis: none`，避免浏览器合成假斜体
 
@@ -58,12 +58,13 @@
 
 ## 组件
 
-- **`.site-section-eyebrow`**：大写标签 + accent 短横线
-- **`.site-panel`**：统一卡片（首页 features、timeline、Demo 模块）
+- **`.site-section-eyebrow`**：大写标签 + accent 短横线（文档/Demo 模块标题）
+- **`.site-panel`**：统一卡片（Demo 模块等交互工作台）
 - **`.site-prose`**：与 Markdown 正文共享排版（链接、strong、code）
 
 ## 模块样式
 
+- **首页 Hero / Features / Timeline**：纵向列表 + 底部分隔线；数学装饰水印保持低干扰叠放
 - **章节标题 (h2)**：无衬线、英文斜体（`font-synthesis: none`）；非首个 h2 上方渐变分隔线
 - **折叠区块**：底部分隔线、summary 行式布局
 - **Demo 工作台**：左文档 + 右可视化/统计；各模块 `.site-panel` 边框
