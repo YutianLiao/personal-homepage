@@ -168,42 +168,42 @@ onBeforeUnmount(() => {
 
 .home-bio-dialog__head h2 {
   margin: 0;
-  font-family: var(--site-sans, "Source Sans 3", sans-serif);
-  font-size: 0.72rem;
+  font-family: var(--site-sans);
+  font-size: var(--site-label-size);
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: var(--site-label-spacing);
   text-transform: uppercase;
   font-style: normal;
-  color: var(--site-text-muted, #78716c);
+  color: var(--site-text-muted);
 }
 
 .home-bio-dialog__close {
   flex-shrink: 0;
-  font-family: var(--site-sans, "Source Sans 3", sans-serif);
-  font-size: 0.82rem;
+  font-family: var(--site-sans);
+  font-size: var(--fs-sm);
   font-weight: 500;
   cursor: pointer;
   padding: 0.35rem 0.75rem;
   border-radius: 6px;
-  border: 1px solid var(--site-border-strong, rgba(28, 25, 23, 0.16));
+  border: 1px solid var(--site-border-strong);
   background: transparent;
-  color: var(--site-text-secondary, #44403c);
+  color: var(--site-text-secondary);
   transition: background 0.15s ease, border-color 0.15s ease;
 }
 
 .home-bio-dialog__close:hover {
-  background: var(--site-accent-soft, rgba(159, 18, 57, 0.07));
-  border-color: var(--site-accent, #9f1239);
-  color: var(--site-accent, #9f1239);
+  background: var(--site-accent-soft);
+  border-color: var(--site-accent);
+  color: var(--site-accent);
 }
 
 .home-bio-dialog__body {
-  padding: 1.25rem 1.5rem 1.5rem;
+  padding: var(--space-5) var(--space-6);
   overflow-y: auto;
-  font-family: var(--site-serif, "Source Serif 4", serif);
-  font-size: var(--site-body-size, 1.0625rem);
-  line-height: 1.72;
-  color: var(--site-text, #1c1917);
+  font-family: var(--site-serif);
+  font-size: var(--site-body-size);
+  line-height: var(--site-line-height);
+  color: var(--site-text);
   white-space: pre-wrap;
 }
 

@@ -1,74 +1,127 @@
-/* Design tokens — adjust typography, spacing, and colors here */
+/* Design tokens — typography, spacing, color ramps */
 :root {
-  /* Colors */
-  --site-bg: #faf8f4;
+  /* ── Neutral ramp (warm stone) ── */
+  --n-50: #faf8f4;
+  --n-100: #f5f2ec;
+  --n-200: #e7e5e0;
+  --n-300: #d6d3cd;
+  --n-400: #a8a29e;
+  --n-500: #78716c;
+  --n-600: #57534e;
+  --n-700: #44403c;
+  --n-800: #292524;
+  --n-900: #1c1917;
+
+  /* ── Accent ramp (crimson) ── */
+  --a-50: rgba(159, 18, 57, 0.07);
+  --a-100: rgba(159, 18, 57, 0.12);
+  --a-500: #9f1239;
+  --a-600: #881337;
+  --a-700: #7f1d1d;
+
+  /* ── Secondary ramp (ink blue) ── */
+  --b-500: #1e3a5f;
+  --b-600: #172554;
+  --b-50: rgba(30, 58, 95, 0.06);
+
+  /* ── Semantic colors ── */
+  --site-bg: var(--n-50);
   --site-surface: #ffffff;
-  --site-text: #1c1917;
-  --site-text-secondary: #44403c;
-  --site-text-muted: #78716c;
-  --site-accent: #9f1239;
-  --site-accent-hover: #881337;
-  --site-accent-soft: rgba(159, 18, 57, 0.07);
+  --site-text: var(--n-900);
+  --site-text-secondary: var(--n-700);
+  --site-text-muted: var(--n-500);
+  --site-accent: var(--a-500);
+  --site-accent-hover: var(--a-600);
+  --site-accent-soft: var(--a-50);
+  --site-secondary: var(--b-500);
+  --site-secondary-soft: var(--b-50);
   --site-border: rgba(28, 25, 23, 0.09);
   --site-border-strong: rgba(28, 25, 23, 0.16);
   --site-rule: rgba(28, 25, 23, 0.45);
 
-  /* Fonts */
-  --site-serif: "Source Serif 4", "Iowan Old Style", Palatino, Georgia, serif;
-  --site-sans: "Source Sans 3", "Gill Sans", system-ui, sans-serif;
-  --site-body-size: 1.0625rem;
+  /* ── Fonts (Latin Source + CJK Noto) ── */
+  --site-serif: "Source Serif 4", "Noto Serif SC", "Songti SC", serif;
+  --site-sans: "Source Sans 3", "Noto Sans SC", "PingFang SC", system-ui, sans-serif;
+  --site-body-size: var(--fs-base);
   --site-line-height: 1.72;
+  --site-measure: 68ch;
 
-  /* Headings */
+  /* ── Type scale (1.25 modular) ── */
+  --fs-xs: 0.72rem;
+  --fs-sm: 0.8125rem;
+  --fs-base: 1.0625rem;
+  --fs-md: 1.15rem;
+  --fs-lg: 1.35rem;
+  --fs-xl: 1.55rem;
+  --fs-2xl: 2rem;
+  --fs-3xl: clamp(2.15rem, 5vw, 2.85rem);
+
+  /* ── Headings ── */
   --site-h1-size: clamp(1.85rem, 4vw, 2.35rem);
   --site-h1-line-height: 1.2;
   --site-h1-weight: 600;
-  --site-h2-size: clamp(1.35rem, 2.5vw, 1.55rem);
+  --site-h2-size: clamp(1.35rem, 2.5vw, var(--fs-xl));
   --site-h2-weight: 500;
-  --site-h3-size: 1.15rem;
+  --site-h3-size: var(--fs-md);
   --site-h3-weight: 500;
 
-  /* Navigation */
-  --site-nav-title-size: 1.35rem;
-  --site-nav-link-size: 0.8rem;
+  /* ── Spacing (4px base) ── */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* ── Navigation ── */
+  --site-nav-title-size: var(--fs-lg);
+  --site-nav-link-size: var(--fs-sm);
   --site-nav-link-weight: 500;
   --site-nav-link-spacing: 0.06em;
 
-  /* Layout */
-  --site-content-max: 42rem;
+  /* ── Layout ── */
+  --site-content-max: var(--site-measure);
   --site-page-max: 72rem;
   --site-gutter: clamp(1.25rem, 4.5vw, 2.75rem);
   --site-radius: 8px;
   --site-shadow-sm: 0 1px 3px rgba(28, 25, 23, 0.05);
   --site-shadow-md: 0 12px 40px rgba(28, 25, 23, 0.09);
 
-  /* Tables */
+  /* ── Tables ── */
   --site-table-size: 0.94rem;
-  --site-table-header-size: 0.72rem;
+  --site-table-header-size: var(--fs-xs);
 
-  /* Learning module chrome */
-  --site-reading-time-size: 0.8125rem;
+  /* ── Learning module chrome ── */
+  --site-reading-time-size: var(--fs-sm);
   --site-pager-label-size: 0.75rem;
   --site-pager-title-size: 0.9375rem;
 
-  /* UI labels (forms, stats, table headers) */
-  --site-label-size: 0.72rem;
+  /* ── UI labels ── */
+  --site-label-size: var(--fs-xs);
   --site-label-spacing: 0.08em;
 
-  /* Demo layout */
+  /* ── Panel / card system ── */
+  --site-panel-padding: var(--space-5) var(--space-6);
+  --site-panel-gap: var(--space-5);
+  --site-panel-radius: var(--site-radius);
+
+  /* ── Demo layout ── */
   --demo-docs-col: minmax(260px, 36%);
-  --demo-panel-gap: 1.25rem;
-  --demo-panel-padding: 1.25rem 1.35rem;
-  --demo-panel-radius: var(--site-radius);
-  --demo-top-offset: 2.5rem;
-  --demo-chip-gap: 0.35rem;
+  --demo-panel-gap: var(--site-panel-gap);
+  --demo-panel-padding: var(--site-panel-padding);
+  --demo-panel-radius: var(--site-panel-radius);
+  --demo-top-offset: var(--space-10);
+  --demo-chip-gap: var(--space-2);
   --demo-chip-radius: 3px;
   --demo-chip-padding: 0.28rem 0.48rem;
   --demo-label-size: var(--site-label-size);
 
-  /* Token chip palette (border / background) */
-  --demo-token-color-0: #9f1239;
-  --demo-token-bg-0: rgba(159, 18, 57, 0.12);
+  /* ── Token chip palette ── */
+  --demo-token-color-0: var(--a-500);
+  --demo-token-bg-0: var(--a-100);
   --demo-token-color-1: #1d4ed8;
   --demo-token-bg-1: rgba(29, 78, 216, 0.1);
   --demo-token-color-2: #047857;
@@ -82,13 +135,13 @@
   --demo-token-color-6: #be123c;
   --demo-token-bg-6: rgba(190, 18, 60, 0.1);
 
-  /* VitePress bridge */
+  /* ── VitePress bridge ── */
   --vp-c-brand-1: var(--site-accent);
   --vp-c-brand-2: var(--site-accent-hover);
-  --vp-c-brand-3: #7f1d1d;
+  --vp-c-brand-3: var(--a-700);
   --vp-c-bg: var(--site-bg);
   --vp-c-bg-soft: var(--site-surface);
-  --vp-c-bg-alt: #f5f2ec;
+  --vp-c-bg-alt: var(--n-100);
   --vp-c-divider: var(--site-border);
   --vp-c-text-1: var(--site-text);
   --vp-c-text-2: var(--site-text-secondary);
