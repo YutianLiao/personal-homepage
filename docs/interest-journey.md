@@ -7,30 +7,65 @@ pageClass: interest-journey-page
 ## Some Online Resources
 
 - [3Blue1Brown](https://www.3blue1brown.com/) (Mathematics)​
+
 - [C&K GO!](https://www.youtube.com/@CKGOChannelShow) (Business)
+
 - [Fields Institute](https://www.youtube.com/@FieldsInstitute/featured) (Mathematics)
+
 - [Hausdorff Center for Mathematics](https://www.youtube.com/@HausdorffCenterforMathematics/featured) (Mathematics)
+
 - [ICTP Mathematics](https://www.youtube.com/@ictpmathematics6835/featured) (Mathematics)
+
 - [Institut des Hautes Etudes Scientifiques (IHES)](https://www.youtube.com/@IhesFr) (Mathematics & Physics)
+
 - [Institute for Advanced Study](https://www.youtube.com/@videosfromIAS/featured) (Historical Studies, Mathematics, Natural Sciences, and Social Science)
+
 - [Institute for Pure & Applied Mathematics (IPAM)](https://www.youtube.com/@IPAMUCLA/featured) (Mathematics)
+
 - [Instituto de Matemática Pura e Aplicada](https://www.youtube.com/@impabr/featured) (Mathematics)
+
 - [Issac Newton Institute for Mathematical Sciences](https://www.youtube.com/@isaacnewtoninstitute/featured) (Mathematics)
+
 - [Mathologer](https://www.youtube.com/@Mathologer/featured) (Mathematics)
+
 - [Neso Academy](https://www.youtube.com/@nesoacademy/featured) (Engineering)
+
 - [Oxford Mathematics](https://www.youtube.com/@OxfordMathematics/featured) (Mathematics)
+
 - [Ross Cameron](https://www.youtube.com/@DaytradeWarrior) (Business)
+
 - [Simons Institute](https://www.youtube.com/@SimonsInstituteTOC/featured) (Theoretical Computer Science)
+
 - [小Lin说](https://www.youtube.com/@xiao_lin_shuo) (Business)
+
 - Algorithms (General): [Hello Algo !](https://github.com/krahets/hello-algo/blob/main/en/README.md) by krahets (GitHub), [算法通关手册 (LeetCode)](https://algo.itcharge.cn/) by ITCharge
+
 - [A beautiful combinatorial proof of the Brouwer Fixed Point Theorem - Via Sperner's Lemma](https://www.youtube.com/watch?v=oX9aPNF6_h8)
+
 - [Algorithmic Game Theory Lectures from Warwick 21/22 - CS409](https://www.youtube.com/playlist?list=PLdUzuimxVcC0QCFYP0Af3TNldswjL8_ep)
+
 - CPU Scheduling: [CPU Scheduling by Neso Academy](https://www.youtube.com/watch?v=EWkQl0n0w5M&list=PLBlnK6fEyqRitWSE_AyyySWfhRgyA-rHk), [CPU Scheduling Algorithms by Easy Engineering Studies](https://www.youtube.com/watch?v=-KgioB-8bqU&list=PLgF4R05NShg1izGE7JH4MNPEwWj67s-wB), [CPU Scheduling Basics by Jacob Sorber](https://www.youtube.com/watch?v=Jkmy2YLUbUY)​
+
 - [Foundations of Data Science - Virtual Talk Series](https://sites.google.com/view/dstheory)
+
 - Machine Learning: [Maching Learning Crash Course](https://developers.google.com/machine-learning/crash-course) by Google, [10种机器学习算法的要点](https://github.com/familyld/Machine_Learning/blob/master/reading/10%E7%A7%8D%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%AE%97%E6%B3%95%E7%9A%84%E8%A6%81%E7%82%B9.md) (GitHub)
+
 - Media: [The Thinking Game](https://www.youtube.com/watch?v=d95J8yzvjbQ) by Google DeepMind
+
 - Reinforcement Learnin: [强化学习入门:基本思想和经典算法](https://zhuanlan.zhihu.com/p/466455380) (知乎)
+
 - [数学分析 - 陈纪修](https://www.bilibili.com/video/BV15v411g7VP/?spm_id_from=333.337.search-card.all.click&vd_source=1a9bac64dcb4ec5b3dd6fe12f0db3b4a)
+
+  
+
+<details open><summary><strong>Agent (17)</strong></summary>
+
+Agent: 
+- [Hello-Agents](https://datawhalechina.github.io/hello-agents/#/)
+  
+</details>
+
+
 - Causality: [AAAI-20 Tutorial: Representation Learning for Causal Inference](http://cobweb.cs.uga.edu/~shengli/AAAI20-Causal-Tutorial.html), [Algorithmic Aspects of Causal Inference by Simons Institute](https://www.youtube.com/watch?v=E4jbbQL_0Go&list=PLgKuh-lKre10nS_YodPwp-N9aTZxlw2LV), [Causal Inference (Cambridge Part III, Michaelmas, 2023)](https://www.statslab.cam.ac.uk/~qz280/teaching/causal-2023/), [Causal Inference and Data Science by Tzu-Ting Yang (2022)](https://www.youtube.com/watch?v=FohBMe4sWQ8&list=PLMoFbFnqyfpEv-h12orcME8E3fSNdcFwt), [Causal Inference Bootcamp (上) from Duke U](https://www.bilibili.com/video/BV1m7411g7kV/?spm_id_from=333.337.search-card.all.click) + [Causal Inference Bootcamp (下) from Duke U](https://www.bilibili.com/video/av89056697/?spm_id_from=333.788.video.desc.click), [Causal Inference Seminar: Peter Tennant](https://www.youtube.com/watch?v=SbrX3YEMj_0)​, [Causal Inference by Ben Elsner](https://www.youtube.com/watch?v=tUz2yl2QEbY&list=PLyvUJLHD8IsJCB7ALqwjRG1BjL5JxE__H), [Causality Boot Camp by Simons Institute](https://www.youtube.com/watch?v=mujOFx5oZUQ&list=PLgKuh-lKre11SiNLE2BNNg59MGcTCpbQx), [Causality by Jonas Peters](https://www.youtube.com/watch?v=zvrcyqcN9Wo&list=PLNSbiazKPSj-GCffW_eA9hhxcdTSJsg6d), [Causality: What is Causality? by Econometrics, Causality, and Coding with Dr. HK](https://www.youtube.com/watch?v=eBij0BFc-RM&list=PLcTBLulJV_AKmUTH-nUsxxFyRQoWnUzxU), [CS594 Causal Inference and Learning (University of Illinois at Chicago, Fall 2019)](https://www.cs.uic.edu/~elena/courses/fall19/cs594cil.html), [Dr. Tyler VanderWeele - Causal Mediation Lecture by Program on Integrative Knowledge At Harvard, ](https://www.youtube.com/watch?v=EI5y6pV87-Q&list=PLYhO1LrB7mqgjdwl0Lp7LDqf7pX4igq3P) , [EconML/CausalML KDD 2021 Tutorial](https://causal-machine-learning.github.io/kdd2021-tutorial/), [Getting Started with Causal Inference by Amit Sharma & Emre Kiciman](https://causalinference.gitlab.io/), [International Seminar on Selective Inference (A weekly online seminar on selective inference, multiple testing, and post-selection inference)](https://sites.google.com/view/selective-inference-seminar/home?authuser=0), [Introduction to Causal Inference (Brady Neal)](https://www.bradyneal.com/causal-inference-course) + [Youtube Course Lectures](https://www.youtube.com/watch?v=CfzO4IEMVUk&list=PLoazKTcS0Rzb6bb9L508cyJ1z-U9iWkA0), [Introduction to Causal Inference (Cambridge MPhil in Population Health, Lent 2022)](http://www.statslab.cam.ac.uk/~qz280/teaching/causal-intro-2022/)​, [Machine Learning & Causal Inference: A Short Course (Stanford GBS)](https://www.gsb.stanford.edu/faculty-research/centers-initiatives/sil/research/methods/ai-machine-learning/short-course), [Online Causal Inference Seminar (OCIS)](https://sites.google.com/view/ocis/home), [因果推断入门 - 饺子博士and饭老师](https://space.bilibili.com/491707363/channel/collectiondetail?sid=25679), [因果推断 - 耿直](https://space.bilibili.com/44671804/video), [因果推断: 混杂因素, 替代指标, 因果网络 - 耿直](https://www.bilibili.com/video/BV1E44y117J4?spm_id_from=333.999.0.0)​, [芝加哥大学系列讲座: 机器学习在经济学中的应用](https://www.bilibili.com/video/BV1mB4y1A7AE?spm_id_from=333.337.search-card.all.click)
 
 ## Computer Science
@@ -61,7 +96,7 @@ pageClass: interest-journey-page
 
 - Grokking Algorithms: An Illustrated Guide for Programmers and Other Curious People by Aditya Bhargava
 - The Design of Approximation Algorithms by David P. Williamson and David B. Shmoys
-- ​Think Python: How to Think Like a Computer Scientists by Allen B. Downey
+- Think Python: How to Think Like a Computer Scientists by Allen B. Downey
 
 </details>
 
@@ -121,7 +156,7 @@ pageClass: interest-journey-page
 - What Is Mathematics? An Elementary Approach to Ideas and Methods by Richard Courant, Herbert Robbins and Ian Stewart
 - 高等代数 by 丘维声
 - 趣味的图论问题 by 单壿
-- ​数学分析 (上册) + 数学分析 (下册) by 陈纪修 於崇华 金路
+- 数学分析 (上册) + 数学分析 (下册) by 陈纪修 於崇华 金路
 
 </details>
 
@@ -140,7 +175,7 @@ pageClass: interest-journey-page
 
 <details open><summary><strong>Books (2)</strong></summary>
 
-- ​How to Lie With Statistics by Darrell Huff
+- How to Lie With Statistics by Darrell Huff
 - Naked Statistics by Charles Wheelan
 
 </details>
@@ -196,7 +231,7 @@ pageClass: interest-journey-page
 <details open><summary><strong>Books (3)</strong></summary>
 
 - Physics: An Illustrated History of the Foundations of Science by Tom Jackson
-- ​上帝掷骰子吗? 量子物理史话 by 曹天元
+- 上帝掷骰子吗? 量子物理史话 by 曹天元
 - 物理学史话 by 汪振东
 
 </details>
@@ -239,7 +274,7 @@ pageClass: interest-journey-page
 
 <details open><summary><strong>Books (15)</strong></summary>
 
-- ​None​
+- None​
 - Deep Web by Anonymus
 - Digital Fortress by Dan Brown
 - Ferryman by Claire McFall
