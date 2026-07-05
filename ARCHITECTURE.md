@@ -87,25 +87,30 @@ Nav 下拉两项，路由前缀 `/interest-journey/`。两页均 `sidebar: false
 | 路由 | 文件 | 内容 |
 | --- | --- | --- |
 | `/interest-journey/learning-archive` | `docs/interest-journey/learning-archive.md` | 课程/书籍/链接索引；`pageClass: interest-journey-page` |
-| `/interest-journey/knowledge-map` | `docs/interest-journey/knowledge-map.md` | 全屏 3D 星云图谱；`layout: page`、`pageClass: knowledge-map-page` |
+| `/interest-journey/knowledge-map` | `docs/interest-journey/knowledge-map.md` | 全屏星丛（Constellation）知识图谱；`layout: page`、`pageClass: knowledge-map-page` |
 
 **Learning Archive**：纯 Markdown，直接编辑 `learning-archive.md`。装饰图仅本页（`Layout.vue`）。
 
-**Knowledge Map**：数据 `docs/.vitepress/knowledge-map.json`（`domains` → `topics` → `entries`）。依赖 `three` + `3d-force-graph`，客户端动态加载。
+**Knowledge Map**：三层数据 `domains` → `topics` → `entries`，结构在 `docs/.vitepress/knowledge-map.json`；每个知识点的正文与链接在 `docs/.vitepress/knowledge-letters/{domain}/{topic}/{id}.md`。依赖 `three` + `3d-force-graph`，仅客户端加载（`ClientOnly`）。视觉为深空星丛：引力核心（领域）、内轨恒星（子主题）、外轨星辰（知识点），缓慢公转，选中时星轨高亮。
 
 ```
 theme/components/KnowledgeMap.vue
 theme/components/knowledge-map/
-├── useNebulaGraph.ts       # WebGL 场景
-├── nebulaGraphData.ts      # JSON → graphData
-├── NebulaHud.vue           # 顶栏浮层
-├── NebulaNodeDetail.vue    # 节点详情浮卡
-└── AddEntryForm.vue        # 弹窗表单 → JSON 导出
+├── ConstellationScene.vue          # 星丛画布容器
+├── useConstellationScene.ts        # 3d-force-graph 渲染与公转动画
+├── buildConstellationGraph.ts      # JSON → 轨道布局节点/边
+├── graphModel.ts                   # 共享类型与路径高亮
+├── ConstellationHud.vue            # 顶栏 + 搜索 + 图例
+├── ConstellationSelectionChips.vue # 多选芯片
+├── AppleLetter.vue                 # 知识点信件弹层
+├── letterRegistry.ts               # 构建时加载 .md 信件
+├── AddEntryForm.vue                # 添加知识点表单
+└── generateEntryJson.ts            # 生成 JSON + 信件模板
 ```
 
-追加知识点：HUD 打开表单 → 生成 JSON → 粘贴进 `knowledge-map.json` → commit & push。
+追加知识点：HUD「+ 添加」→ 生成 JSON 片段与 Markdown 模板 → 分别写入 `knowledge-map.json` 与 `knowledge-letters/` → commit & push。
 
-与 **Learning** 区别：Learning 是长文笔记 + 构建同步；Interest Journey 的 Archive 是资源列表，Map 是全屏 3D 图谱。
+与 **Learning** 区别：Learning 是长文笔记 + 构建同步；Interest Journey 的 Archive 是资源列表，Map 是全屏星丛知识图谱。
 
 ## UI tokens
 
@@ -128,7 +133,7 @@ theme/components/knowledge-map/
 - [ ] 学习模块内容只改 `learning/{module}/`，未手改 `docs/{module}/`
 - [ ] 新模块已写入 `learning-modules.json` 并执行构建
 - [ ] 新 Demo 已写入 `demos.json` 并注册组件
-- [ ] Knowledge Map 数据只改 `knowledge-map.json`（或页内表单导出后粘贴）
+- [ ] Knowledge Map 结构改 `knowledge-map.json`，信件内容改 `knowledge-letters/**/*.md`
 - [ ] Learning Archive 只改 `interest-journey/learning-archive.md`
 - [ ] `transformPageData` 在 `config.ts`
 - [ ] 公式用 `$`/`$$`，矩阵行分隔 `\\`
@@ -141,6 +146,7 @@ theme/components/knowledge-map/
 | 模块注册 | `docs/.vitepress/learning-modules.json` |
 | Demo 注册 | `docs/.vitepress/demos.json` |
 | Knowledge Map 数据 | `docs/.vitepress/knowledge-map.json` |
+| Knowledge Map 信件 | `docs/.vitepress/knowledge-letters/**/*.md` |
 | Interest Journey 页面 | `docs/interest-journey/*.md` |
 | UI 超参数 | `docs/.vitepress/theme/tokens.css` |
 | 站点配置 | `docs/.vitepress/config.ts` |

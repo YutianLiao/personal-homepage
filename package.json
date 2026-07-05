@@ -25,6 +25,7 @@
   "dependencies": {
     "3d-force-graph": "^1.80.0",
     "js-tiktoken": "^1.0.21",
-    "three": "^0.170.0"
+    "three": "^0.170.0",
+    "three-spritetext": "^1.10.0"
   }
 }

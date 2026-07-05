@@ -8,8 +8,17 @@
           "id": "deep-learning",
           "label": "Deep Learning",
           "entries": [
-            { "title": "反向传播", "learnedAt": "2026-07-05" },
-            { "title": "神经网络基础", "learnedAt": "2026-07-05" }
+            {
+              "id": "backprop",
+              "title": "反向传播",
+              "learnedAt": "2026-07-05",
+              "note": "链式法则在计算图上的应用"
+            },
+            {
+              "id": "neural-network-basics",
+              "title": "神经网络基础",
+              "learnedAt": "2026-07-05"
+            }
           ]
         }
       ]

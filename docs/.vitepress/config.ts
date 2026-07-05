@@ -42,6 +42,14 @@ export default withMermaid(
     markdown: {
       math: true
     },
+    vite: {
+      optimizeDeps: {
+        include: ["3d-force-graph", "three", "three-spritetext"]
+      },
+      ssr: {
+        noExternal: ["3d-force-graph", "three-spritetext"]
+      }
+    },
     head: [
       ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
       ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
