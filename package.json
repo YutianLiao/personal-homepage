@@ -23,6 +23,8 @@
     "vitepress-plugin-mermaid": "^2.0.17"
   },
   "dependencies": {
-    "js-tiktoken": "^1.0.21"
+    "3d-force-graph": "^1.80.0",
+    "js-tiktoken": "^1.0.21",
+    "three": "^0.170.0"
   }
 }

@@ -27,7 +27,7 @@ const isHome = computed(() => frontmatter.value.layout === "home");
 
 const decorMode = computed((): DecorKey | null => {
   const p = normalizedPath.value;
-  if (p.startsWith("/interest-journey/")) return "journey";
+  if (p === "/interest-journey/learning-archive") return "journey";
   if (p === "/miscellaneous") return "misc";
   return null;
 });

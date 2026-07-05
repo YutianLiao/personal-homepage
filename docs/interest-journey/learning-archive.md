@@ -1,5 +1,6 @@
 ---
 pageClass: interest-journey-page
+sidebar: false
 ---
 
 # Learning Archive

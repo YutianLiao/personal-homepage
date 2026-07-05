@@ -83,10 +83,6 @@ export default withMermaid(
         }
       ],
       sidebar: {
-        "/interest-journey/": [
-          { text: "Learning Archive", link: "/interest-journey/learning-archive" },
-          { text: "Knowledge Map", link: "/interest-journey/knowledge-map" }
-        ],
         ...learningSidebars,
         "/demos/": demoSidebarItems,
         "/blog/": [
