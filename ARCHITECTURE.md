@@ -20,13 +20,18 @@ personal-homepage/
     │   ├── config.ts
     │   ├── learning-modules.json   # 模块注册表
     │   ├── demos.json              # Demo 注册表
+    │   ├── knowledge-map.json      # Knowledge Map 数据（手改）
     │   ├── learning-sidebars.json  # 自动生成
     │   ├── learning-manifests.json # 自动生成（Prev/Next）
     │   ├── transformLearningModule.ts
     │   └── theme/
     │       ├── tokens.css          # UI 超参数（字体、标题大小等）
     │       ├── custom.css
+    │       ├── components/KnowledgeMap.vue
     │       └── LearningModuleDoc.vue
+    ├── interest-journey/       # Interest Journey 子页（手改 Markdown）
+    │   ├── learning-archive.md
+    │   └── knowledge-map.md
     ├── hello-agent/          # 构建同步，勿手改
     └── cs336/                # 构建同步，勿手改
 ```
@@ -75,13 +80,42 @@ docs/.vitepress/theme/components/demos/
 
 新增 Demo：`demos.json` 注册 → `docs/demos/{id}/index.md` → `theme/index.ts` 注册组件。
 
+## Interest Journey
+
+Nav 下拉两项，路由前缀 `/interest-journey/`。无 index 页、无 build 脚本。
+
+| 路由 | 文件 | 内容 |
+| --- | --- | --- |
+| `/interest-journey/learning-archive` | `docs/interest-journey/learning-archive.md` | 课程/书籍/链接索引；`pageClass: interest-journey-page`（手风琴 CSS） |
+| `/interest-journey/knowledge-map` | `docs/interest-journey/knowledge-map.md` | 嵌入 `<KnowledgeMap />`；`pageClass: knowledge-map-page` |
+
+**Learning Archive**：纯 Markdown，直接编辑 `learning-archive.md`。
+
+**Knowledge Map**：数据在 `docs/.vitepress/knowledge-map.json`（三层：`domains` → `topics` → `entries`）。组件：
+
+```
+theme/components/KnowledgeMap.vue
+theme/components/knowledge-map/
+├── AddEntryForm.vue      # 表单 → 生成 JSON 片段（复制/下载）
+├── layout.ts             # SVG 放射布局
+├── generateEntryJson.ts
+├── types.ts
+└── useKnowledgeMap.ts
+```
+
+注册：`theme/index.ts` → `KnowledgeMap`。装饰图：`Layout.vue` 匹配 `/interest-journey/` → `journey-left/right.png`。
+
+追加知识点：页内表单生成 JSON → 粘贴进 `knowledge-map.json` → commit & push（静态站无法直写 GitHub）。
+
+与 **Learning** 区别：Learning 是长文笔记 + 构建同步；Interest Journey 的 Archive 是资源列表，Map 是层级图谱 + JSON。
+
 ## UI tokens
 
 `docs/.vitepress/theme/tokens.css`：颜色、字体、`--site-h1-size` 等。全站与学习模块共用，勿在模块内单独覆盖排版。
 
 ## 导航
 
-`config.ts` → `themeConfig.nav`。Learning / Demo 下拉项来自各自注册表。
+`config.ts` → `themeConfig.nav`。Learning / Demo / Interest Journey 下拉项来自各自注册或硬编码子链。
 
 ## 常用命令
 
@@ -96,6 +130,8 @@ docs/.vitepress/theme/components/demos/
 - [ ] 学习模块内容只改 `learning/{module}/`，未手改 `docs/{module}/`
 - [ ] 新模块已写入 `learning-modules.json` 并执行构建
 - [ ] 新 Demo 已写入 `demos.json` 并注册组件
+- [ ] Knowledge Map 数据只改 `knowledge-map.json`（或页内表单导出后粘贴）
+- [ ] Learning Archive 只改 `interest-journey/learning-archive.md`
 - [ ] `transformPageData` 在 `config.ts`
 - [ ] 公式用 `$`/`$$`，矩阵行分隔 `\\`
 - [ ] 图片放在分部 `assets/`
@@ -106,6 +142,8 @@ docs/.vitepress/theme/components/demos/
 | --- | --- |
 | 模块注册 | `docs/.vitepress/learning-modules.json` |
 | Demo 注册 | `docs/.vitepress/demos.json` |
+| Knowledge Map 数据 | `docs/.vitepress/knowledge-map.json` |
+| Interest Journey 页面 | `docs/interest-journey/*.md` |
 | UI 超参数 | `docs/.vitepress/theme/tokens.css` |
 | 站点配置 | `docs/.vitepress/config.ts` |
 | 模块页面数据 | `docs/.vitepress/transformLearningModule.ts` |

@@ -18,7 +18,7 @@
 ## Writing
 
 - [Blog Index](./blog/index.md)
-- [Interest Journey](./interest-journey.md)
+- [Learning Archive](./interest-journey/learning-archive.md)
 
 ## Contact
 

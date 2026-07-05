@@ -5,8 +5,8 @@ Add transparent PNG exports. If a file is missing the layout hides that image (`
 | File | Used on | Placement |
 |------|---------|-----------|
 | `home-hero.png` | Home (hero title) | To the **right** of the hero **name** (e.g. Yutian Liao), generous horizontal gap (`custom.css`) |
-| `journey-left.png` | Interest Journey | Upper-left viewport |
-| `journey-right.png` | Interest Journey | Mid-right viewport |
+| `journey-left.png` | Interest Journey（`/interest-journey/*` 子页） | Upper-left viewport |
+| `journey-right.png` | Interest Journey（`/interest-journey/*` 子页） | Mid-right viewport |
 | `misc-left.png` | Miscellaneous | Bottom-left viewport |
 | `misc-right.png` | Miscellaneous | Bottom-right viewport |
 

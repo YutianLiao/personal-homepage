@@ -11,7 +11,7 @@ hero:
   actions:
     - theme: brand
       text: Interest Journey
-      link: /interest-journey
+      link: /interest-journey/learning-archive
     - theme: alt
       text: Miscellaneous
       link: /miscellaneous
