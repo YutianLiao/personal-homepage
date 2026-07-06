@@ -1,4 +1,4 @@
-import type { Tiktoken } from "js-tiktoken";
+import type { Tiktoken } from "js-tiktoken/lite";
 import type { BpeEncodingId, Token, TokenizerModule } from "./types";
 import { formatFromBytes } from "./utils";
 import BpeExplanation from "./BpeExplanation.vue";
@@ -10,10 +10,21 @@ export function getBpeEncodingId(): BpeEncodingId {
   return currentEncodingId;
 }
 
+async function loadRank(id: BpeEncodingId) {
+  if (id === "cl100k_base") {
+    return import("js-tiktoken/ranks/cl100k_base");
+  }
+  return import("js-tiktoken/ranks/o200k_base");
+}
+
 export async function setBpeEncoding(id: BpeEncodingId): Promise<void> {
   if (encoding && currentEncodingId === id) return;
-  const { getEncoding } = await import("js-tiktoken");
-  encoding = getEncoding(id);
+  const [{ Tiktoken }, rankMod] = await Promise.all([
+    import("js-tiktoken/lite"),
+    loadRank(id)
+  ]);
+  const rank = rankMod.default;
+  encoding = new Tiktoken(rank.bpe_ranks, rank.special_tokens, rank.pat_str);
   currentEncodingId = id;
 }
 

@@ -10,7 +10,7 @@
 | 算法下拉名称、简介、复杂度徽章 | `theme/components/demos/tokenizer/*.ts` 里各模块的 `meta`（`name` / `summary` / `complexity`） |
 | 某算法的原理、步骤、References 链接 | 同目录下 `*Explanation.vue`（如 `BpeExplanation.vue`） |
 | 默认示例文本、中文计费统计逻辑 | `theme/components/demos/tokenizer/utils.ts`（`SAMPLE_TEXTS` 等） |
-| 注册/排序算法、切换 BPE 词表 | `theme/components/demos/tokenizer/registry.ts`、`bpe.ts` |
+| 注册/排序算法、切换 BPE 词表 | `theme/components/demos/tokenizer/registry.ts`（`TOKENIZER_META` + `loadTokenizerModule`）、`bpe.ts` |
 | UI 标签（「算法」「输入文本」）、统计区文案 | `TokenizerDemo.vue` 模板 |
 | 颜色、间距、边框 | `docs/.vitepress/theme/tokens.css`、`custom.css`（`.tokenizer-demo` 段） |
 | 导航标题、路由 | `docs/.vitepress/demos.json` |
@@ -22,7 +22,7 @@
 
 ```
 theme/components/demos/tokenizer/
-├── registry.ts           # 导出 TOKENIZER_MODULES
+├── registry.ts           # TOKENIZER_META + loadTokenizerModule（动态 import）
 ├── types.ts
 ├── utils.ts              # 示例文本、显示辅助
 ├── whitespace.ts + WhitespaceExplanation.vue
@@ -35,6 +35,13 @@ theme/components/demos/tokenizer/
 
 每个算法：`meta` + `tokenize()` + 可选 `init()` + `Explanation.vue`。
 
+## 加载策略
+
+- `theme/index.ts` 以 `defineAsyncComponent` 注册 `<demo-tokenizer />`，未访问 Demo 页时不加载任何分词器代码。
+- 进入 Demo 后默认算法为 **whitespace**（无外部资源）；切换算法时才 `import()` 对应模块与 Explanation。
+- **BPE**：`js-tiktoken/lite` + 按 encoding 动态加载单 rank（cl100k ~1 MB / o200k ~2.2 MB），非全量 5.3 MB 包。
+- **WordPiece**：`fetch` `bert-vocab.txt`（~226 KB），仅在选用时请求。
+
 ## 开发
 
 ```bash
@@ -42,4 +49,4 @@ npm run dev
 # 打开 /demos/tokenizer/
 ```
 
-BPE 首次切换会动态加载 `js-tiktoken`（约 5MB 词表），仅在该页发生，不影响全站其他页面。
+BPE 首次切换会动态加载 `js-tiktoken/lite` 与对应 rank，仅在该页发生，不影响全站其他页面。

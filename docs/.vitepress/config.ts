@@ -42,14 +42,6 @@ export default withMermaid(
     markdown: {
       math: true
     },
-    vite: {
-      optimizeDeps: {
-        include: ["3d-force-graph", "three", "three-spritetext"]
-      },
-      ssr: {
-        noExternal: ["3d-force-graph", "three-spritetext"]
-      }
-    },
     head: [
       ["link", { rel: "preconnect", href: "https://fonts.googleapis.com" }],
       ["link", { rel: "preconnect", href: "https://fonts.gstatic.com", crossorigin: "" }],
@@ -73,7 +65,7 @@ export default withMermaid(
           activeMatch: "^/interest-journey/",
           items: [
             { text: "Learning Archive", link: "/interest-journey/learning-archive" },
-            { text: "Knowledge Map", link: "/interest-journey/knowledge-map" }
+            { text: "Knowledge Planet", link: "/interest-journey/knowledge-planet" }
           ]
         },
         { text: "Miscellaneous", link: "/miscellaneous" },
@@ -98,7 +90,8 @@ export default withMermaid(
             text: "Blog",
             items: [
               { text: "Index", link: "/blog/" },
-              { text: "Start Here", link: "/blog/2026-05-hello-vitepress" }
+              { text: "Start Here", link: "/blog/2026-05-hello-vitepress" },
+              { text: "Warwick/SJTU Challenge", link: "/blog/2021-07-warwick-sjtu-challenge" }
             ]
           }
         ]

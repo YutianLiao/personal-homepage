@@ -2,8 +2,6 @@
 
 ## Family
 
-Personal notes and memories are kept private.
-
 <MiscFamilyGallery />
 
 ## A Few Links

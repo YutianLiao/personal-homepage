@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "build:learning-modules": "node scripts/build-learning-modules.mjs",
+    "sync:knowledge-planet": "node scripts/knowledge-planet.mjs sync",
+    "kp:add": "node scripts/knowledge-planet.mjs add-point",
+    "kp:remove": "node scripts/knowledge-planet.mjs remove-point",
+    "kp:redistribute": "node scripts/knowledge-planet.mjs redistribute",
     "convert:seq2seq": "node scripts/convert-seq2seq.mjs",
-    "predev": "npm run build:learning-modules",
-    "prebuild": "npm run build:learning-modules",
+    "predev": "npm run build:learning-modules && npm run sync:knowledge-planet",
+    "prebuild": "npm run build:learning-modules && npm run sync:knowledge-planet",
     "dev": "vitepress dev docs",
     "build": "vitepress build docs",
     "build:pages": "GITHUB_REPOSITORY=YutianLiao/personal-homepage vitepress build docs",
@@ -23,9 +27,8 @@
     "vitepress-plugin-mermaid": "^2.0.17"
   },
   "dependencies": {
-    "3d-force-graph": "^1.80.0",
     "js-tiktoken": "^1.0.21",
-    "three": "^0.170.0",
-    "three-spritetext": "^1.10.0"
+    "katex": "^0.17.0",
+    "three": "^0.185.1"
   }
 }

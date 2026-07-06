@@ -21,7 +21,7 @@
         </div>
       </section>
 
-      <section class="tokenizer-demo__panel">
+      <section v-if="currentModule" class="tokenizer-demo__panel">
         <header class="tokenizer-demo__algo-head">
           <h3 class="tokenizer-demo__panel-title">{{ currentModule.meta.name }}</h3>
           <span class="tokenizer-demo__badge" v-html="currentModule.meta.complexity" />
@@ -43,8 +43,8 @@
           <label class="tokenizer-demo__field">
             <span>算法</span>
             <select v-model="algorithmId">
-              <option v-for="mod in TOKENIZER_MODULES" :key="mod.meta.id" :value="mod.meta.id">
-                {{ mod.meta.name }}
+              <option v-for="mod in TOKENIZER_META" :key="mod.id" :value="mod.id">
+                {{ mod.name }}
               </option>
             </select>
           </label>
@@ -165,11 +165,10 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import type { BpeEncodingId, Token, TokenKind } from "./tokenizer/types";
+import type { BpeEncodingId, Token, TokenKind, TokenizerModule } from "./tokenizer/types";
 import {
-  TOKENIZER_MODULES,
-  getTokenizerById,
-  setBpeEncoding
+  TOKENIZER_META,
+  loadTokenizerModule
 } from "./tokenizer/registry";
 import {
   SAMPLE_TEXTS,
@@ -181,15 +180,15 @@ import {
 } from "./tokenizer/utils";
 
 const inputText = ref(SAMPLE_TEXTS[0]);
-const algorithmId = ref("bpe");
+const algorithmId = ref("whitespace");
 const bpeEncodingId = ref<BpeEncodingId>("cl100k_base");
 const tokens = ref<Token[]>([]);
 const loading = ref(false);
 const error = ref("");
 const hoveredIndex = ref<number | null>(null);
 const ready = ref(false);
+const currentModule = ref<TokenizerModule | null>(null);
 
-const currentModule = computed(() => getTokenizerById(algorithmId.value)!);
 const showBpeEncoding = computed(() => algorithmId.value === "bpe");
 
 const stats = computed(() => {
@@ -252,15 +251,41 @@ function chipStyle(kind: TokenKind, index: number) {
   };
 }
 
+async function ensureBpeEncoding(id: BpeEncodingId) {
+  const { setBpeEncoding } = await import("./tokenizer/bpe");
+  await setBpeEncoding(id);
+}
+
+async function ensureModule() {
+  const mod = await loadTokenizerModule(algorithmId.value);
+  currentModule.value = mod ?? null;
+  return mod;
+}
+
 onMounted(async () => {
+  await ensureModule();
   ready.value = true;
   await runTokenize();
 });
 
-watch([inputText, algorithmId, bpeEncodingId], async () => {
+watch(algorithmId, async () => {
+  loading.value = true;
+  try {
+    await ensureModule();
+    if (!ready.value) return;
+    if (algorithmId.value === "bpe") {
+      await ensureBpeEncoding(bpeEncodingId.value);
+    }
+    await runTokenize();
+  } finally {
+    loading.value = false;
+  }
+});
+
+watch([inputText, bpeEncodingId], async () => {
   if (!ready.value) return;
   if (algorithmId.value === "bpe") {
-    await setBpeEncoding(bpeEncodingId.value);
+    await ensureBpeEncoding(bpeEncodingId.value);
   }
   await runTokenize();
 });

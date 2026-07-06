@@ -11,27 +11,30 @@ personal-homepage/
 │   ├── hello-agent/
 │   └── cs336/
 ├── demos/                    # Demo 内容源
+├── data/
+│   └── knowledge-planet.json    # Knowledge Planet 数据源（脚本读写）
+├── knowledge-planet/            # Knowledge Planet 说明文档
 ├── DESIGN.md                 # 站点视觉规范
 ├── scripts/
 │   ├── build-learning-modules.mjs
+│   ├── knowledge-planet.mjs     # 知识点增删 / 球面坐标维护
+│   ├── lib/knowledge-planet-utils.mjs
 │   └── convert-seq2seq.mjs
 └── docs/
     ├── .vitepress/
     │   ├── config.ts
     │   ├── learning-modules.json   # 模块注册表
     │   ├── demos.json              # Demo 注册表
-    │   ├── knowledge-map.json      # Knowledge Map 数据（手改）
     │   ├── learning-sidebars.json  # 自动生成
     │   ├── learning-manifests.json # 自动生成（Prev/Next）
     │   ├── transformLearningModule.ts
     │   └── theme/
     │       ├── tokens.css          # UI 超参数（字体、标题大小等）
     │       ├── custom.css
-    │       ├── components/KnowledgeMap.vue
     │       └── LearningModuleDoc.vue
     ├── interest-journey/       # Interest Journey 子页（手改 Markdown）
     │   ├── learning-archive.md
-    │   └── knowledge-map.md
+    │   └── knowledge-planet.md
     ├── hello-agent/          # 构建同步，勿手改
     └── cs336/                # 构建同步，勿手改
 ```
@@ -78,7 +81,9 @@ docs/.vitepress/theme/components/demos/
 
 与 Learning 差异：Demo 为交互式 Vue 组件，无 build 同步脚本。nav/sidebar 由 `demos.json` 驱动。
 
-新增 Demo：`demos.json` 注册 → `docs/demos/{id}/index.md` → `theme/index.ts` 注册组件。
+**按需加载**：`theme/index.ts` 以 `defineAsyncComponent` 注册 Demo 组件；算法模块与重资源（BPE `js-tiktoken/lite` + 单 rank、WordPiece `bert-vocab.txt`）仅在用户进入 Demo 页并选用对应算法时加载。默认算法为轻量 `whitespace`，避免首屏拉取词表。
+
+新增 Demo：`demos.json` 注册 → `docs/demos/{id}/index.md` → `theme/index.ts` 异步注册组件。
 
 ## Interest Journey
 
@@ -87,30 +92,13 @@ Nav 下拉两项，路由前缀 `/interest-journey/`。两页均 `sidebar: false
 | 路由 | 文件 | 内容 |
 | --- | --- | --- |
 | `/interest-journey/learning-archive` | `docs/interest-journey/learning-archive.md` | 课程/书籍/链接索引；`pageClass: interest-journey-page` |
-| `/interest-journey/knowledge-map` | `docs/interest-journey/knowledge-map.md` | 全屏星丛（Constellation）知识图谱；`layout: page`、`pageClass: knowledge-map-page` |
+| `/interest-journey/knowledge-planet` | `docs/interest-journey/knowledge-planet.md` | 3D 知识星球；`pageClass: knowledge-planet-page` |
 
 **Learning Archive**：纯 Markdown，直接编辑 `learning-archive.md`。装饰图仅本页（`Layout.vue`）。
 
-**Knowledge Map**：三层数据 `domains` → `topics` → `entries`，结构在 `docs/.vitepress/knowledge-map.json`；每个知识点的正文与链接在 `docs/.vitepress/knowledge-letters/{domain}/{topic}/{id}.md`。依赖 `three` + `3d-force-graph`，仅客户端加载（`ClientOnly`）。视觉为深空星丛：引力核心（领域）、内轨恒星（子主题）、外轨星辰（知识点），缓慢公转，选中时星轨高亮。
+**Knowledge Planet**：三级结构（一级主题 → 二级主题 → 知识点）。数据 `data/knowledge-planet.json`，构建前同步至 `docs/public/data/knowledge-planet.json`。Vue + Three.js（异步加载）见 `theme/components/knowledge-planet/`。维护：`npm run kp:add` / `kp:remove` / `kp:redistribute`。文档：[`knowledge-planet/README.md`](knowledge-planet/README.md)（含页面功能、性能说明、Schema）。
 
-```
-theme/components/KnowledgeMap.vue
-theme/components/knowledge-map/
-├── ConstellationScene.vue          # 星丛画布容器
-├── useConstellationScene.ts        # 3d-force-graph 渲染与公转动画
-├── buildConstellationGraph.ts      # JSON → 轨道布局节点/边
-├── graphModel.ts                   # 共享类型与路径高亮
-├── ConstellationHud.vue            # 顶栏 + 搜索 + 图例
-├── ConstellationSelectionChips.vue # 多选芯片
-├── AppleLetter.vue                 # 知识点信件弹层
-├── letterRegistry.ts               # 构建时加载 .md 信件
-├── AddEntryForm.vue                # 添加知识点表单
-└── generateEntryJson.ts            # 生成 JSON + 信件模板
-```
-
-追加知识点：HUD「+ 添加」→ 生成 JSON 片段与 Markdown 模板 → 分别写入 `knowledge-map.json` 与 `knowledge-letters/` → commit & push。
-
-与 **Learning** 区别：Learning 是长文笔记 + 构建同步；Interest Journey 的 Archive 是资源列表，Map 是全屏星丛知识图谱。
+与 **Learning** 区别：Learning 是长文笔记 + 构建同步；Interest Journey 的 Archive 是资源列表。
 
 ## UI tokens
 
@@ -126,6 +114,8 @@ theme/components/knowledge-map/
 | --- | --- |
 | `npm run dev` | 开发 |
 | `npm run build:learning-modules` | 同步学习模块 |
+| `npm run sync:knowledge-planet` | 同步知识星球 JSON 至 public |
+| `npm run kp:add` / `kp:remove` / `kp:redistribute` | 维护知识点 |
 | `npm run convert:seq2seq` | HTML → `learning/hello-agent/02-attention/01-seq2seq-tutorial.md` |
 
 ## Agent 检查
@@ -133,8 +123,8 @@ theme/components/knowledge-map/
 - [ ] 学习模块内容只改 `learning/{module}/`，未手改 `docs/{module}/`
 - [ ] 新模块已写入 `learning-modules.json` 并执行构建
 - [ ] 新 Demo 已写入 `demos.json` 并注册组件
-- [ ] Knowledge Map 结构改 `knowledge-map.json`，信件内容改 `knowledge-letters/**/*.md`
 - [ ] Learning Archive 只改 `interest-journey/learning-archive.md`
+- [ ] Knowledge Planet 数据只改 `data/knowledge-planet.json`（用脚本增删），勿手改 `docs/public/data/`
 - [ ] `transformPageData` 在 `config.ts`
 - [ ] 公式用 `$`/`$$`，矩阵行分隔 `\\`
 - [ ] 图片放在分部 `assets/`
@@ -145,9 +135,9 @@ theme/components/knowledge-map/
 | --- | --- |
 | 模块注册 | `docs/.vitepress/learning-modules.json` |
 | Demo 注册 | `docs/.vitepress/demos.json` |
-| Knowledge Map 数据 | `docs/.vitepress/knowledge-map.json` |
-| Knowledge Map 信件 | `docs/.vitepress/knowledge-letters/**/*.md` |
 | Interest Journey 页面 | `docs/interest-journey/*.md` |
+| Knowledge Planet 数据 | `data/knowledge-planet.json` |
+| Knowledge Planet 组件 | `docs/.vitepress/theme/components/knowledge-planet/` |
 | UI 超参数 | `docs/.vitepress/theme/tokens.css` |
 | 站点配置 | `docs/.vitepress/config.ts` |
 | 模块页面数据 | `docs/.vitepress/transformLearningModule.ts` |
