@@ -42,8 +42,8 @@ export async function setBpeEncoding(
     const [{ Tiktoken }, rankMod] = await Promise.all([litePromise, loadRank(id)]);
     window.clearInterval(timer);
     report(onProgress, { progress: 90, message: "正在初始化编码器…" });
-    const rank = rankMod.default;
-    encoding = new Tiktoken(rank.bpe_ranks, rank.special_tokens, rank.pat_str);
+    const rank = rankMod.default ?? rankMod;
+    encoding = new Tiktoken(rank);
     currentEncodingId = id;
     report(onProgress, { progress: 100, message: "词表加载完成" });
   } catch (error) {
