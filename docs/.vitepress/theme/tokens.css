@@ -42,6 +42,8 @@
   /* ── Fonts (Latin Source + CJK Noto) ── */
   --site-serif: "Source Serif 4", "Noto Serif SC", "Songti SC", serif;
   --site-sans: "Source Sans 3", "Noto Sans SC", "PingFang SC", system-ui, sans-serif;
+  --site-display-font: "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Marker Felt", cursive;
+  --site-display-size: clamp(1.2rem, 2.35vw, 1.55rem);
   --site-body-size: var(--fs-base);
   --site-line-height: 1.72;
   --site-measure: 68ch;
@@ -114,7 +116,7 @@
   --demo-panel-gap: var(--site-panel-gap);
   --demo-panel-padding: var(--site-panel-padding);
   --demo-panel-radius: var(--site-panel-radius);
-  --demo-top-offset: var(--space-10);
+  --demo-top-offset: 1.25rem;
   --demo-chip-gap: var(--space-2);
   --demo-chip-radius: 3px;
   --demo-chip-padding: 0.28rem 0.48rem;
@@ -125,6 +127,11 @@
   --demo-doc-section-size: 0.9375rem;
   --demo-doc-body-size: 0.9375rem;
   --demo-doc-line-height: 1.68;
+
+  /* ── Sudoku Lab layout (3-column: hall | board | challenge) ── */
+  --sudoku-rail-col: minmax(0, 1fr);
+  --sudoku-board-col: minmax(0, 1.55fr);
+  --sudoku-info-col: minmax(0, 0.65fr);
 
   /* ── Token chip palette ── */
   --demo-token-color-0: var(--a-500);

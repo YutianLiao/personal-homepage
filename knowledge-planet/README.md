@@ -10,7 +10,7 @@
 
 | 区域 | 内容 |
 | --- | --- |
-| 左栏 | 在轨知识点计数、熟悉度图例、搜索、主题分布 TOP3、KaTeX 公式拾遗 |
+| 左栏 | 在轨知识点计数、熟悉度图例、搜索、主题分布 TOP5、KaTeX 公式拾遗 |
 | 中间 | Three.js 3D 球体：知识点光晕、球面弧线连线、四条外环星轨、远景星尘、大气壳 |
 | 右栏 | 熟悉度 Top K 列表（动态 K） |
 | 交互 | 拖拽旋转；点击知识点弹出详情；搜索高亮同主题连线 |
@@ -124,7 +124,7 @@ npm run sync:knowledge-planet
 | 星轨（球外正圆环） | `sphere/createOrbits.ts`、`sphere/constants.ts` |
 | 知识点光晕 | `sphere/createNodes.ts`、`sphere/glowTexture.ts` |
 | 球面连线 | `sphere/createEdges.ts` |
-| 左栏 TOP3 / 公式 | `KnowledgeLeftFill.vue` |
+| 左栏 TOP5 / 公式 | `KnowledgeLeftFill.vue`（TOP5 条目均分面板高度，避免底部空白） |
 | 图例 / 搜索 | `KnowledgeLegend.vue`、`KnowledgeSearch.vue` |
 | 点击详情 | `KnowledgePointDetail.vue` |
 | 页面壳 | `docs/interest-journey/knowledge-planet.md` |

@@ -22,5 +22,5 @@
 
 ## Contact
 
-- GitHub: [github.com](https://github.com/)
+- GitHub: [github.com/YutianLiao/personal-homepage](https://github.com/YutianLiao/personal-homepage)
 - Email: your.name@example.com

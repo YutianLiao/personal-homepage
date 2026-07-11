@@ -1,0 +1,63 @@
+{
+  "speedRecords": [
+    {
+      "id": "wspc-2018-wang",
+      "label": "世锦赛最快单题",
+      "timeMs": 54440,
+      "person": "王诗瑶",
+      "country": "China",
+      "year": 2018,
+      "event": "World Sudoku & Puzzle Championship",
+      "location": "Prague",
+      "note": "Competition-level classic 9×9"
+    },
+    {
+      "id": "guinness-very-easy",
+      "label": "吉尼斯 Very Easy",
+      "timeMs": 83930,
+      "person": "Thomas Snyder",
+      "country": "USA",
+      "year": 2006,
+      "event": "Guinness World Records",
+      "location": "Washington DC",
+      "note": "Very Easy category"
+    },
+    {
+      "id": "guinness-easy",
+      "label": "吉尼斯 Easy",
+      "timeMs": 128530,
+      "person": "Thomas Snyder",
+      "country": "USA",
+      "year": 2006,
+      "event": "Guinness World Records",
+      "location": "Washington DC",
+      "note": "Easy category"
+    }
+  ],
+  "benchmarkId": "wspc-2018-wang",
+  "champions": [
+    { "year": 2025, "location": "Eger, Hungary", "champion": "Dai Tantan", "country": "China", "team": "China" },
+    { "year": 2024, "location": "Beijing, China", "champion": "Ming Letian", "country": "China", "team": "China" },
+    { "year": 2023, "location": "Toronto, Canada", "champion": "Dai Tantan", "country": "China", "team": "Japan" },
+    { "year": 2022, "location": "Krakow, Poland", "champion": "Tiit Vunk", "country": "Estonia", "team": "Czech Republic" },
+    { "year": 2019, "location": "Kirchheim, Germany", "champion": "Ken Endo", "country": "Japan", "team": "China" },
+    { "year": 2018, "location": "Prague, Czech Republic", "champion": "Kota Morinishi", "country": "Japan", "team": "Japan" },
+    { "year": 2017, "location": "Bangalore, India", "champion": "Kota Morinishi", "country": "Japan", "team": "China" },
+    { "year": 2016, "location": "Senec, Slovakia", "champion": "Tiit Vunk", "country": "Estonia", "team": "Czech Republic" },
+    { "year": 2015, "location": "Sofia, Bulgaria", "champion": "Kota Morinishi", "country": "Japan", "team": "Japan" },
+    { "year": 2014, "location": "London, UK", "champion": "Kota Morinishi", "country": "Japan", "team": "Japan" },
+    { "year": 2013, "location": "Beijing, China", "champion": "Jin Ce", "country": "China", "team": "China" },
+    { "year": 2012, "location": "Kraljevica, Croatia", "champion": "Jan Mrozowski", "country": "Poland", "team": "Japan" },
+    { "year": 2011, "location": "Eger, Hungary", "champion": "Thomas Snyder", "country": "USA", "team": "Germany" },
+    { "year": 2010, "location": "Philadelphia, USA", "champion": "Jan Mrozowski", "country": "Poland", "team": "Germany" },
+    { "year": 2009, "location": "Zilina, Slovakia", "champion": "Jan Mrozowski", "country": "Poland", "team": "Slovakia" },
+    { "year": 2008, "location": "Goa, India", "champion": "Thomas Snyder", "country": "USA", "team": "Czech Republic" },
+    { "year": 2007, "location": "Prague, Czech Republic", "champion": "Thomas Snyder", "country": "USA", "team": "Japan" },
+    { "year": 2006, "location": "Lucca, Italy", "champion": "Jana Tylová", "country": "Czech Republic", "team": "—" }
+  ],
+  "notes": [
+    "World Sudoku Championship (WSC) organized by the World Puzzle Federation since 2006.",
+    "Kota Morinishi (Japan) holds the most individual titles (4).",
+    "2020–2021 events were cancelled / disrupted by COVID-19."
+  ]
+}

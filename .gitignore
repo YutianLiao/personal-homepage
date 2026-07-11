@@ -1,5 +1,6 @@
 node_modules
 docs/.vitepress/dist
 docs/.vitepress/cache
+scripts/.cache
 .DS_Store
 .vercel

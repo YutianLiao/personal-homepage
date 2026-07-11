@@ -96,7 +96,7 @@ export default withMermaid(
           }
         ]
       },
-      socialLinks: [{ icon: "github", link: "https://github.com/" }],
+      socialLinks: [{ icon: "github", link: "https://github.com/YutianLiao/personal-homepage" }],
       search: {
         provider: "local"
       },

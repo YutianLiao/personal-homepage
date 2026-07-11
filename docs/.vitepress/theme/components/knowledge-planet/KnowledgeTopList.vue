@@ -28,7 +28,7 @@ const { k, topItems } = useTopK(listRef, sorted);
           v-for="(item, index) in topItems"
           :key="item.id"
           class="km-top-list__item"
-          :style="{ minHeight: `${TOP_K_ITEM_HEIGHT}px` }"
+          :style="{ minHeight: `${TOP_K_ITEM_HEIGHT}px`, boxSizing: 'border-box' }"
         >
           <span class="km-top-list__rank">{{ index + 1 }}</span>
           <div class="km-top-list__meta">

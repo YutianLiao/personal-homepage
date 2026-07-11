@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "total": 5200,
+  "generatedAt": "2026-07-09T18:57:40.724Z",
+  "sources": [
+    {
+      "id": "sudoku-exchange",
+      "label": "Sudoku Exchange",
+      "license": "Public Domain",
+      "url": "https://github.com/grantm/sudoku-exchange-puzzle-bank"
+    },
+    {
+      "id": "hisudoku",
+      "label": "Hi Sudoku",
+      "license": "See upstream repository",
+      "url": "https://github.com/HiSudoku/PuzzleLibrary"
+    }
+  ],
+  "difficulties": {
+    "easy": 869,
+    "medium": 3166,
+    "hard": 702,
+    "expert": 463
+  },
+  "shards": {
+    "easy": "puzzles-easy.json",
+    "medium": "puzzles-medium.json",
+    "hard": "puzzles-hard.json",
+    "expert": "puzzles-expert.json"
+  }
+}

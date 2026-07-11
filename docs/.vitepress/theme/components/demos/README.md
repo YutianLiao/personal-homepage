@@ -21,4 +21,18 @@
 每个算法：`meta`、`tokenize()`、`init?()`、`Explanation.vue`（含 References）。  
 注册：`registry.ts` → `TOKENIZER_META`（下拉元数据）+ `loadTokenizerModule(id)`（按需加载完整模块）。
 
-左侧固定说明与 UI 文案在 `TokenizerDemo.vue`。
+主界面为工作台布局：算法 / 输入 / Token 输出三卡片 + 右侧统计与详情。说明文案在 `TokenizerDemo.vue`。
+
+## 数独（Sudoku Lab）
+
+**内容编辑地图见仓库根目录 [`demos/sudoku/README.md`](../../../../../../demos/sudoku/README.md)。**
+
+目录：`theme/components/demos/sudoku/`（`DemoSudokuLoader.vue` 为异步入口包装）
+
+题库由 `npm run prepare:sudoku` 生成至 `theme/data/sudoku/`。进行中对局仅内存。
+
+**持久化**：
+
+- `sessionStorage`：密码门禁
+- `localStorage`：最快用时、完成历史、存储模式
+- `indexedDB` + File System Access API：可选文件同步（见 `sudoku-storage.ts`、`SudokuHistory.vue`）

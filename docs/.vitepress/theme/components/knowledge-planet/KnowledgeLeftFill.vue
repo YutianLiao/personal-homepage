@@ -53,14 +53,14 @@ const topGroups = computed(() => {
       avg: Math.round(g.sum / g.count)
     }))
     .sort((a, b) => b.share - a.share || b.avg - a.avg)
-    .slice(0, 3);
+    .slice(0, 5);
 });
 </script>
 
 <template>
   <div class="km-left-fill">
-    <section class="km-topics site-panel" aria-label="主题分布 TOP3">
-      <p class="km-topics__label">主题分布 TOP3</p>
+    <section class="km-topics site-panel" aria-label="主题分布 TOP5">
+      <p class="km-topics__label">主题分布 TOP5</p>
       <ul class="km-topics__list">
         <li v-for="(g, i) in topGroups" :key="g.id" class="km-topics__item">
           <div class="km-topics__row">
@@ -101,7 +101,7 @@ const topGroups = computed(() => {
 }
 
 .km-topics {
-  flex: 1;
+  flex: 1 1 0;
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -114,7 +114,8 @@ const topGroups = computed(() => {
 
 .km-topics__label,
 .km-formulas__label {
-  margin: 0 0 0.4rem;
+  margin: 0 0 0.45rem;
+  flex-shrink: 0;
   font-family: var(--site-sans);
   font-size: 0.65rem;
   font-weight: 600;
@@ -129,15 +130,23 @@ const topGroups = computed(() => {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  flex: 1;
-  justify-content: space-evenly;
+  gap: 0;
+  flex: 1 1 0;
+  min-height: 0;
+  /* 5 条均分面板高度，避免顶对齐后底部大块空白 */
+  justify-content: space-between;
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .km-topics__item {
   display: flex;
+  flex: 1 1 0;
   flex-direction: column;
-  gap: 0.2rem;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 2.35rem;
+  padding: 0.15rem 0;
 }
 
 .km-topics__row {
@@ -161,8 +170,8 @@ const topGroups = computed(() => {
 
 .km-topics__bar-track {
   display: block;
-  height: 2px;
-  border-radius: 1px;
+  height: 3px;
+  border-radius: 1.5px;
   background: rgba(80, 110, 150, 0.22);
   overflow: hidden;
 }
@@ -185,6 +194,14 @@ const topGroups = computed(() => {
 
 .km-topics__bar--tone-2 {
   background: linear-gradient(90deg, #ffb45a 0%, #c49bff 100%);
+}
+
+.km-topics__bar--tone-3 {
+  background: linear-gradient(90deg, #6ec4ff 0%, #9b8aff 100%);
+}
+
+.km-topics__bar--tone-4 {
+  background: linear-gradient(90deg, #5ee0c0 0%, #ff9a62 100%);
 }
 
 .km-formulas {

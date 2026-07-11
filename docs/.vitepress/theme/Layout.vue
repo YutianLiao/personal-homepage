@@ -4,6 +4,9 @@ import { useRoute, useData, withBase } from "vitepress";
 import DefaultLayout from "vitepress/dist/client/theme-default/Layout.vue";
 import HomeMathPiece from "./components/HomeMathPiece.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
+import HomeHeroSketchEnv from "./components/HomeHeroSketchEnv.vue";
+import DocAsideScientistSketch from "./components/DocAsideScientistSketch.vue";
+import SiteScaleViewport from "./components/SiteScaleViewport.vue";
 
 type DecorKey = "journey" | "misc";
 
@@ -32,11 +35,6 @@ const decorMode = computed((): DecorKey | null => {
   return null;
 });
 
-const heroName = computed(() => {
-  const h = frontmatter.value.hero as { name?: string } | undefined;
-  return h?.name;
-});
-
 const heroText = computed(() => {
   const h = frontmatter.value.hero as { text?: string } | undefined;
   return h?.text;
@@ -54,32 +52,30 @@ function hideBroken(e: Event) {
 </script>
 
 <template>
+  <SiteScaleViewport>
   <DefaultLayout>
     <template v-if="isHome" #home-hero-info>
-      <h1 class="heading vp-hero-with-mascot">
-        <div class="vp-hero-top-row">
-          <div class="vp-hero-titles">
-            <span v-if="heroName" class="name clip" v-html="heroName"></span>
-            <span v-if="heroText" class="text" v-html="heroText"></span>
-          </div>
-          <figure class="vp-hero-mascot-wrap">
-            <img
-              class="vp-home-hero-mascot"
-              :src="withBase('/decorative/home-hero.png')"
-              alt=""
-              loading="lazy"
-              @error="hideBroken"
-            />
-          </figure>
-        </div>
-      </h1>
-      <p v-if="heroTagline" class="tagline vp-hero-tagline-comment">
-        <span class="vp-hero-comment-pipe" aria-hidden="true">|</span>
-        <span v-html="heroTagline"></span>
-      </p>
-      <p class="vp-hero-math-euler" aria-hidden="true">
-        <span class="vp-hero-math-formula">e<sup>i&pi;</sup> + 1 = 0</span>
-      </p>
+      <HomeHeroSketchEnv />
+      <div class="vp-hero-copy">
+        <h1 class="heading vp-hero-with-mascot">
+          <span v-if="heroText" class="text vp-hero-math-line" v-html="heroText"></span>
+        </h1>
+        <img
+          class="vp-hero-flora"
+          :src="withBase('/decorative/hero-sketch/flora.png')"
+          alt=""
+          aria-hidden="true"
+          draggable="false"
+          @error="hideBroken"
+        />
+        <p v-if="heroTagline" class="tagline vp-hero-tagline-comment">
+          <span class="vp-hero-comment-pipe" aria-hidden="true">|</span>
+          <span v-html="heroTagline"></span>
+        </p>
+        <p class="vp-hero-math-euler" aria-hidden="true">
+          <span class="vp-hero-math-formula">e<sup>i&pi;</sup> + 1 = 0</span>
+        </p>
+      </div>
     </template>
 
     <template v-if="isHome" #home-hero-actions-after>
@@ -88,12 +84,15 @@ function hideBroken(e: Event) {
       </div>
     </template>
 
-    <!-- Replace default-home features grid: interactive Biography + same layout (built-in VPFeatures stays hidden via CSS). -->
     <template v-if="isHome" #home-features-before>
       <div class="home-features-custom">
         <HomeMathPiece name="formulas" />
         <HomeVPHomeFeatures />
       </div>
+    </template>
+
+    <template #aside-outline-after>
+      <DocAsideScientistSketch />
     </template>
 
     <template #layout-bottom>
@@ -129,4 +128,5 @@ function hideBroken(e: Event) {
       </div>
     </template>
   </DefaultLayout>
+  </SiteScaleViewport>
 </template>

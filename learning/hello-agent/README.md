@@ -12,6 +12,4 @@ learning/hello-agent/
 
 分部约定：`NN-slug/part.json` + `NN-slug/NN-标题.md` + `assets/`。
 
-```bash
-npm run convert:seq2seq   # 重生成 02-attention/01-seq2seq-tutorial.md
-```
+`02-attention/01-seq2seq-tutorial.md` 已迁入本仓库；历史 HTML 转换工具见 `scripts/archive/convert-seq2seq.mjs`（已停用）。

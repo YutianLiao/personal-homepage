@@ -1,0 +1,224 @@
+/**
+ * Scale shell companion.
+ * 1) Neutralize structure-breaking breakpoints (real viewport ≠ stage width).
+ * 2) Correct position:fixed heights under CSS zoom/transform.
+ * 3) Keep top nav geometry identical on every page (ignore has-sidebar).
+ * 4) Treat left sidebar as an independent content rail under the nav.
+ */
+
+:root.site-scale-root {
+  overflow-x: hidden;
+  --vp-sidebar-width: 300px;
+}
+
+.site-scale-stage {
+  position: relative;
+}
+
+.site-scale-stage .Layout {
+  min-height: var(--site-stage-min-h, 100vh);
+}
+
+/* ── VitePress chrome: desktop nav at all real viewport widths ── */
+.site-scale-stage .VPNavBarMenu {
+  display: flex !important;
+}
+
+.site-scale-stage .VPNavBarHamburger {
+  display: none !important;
+}
+
+.site-scale-stage .VPNavScreen {
+  display: none !important;
+}
+
+/*
+ * Top nav: same geometry on Home / CV / Blog / Demo / Learning.
+ * Do NOT reserve a sidebar-width column for the logo — that causes the jump.
+ * Keep the same wrapper gutters as non-sidebar pages (custom.css).
+ */
+.site-scale-stage .VPNavBar.has-sidebar .wrapper {
+  padding-left: var(--site-gutter) !important;
+  padding-right: var(--site-gutter) !important;
+}
+
+.site-scale-stage .VPNavBar.has-sidebar .container {
+  max-width: none !important;
+  width: 100% !important;
+  margin-inline: 0 !important;
+}
+
+.site-scale-stage .VPNavBar.has-sidebar .title {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  width: auto !important;
+  height: calc(var(--vp-nav-height) - 1px) !important;
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.site-scale-stage .VPNavBar.has-sidebar .content {
+  position: relative !important;
+  z-index: 1 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.site-scale-stage .VPNavBar.has-sidebar .divider {
+  padding-left: 0 !important;
+}
+
+/*
+ * Left sidebar: independent rail under the nav (not an extension of the logo column).
+ * Fixed width + comfortable padding; right hairline separates from main content.
+ */
+.site-scale-stage .VPSidebar {
+  width: var(--vp-sidebar-width) !important;
+  max-width: 100% !important;
+  padding: calc(var(--vp-nav-height) + 12px) 28px 96px 40px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateX(0) !important;
+  box-shadow: none !important;
+  top: 0 !important;
+  bottom: auto !important;
+  left: 0 !important;
+  height: var(--site-stage-min-h, 100vh) !important;
+  max-height: var(--site-stage-min-h, 100vh) !important;
+  border-right: 1px solid var(--site-border, rgba(28, 25, 23, 0.09)) !important;
+  box-sizing: border-box !important;
+}
+
+.site-scale-stage .VPLocalNav .menu {
+  display: none !important;
+}
+
+.site-scale-stage .VPLocalNav.empty {
+  display: none !important;
+}
+
+.site-scale-stage .VPLocalNav.has-sidebar {
+  padding-left: var(--vp-sidebar-width) !important;
+}
+
+/* Content still offsets for the rail; nav does not. */
+.site-scale-stage .VPContent.has-sidebar {
+  padding-left: var(--vp-sidebar-width) !important;
+}
+
+/* Doc right outline: viewport-height correction under zoom */
+.site-scale-stage .aside-container {
+  height: var(--site-stage-min-h, 100vh) !important;
+  max-height: var(--site-stage-min-h, 100vh) !important;
+}
+
+.site-scale-stage .aside-content {
+  min-height: calc(
+    var(--site-stage-min-h, 100vh) - (var(--vp-nav-height, 64px) + 48px)
+  ) !important;
+}
+
+/* Home: keep desktop hero / timeline columns */
+.site-scale-stage .VPHero {
+  padding-top: calc(var(--vp-nav-height, 64px) + 1.25rem) !important;
+}
+
+.site-scale-stage .VPHero .main {
+  overflow: visible !important;
+}
+
+.site-scale-stage .VPHome .home-timeline-column {
+  grid-template-columns: 10.5rem 1fr !important;
+}
+
+.site-scale-stage .Layout.demo-page .VPContent {
+  padding-top: calc(var(--vp-nav-height, 64px) + var(--demo-top-offset, 1.25rem)) !important;
+}
+
+/* Demo: keep workbench layouts (tokenizer stack, sudoku arena) */
+.site-scale-stage .tokenizer-demo {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.site-scale-stage .tokenizer-demo__workbench {
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem) !important;
+}
+
+.site-scale-stage .sudoku-demo--arena {
+  display: flex !important;
+  flex-direction: column !important;
+  max-width: min(36rem, 100%) !important;
+}
+
+.site-scale-stage .sudoku-demo--arena.sudoku-demo--lobby {
+  max-width: min(34rem, 100%) !important;
+}
+
+.site-scale-stage .tokenizer-explanation__pros-cons {
+  grid-template-columns: 1fr 1fr !important;
+}
+
+/* Misc gallery: keep 3 columns */
+.site-scale-stage .misc-family-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  max-width: none !important;
+}
+
+/*
+ * Knowledge Planet: same three-column values as the component, but height must
+ * be stage-min-h − nav so Brightest Stars is not clipped after zoom.
+ */
+.site-scale-stage .VPDoc.knowledge-planet-page {
+  min-height: var(--site-stage-min-h, 100vh);
+  padding: 0 !important;
+}
+
+.site-scale-stage .km-page {
+  position: fixed !important;
+  top: var(--vp-nav-height, 64px) !important;
+  right: 0 !important;
+  left: 0 !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: calc(var(--site-stage-min-h, 100vh) - var(--vp-nav-height, 64px)) !important;
+  max-height: calc(var(--site-stage-min-h, 100vh) - var(--vp-nav-height, 64px)) !important;
+  grid-template-columns: 236px 1fr minmax(220px, 18vw) !important;
+  overflow: hidden !important;
+}
+
+.site-scale-stage .km-page__left,
+.site-scale-stage .km-page__center,
+.site-scale-stage .km-page__right {
+  height: 100% !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+
+.site-scale-stage .km-page__left {
+  border-right: 1px solid rgba(255, 160, 100, 0.12) !important;
+  border-bottom: none !important;
+}
+
+.site-scale-stage .km-page__right {
+  border-left: 1px solid rgba(160, 130, 255, 0.14) !important;
+  border-top: none !important;
+  min-height: 0 !important;
+}
+
+/* transform fallback: sticky nav when zoom unavailable */
+.site-scale-stage--transform .VPNav {
+  position: sticky !important;
+  top: 0 !important;
+  z-index: var(--vp-z-index-nav);
+}
+
+.site-scale-stage--transform .VPSidebar,
+.site-scale-stage--transform .km-page {
+  position: absolute !important;
+}
+
+.site-scale-stage--transform .aside-container {
+  position: absolute !important;
+}

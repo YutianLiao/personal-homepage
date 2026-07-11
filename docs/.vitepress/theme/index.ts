@@ -5,6 +5,7 @@ import LearningModuleDoc from "./LearningModuleDoc.vue";
 import HomeMathPiece from "./components/HomeMathPiece.vue";
 import MiscFamilyGallery from "./components/MiscFamilyGallery.vue";
 import "./custom.css";
+import "./site-scale.css";
 
 export default {
   extends: DefaultTheme,
@@ -15,6 +16,12 @@ export default {
       "demo-tokenizer",
       defineAsyncComponent(
         () => import("./components/demos/DemoTokenizerLoader.vue")
+      )
+    );
+    app.component(
+      "demo-sudoku",
+      defineAsyncComponent(
+        () => import("./components/demos/DemoSudokuLoader.vue")
       )
     );
     app.component(

@@ -12,7 +12,7 @@ knowledge-planet/
 ├── KnowledgeNebulaBg.vue       # CSS 星云（冷暖对撞色）
 ├── KnowledgeLegend.vue         # 在轨计数 + 熟悉度图例
 ├── KnowledgeSearch.vue         # 搜索高亮
-├── KnowledgeLeftFill.vue         # TOP3 主题分布 + KaTeX 公式
+├── KnowledgeLeftFill.vue         # TOP5 主题分布（条目均分高度）+ KaTeX 公式
 ├── KnowledgeTopList.vue        # 熟悉度 Top K
 ├── KnowledgePointDetail.vue    # 点击知识点详情浮层
 ├── KnowledgeSphere.vue         # Three.js 主场景 + 交互

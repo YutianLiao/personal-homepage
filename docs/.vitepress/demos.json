@@ -6,6 +6,13 @@
       "route": "/demos/tokenizer/",
       "component": "demo-tokenizer",
       "sourceDir": "demos/tokenizer"
+    },
+    {
+      "id": "sudoku",
+      "title": "Sudoku Lab",
+      "route": "/demos/sudoku/",
+      "component": "demo-sudoku",
+      "sourceDir": "demos/sudoku"
     }
   ]
 }

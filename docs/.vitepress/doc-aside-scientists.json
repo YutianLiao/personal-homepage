@@ -1,0 +1,73 @@
+{
+  "scientists": {
+    "feynman": {
+      "name": "Richard Feynman",
+      "image": "/decorative/scientist-sketches/feynman.png"
+    },
+    "gauss": {
+      "name": "Carl Friedrich Gauss",
+      "image": "/decorative/scientist-sketches/gauss.png"
+    },
+    "hardy": {
+      "name": "G.H. Hardy",
+      "image": "/decorative/scientist-sketches/hardy.png"
+    },
+    "ramanujan": {
+      "name": "Srinivasa Ramanujan",
+      "image": "/decorative/scientist-sketches/ramanujan.png"
+    },
+    "lovelace": {
+      "name": "Ada Lovelace",
+      "image": "/decorative/scientist-sketches/lovelace.png"
+    },
+    "knuth": {
+      "name": "Donald Knuth",
+      "image": "/decorative/scientist-sketches/knuth.png"
+    },
+    "nash": {
+      "name": "John Nash",
+      "image": "/decorative/scientist-sketches/nash.png"
+    },
+    "hilbert": {
+      "name": "David Hilbert",
+      "image": "/decorative/scientist-sketches/hilbert.png"
+    },
+    "sagan": {
+      "name": "Carl Sagan",
+      "image": "/decorative/scientist-sketches/sagan.png"
+    },
+    "turing": {
+      "name": "Alan Turing",
+      "image": "/decorative/scientist-sketches/turing.png"
+    },
+    "shannon": {
+      "name": "Claude Shannon",
+      "image": "/decorative/scientist-sketches/shannon.png"
+    },
+    "rosenblatt": {
+      "name": "Frank Rosenblatt",
+      "image": "/decorative/scientist-sketches/rosenblatt.png"
+    },
+    "schmidhuber": {
+      "name": "Jürgen Schmidhuber",
+      "image": "/decorative/scientist-sketches/schmidhuber.png"
+    },
+    "hochreiter": {
+      "name": "Sepp Hochreiter",
+      "image": "/decorative/scientist-sketches/hochreiter.png"
+    },
+    "bahdanau": {
+      "name": "Dmitry Bahdanau",
+      "image": "/decorative/scientist-sketches/bahdanau.png"
+    }
+  },
+  "sections": [
+    { "prefix": "/interest-journey/learning-archive", "scientist": "hardy" },
+    { "prefix": "/hello-agent", "scientist": "turing" },
+    { "prefix": "/collections", "scientist": "ramanujan" },
+    { "prefix": "/miscellaneous", "scientist": "feynman" },
+    { "prefix": "/cs336", "scientist": "shannon" },
+    { "prefix": "/blog", "scientist": "ramanujan" },
+    { "prefix": "/cv", "scientist": "gauss" }
+  ]
+}
