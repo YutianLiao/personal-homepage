@@ -9,7 +9,21 @@
         <section class="tokenizer-demo__workspace-card tokenizer-demo__controls-card">
           <header class="tokenizer-demo__card-head">
             <h3 class="tokenizer-demo__card-title">算法</h3>
-            <span v-if="loading" class="tokenizer-demo__card-badge">加载词表中…</span>
+            <div v-if="vocabLoading" class="tokenizer-demo__vocab-load" role="status" aria-live="polite">
+              <span class="tokenizer-demo__vocab-load-label">{{ vocabLoadLabel }}</span>
+              <div
+                class="tokenizer-demo__vocab-progress"
+                role="progressbar"
+                :aria-valuenow="vocabLoadProgress"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <div
+                  class="tokenizer-demo__vocab-progress-bar"
+                  :style="{ width: `${vocabLoadProgress}%` }"
+                />
+              </div>
+            </div>
           </header>
           <div class="tokenizer-demo__controls">
             <label class="tokenizer-demo__field tokenizer-demo__field--select">
@@ -34,7 +48,12 @@
                 </select>
               </div>
             </label>
-            <button type="button" class="tokenizer-demo__btn tokenizer-demo__btn--sample" @click="loadSample">
+            <button
+              type="button"
+              class="tokenizer-demo__btn tokenizer-demo__btn--sample"
+              :disabled="vocabLoading"
+              @click="loadSample"
+            >
               载入示例
             </button>
           </div>
@@ -53,6 +72,7 @@
               aria-label="输入文本"
               placeholder="输入任意文本，实时查看 token 切分结果…"
               spellcheck="false"
+              :disabled="vocabLoading"
             />
           </label>
         </section>
@@ -188,7 +208,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, ref, watch } from "vue";
-import type { BpeEncodingId, Token, TokenKind, TokenizerModule } from "./tokenizer/types";
+import type { BpeEncodingId, Token, TokenKind, TokenizerModule, VocabLoadProgress } from "./tokenizer/types";
 import {
   TOKENIZER_META,
   loadTokenizerModule
@@ -206,11 +226,40 @@ const inputText = ref(SAMPLE_TEXTS[0]);
 const algorithmId = ref("whitespace");
 const bpeEncodingId = ref<BpeEncodingId>("cl100k_base");
 const tokens = ref<Token[]>([]);
-const loading = ref(false);
+const vocabLoading = ref(false);
+const vocabLoadLabel = ref("");
+const vocabLoadProgress = ref(0);
 const error = ref("");
 const hoveredIndex = ref<number | null>(null);
 const ready = ref(false);
 const currentModule = ref<TokenizerModule | null>(null);
+
+let tokenizeRunId = 0;
+
+function handleVocabProgress(progress: VocabLoadProgress) {
+  vocabLoading.value = true;
+  vocabLoadLabel.value = progress.message;
+  vocabLoadProgress.value = progress.progress;
+}
+
+function clearVocabLoading() {
+  vocabLoading.value = false;
+  vocabLoadLabel.value = "";
+  vocabLoadProgress.value = 0;
+}
+
+function buildInitOptions() {
+  const onVocabProgress = (progress: VocabLoadProgress) => {
+    handleVocabProgress(progress);
+  };
+  if (algorithmId.value === "bpe") {
+    return { bpeEncodingId: bpeEncodingId.value, onVocabProgress };
+  }
+  if (algorithmId.value === "wordpiece") {
+    return { onVocabProgress };
+  }
+  return undefined;
+}
 
 const showBpeEncoding = computed(() => algorithmId.value === "bpe");
 
@@ -245,16 +294,28 @@ const legendKinds = computed(() => {
 async function runTokenize() {
   const mod = currentModule.value;
   if (!mod) return;
-  loading.value = true;
+
+  const runId = ++tokenizeRunId;
+  const text = inputText.value;
   error.value = "";
+
   try {
-    if (mod.init) await mod.init();
-    tokens.value = await mod.tokenize(inputText.value);
+    if (mod.init) {
+      await mod.init(buildInitOptions());
+    }
+    if (runId !== tokenizeRunId) return;
+
+    const result = await mod.tokenize(text);
+    if (runId !== tokenizeRunId) return;
+    tokens.value = result;
   } catch (e) {
+    if (runId !== tokenizeRunId) return;
     error.value = e instanceof Error ? e.message : String(e);
     tokens.value = [];
   } finally {
-    loading.value = false;
+    if (runId === tokenizeRunId) {
+      clearVocabLoading();
+    }
   }
 }
 
@@ -274,11 +335,6 @@ function chipStyle(kind: TokenKind, index: number) {
   };
 }
 
-async function ensureBpeEncoding(id: BpeEncodingId) {
-  const { setBpeEncoding } = await import("./tokenizer/bpe");
-  await setBpeEncoding(id);
-}
-
 async function ensureModule() {
   const mod = await loadTokenizerModule(algorithmId.value);
   currentModule.value = mod ?? null;
@@ -292,24 +348,14 @@ onMounted(async () => {
 });
 
 watch(algorithmId, async () => {
-  loading.value = true;
-  try {
-    await ensureModule();
-    if (!ready.value) return;
-    if (algorithmId.value === "bpe") {
-      await ensureBpeEncoding(bpeEncodingId.value);
-    }
-    await runTokenize();
-  } finally {
-    loading.value = false;
-  }
+  tokenizeRunId += 1;
+  await ensureModule();
+  if (!ready.value) return;
+  await runTokenize();
 });
 
 watch([inputText, bpeEncodingId], async () => {
   if (!ready.value) return;
-  if (algorithmId.value === "bpe") {
-    await ensureBpeEncoding(bpeEncodingId.value);
-  }
   await runTokenize();
 });
 </script>

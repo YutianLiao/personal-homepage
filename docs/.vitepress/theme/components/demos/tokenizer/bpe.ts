@@ -1,5 +1,5 @@
 import type { Tiktoken } from "js-tiktoken/lite";
-import type { BpeEncodingId, Token, TokenizerModule } from "./types";
+import type { BpeEncodingId, Token, TokenizerModule, VocabLoadProgress } from "./types";
 import { formatFromBytes } from "./utils";
 import BpeExplanation from "./BpeExplanation.vue";
 
@@ -17,15 +17,39 @@ async function loadRank(id: BpeEncodingId) {
   return import("js-tiktoken/ranks/o200k_base");
 }
 
-export async function setBpeEncoding(id: BpeEncodingId): Promise<void> {
+function report(onProgress: ((p: VocabLoadProgress) => void) | undefined, progress: VocabLoadProgress) {
+  onProgress?.(progress);
+}
+
+export async function setBpeEncoding(
+  id: BpeEncodingId,
+  onProgress?: (progress: VocabLoadProgress) => void
+): Promise<void> {
   if (encoding && currentEncodingId === id) return;
-  const [{ Tiktoken }, rankMod] = await Promise.all([
-    import("js-tiktoken/lite"),
-    loadRank(id)
-  ]);
-  const rank = rankMod.default;
-  encoding = new Tiktoken(rank.bpe_ranks, rank.special_tokens, rank.pat_str);
-  currentEncodingId = id;
+
+  report(onProgress, { progress: 8, message: "正在加载 BPE 引擎…" });
+
+  const litePromise = import("js-tiktoken/lite");
+  report(onProgress, { progress: 18, message: `正在下载词表 ${id}…` });
+
+  let simulated = 18;
+  const timer = window.setInterval(() => {
+    simulated = Math.min(simulated + 4, 82);
+    report(onProgress, { progress: simulated, message: `正在下载词表 ${id}…` });
+  }, 140);
+
+  try {
+    const [{ Tiktoken }, rankMod] = await Promise.all([litePromise, loadRank(id)]);
+    window.clearInterval(timer);
+    report(onProgress, { progress: 90, message: "正在初始化编码器…" });
+    const rank = rankMod.default;
+    encoding = new Tiktoken(rank.bpe_ranks, rank.special_tokens, rank.pat_str);
+    currentEncodingId = id;
+    report(onProgress, { progress: 100, message: "词表加载完成" });
+  } catch (error) {
+    window.clearInterval(timer);
+    throw error;
+  }
 }
 
 function tokenBytes(enc: Tiktoken, id: number): number[] {
@@ -52,8 +76,9 @@ export const bpeTokenizer: TokenizerModule = {
       { label: "OpenAI tiktoken", url: "https://github.com/openai/tiktoken" }
     ]
   },
-  async init() {
-    await setBpeEncoding(currentEncodingId);
+  async init(options) {
+    const id = options?.bpeEncodingId ?? currentEncodingId;
+    await setBpeEncoding(id, options?.onVocabProgress);
   },
   tokenize(text: string): Token[] {
     if (!encoding) throw new Error("BPE encoding not initialized");

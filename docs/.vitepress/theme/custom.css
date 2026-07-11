@@ -1375,7 +1375,41 @@ body {
   padding: 0.18rem 0.5rem;
   border-radius: 999px;
   background: var(--site-accent-soft);
+}
+
+.tokenizer-demo__vocab-load {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  min-width: min(14rem, 42vw);
+}
+
+.tokenizer-demo__vocab-load-label {
+  font-family: var(--vp-font-family-mono);
+  font-size: var(--fs-xs);
+  font-weight: 600;
   color: var(--site-accent);
+  white-space: nowrap;
+}
+
+.tokenizer-demo__vocab-progress {
+  width: 100%;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--site-border) 55%, transparent);
+  overflow: hidden;
+}
+
+.tokenizer-demo__vocab-progress-bar {
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    var(--site-accent),
+    color-mix(in srgb, var(--site-accent) 70%, white)
+  );
+  transition: width 0.18s ease-out;
 }
 
 .tokenizer-demo__controls {
@@ -1515,6 +1549,17 @@ body {
   box-shadow:
     inset 0 1px 2px rgba(28, 25, 23, 0.04),
     0 0 0 3px var(--site-accent-soft);
+}
+
+.tokenizer-demo__textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.62;
+  background: color-mix(in srgb, var(--site-surface) 75%, var(--site-bg));
+}
+
+.tokenizer-demo__btn--sample:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
 }
 
 .tokenizer-demo__chips-panel {

@@ -24,11 +24,26 @@ export interface TokenizerMeta {
   refs?: TokenizerRef[];
 }
 
+export interface VocabLoadProgress {
+  /** 0–100 */
+  progress: number;
+  message: string;
+}
+
+export interface TokenizerInitOptions {
+  bpeEncodingId?: BpeEncodingId;
+  onVocabProgress?: (progress: VocabLoadProgress) => void;
+}
+
 export interface TokenizerModule {
   meta: TokenizerMeta;
   tokenize: (text: string) => Promise<Token[]> | Token[];
-  init?: () => Promise<void>;
+  init?: (options?: TokenizerInitOptions) => Promise<void>;
   Explanation: object;
 }
+
+/** Algorithms that fetch or import an external vocabulary before tokenizing. */
+export const VOCAB_TOKENIZER_IDS = ["bpe", "wordpiece"] as const;
+export type VocabTokenizerId = (typeof VOCAB_TOKENIZER_IDS)[number];
 
 export type BpeEncodingId = "cl100k_base" | "o200k_base";

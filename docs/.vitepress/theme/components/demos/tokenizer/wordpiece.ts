@@ -1,5 +1,5 @@
 import { withBase } from "vitepress";
-import type { Token, TokenizerModule } from "./types";
+import type { Token, TokenizerModule, VocabLoadProgress } from "./types";
 import WordpieceExplanation from "./WordpieceExplanation.vue";
 
 let vocabToId: Map<string, number> | null = null;
@@ -56,6 +56,50 @@ function wordpieceOne(word: string): string[] {
   return pieces;
 }
 
+async function fetchVocabText(
+  url: string,
+  onProgress?: (progress: VocabLoadProgress) => void
+): Promise<string> {
+  const report = (progress: VocabLoadProgress) => onProgress?.(progress);
+
+  report({ progress: 5, message: "正在连接 BERT 词表…" });
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`Failed to load BERT vocab: ${res.status}`);
+
+  const contentLength = Number(res.headers.get("Content-Length") ?? 0);
+  if (!res.body || !contentLength) {
+    report({ progress: 40, message: "正在下载 BERT 词表…" });
+    const text = await res.text();
+    report({ progress: 85, message: "正在解析词表…" });
+    return text;
+  }
+
+  const reader = res.body.getReader();
+  const chunks: Uint8Array[] = [];
+  let received = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    chunks.push(value);
+    received += value.length;
+    const ratio = received / contentLength;
+    report({
+      progress: Math.round(12 + ratio * 68),
+      message: `正在下载 BERT 词表… ${Math.round(ratio * 100)}%`
+    });
+  }
+
+  report({ progress: 84, message: "正在解析词表…" });
+  const merged = new Uint8Array(received);
+  let offset = 0;
+  for (const chunk of chunks) {
+    merged.set(chunk, offset);
+    offset += chunk.length;
+  }
+  return new TextDecoder().decode(merged);
+}
+
 export const wordpieceTokenizer: TokenizerModule = {
   meta: {
     id: "wordpiece",
@@ -70,15 +114,14 @@ export const wordpieceTokenizer: TokenizerModule = {
       }
     ]
   },
-  async init() {
+  async init(options) {
     if (vocabToId) return;
     const url = withBase("/demos/tokenizer/bert-vocab.txt");
-    const res = await fetch(url);
-    if (!res.ok) throw new Error(`Failed to load BERT vocab: ${res.status}`);
-    const text = await res.text();
+    const text = await fetchVocabText(url, options?.onVocabProgress);
     const lines = text.split(/\r?\n/).filter(Boolean);
     idToToken = lines;
     vocabToId = new Map(lines.map((tok, i) => [tok, i]));
+    options?.onVocabProgress?.({ progress: 100, message: "词表加载完成" });
   },
   tokenize(text: string): Token[] {
     if (!vocabToId || !idToToken) throw new Error("WordPiece vocab not loaded");
