@@ -350,74 +350,6 @@ body {
   color: var(--site-text) !important;
 }
 
-.nav-mission-verse {
-  display: inline-flex;
-  align-items: center;
-  flex: 0 0 auto;
-  height: calc(var(--vp-nav-height) - 0.7rem);
-  margin-right: 1.1rem;
-  color: var(--site-text-muted);
-  opacity: 0.86;
-  transition: opacity 180ms ease;
-}
-
-.nav-mission-verse:hover {
-  opacity: 1;
-}
-
-.nav-mission-verse__scholar {
-  width: 2.55rem;
-  height: 3.45rem;
-  flex: 0 0 auto;
-  object-fit: contain;
-  object-position: center bottom;
-  filter: contrast(0.92) saturate(0.82);
-  mix-blend-mode: multiply;
-}
-
-.nav-mission-verse__quote {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 0.12rem;
-  margin-left: 0.25rem;
-  padding-left: 0.65rem;
-  border-left: 1px solid color-mix(in srgb, var(--site-accent) 34%, transparent);
-  font-family: "Noto Serif SC", "Songti SC", serif;
-  font-size: 0.585rem;
-  font-weight: 500;
-  letter-spacing: 0.07em;
-  line-height: 1.4;
-  white-space: nowrap;
-}
-
-.nav-mission-verse__line {
-  display: flex;
-  align-items: center;
-}
-
-.nav-mission-verse__line > span + span::before {
-  content: "";
-  display: inline-block;
-  width: 1px;
-  height: 0.62em;
-  margin: 0 0.48rem;
-  background: var(--site-border-strong);
-  vertical-align: 0.02em;
-}
-
-@media (max-width: 1199px) {
-  .nav-mission-verse {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .nav-mission-verse {
-    transition: none;
-  }
-}
-
 .VPNavBarMenuLink,
 .VPNavScreenMenuLink {
   font-family: var(--site-sans);
@@ -545,8 +477,8 @@ body {
   top: calc(var(--vp-nav-height) - 0.3rem);
   left: 50%;
   z-index: 30;
-  width: 19rem;
-  padding: 0.45rem;
+  width: 14rem;
+  padding: 0.35rem;
   border: 1px solid var(--site-border-strong);
   border-radius: var(--site-radius);
   background: color-mix(in srgb, var(--site-bg) 97%, transparent);
@@ -571,32 +503,19 @@ body {
 
 .gallery-nav-group__item {
   display: block;
-  padding: 0.65rem 0.7rem;
+  padding: 0.5rem 0.65rem;
   border-radius: calc(var(--site-radius) - 2px);
   color: var(--site-text) !important;
   text-decoration: none !important;
-  white-space: normal;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
   transition: background 150ms ease;
 }
 
 .gallery-nav-group__item:hover,
 .gallery-nav-group__item:focus-visible {
   background: var(--site-accent-soft);
-}
-
-.gallery-nav-group__item > span {
-  display: block;
-  font-size: 0.82rem;
-  font-weight: 600;
-}
-
-.gallery-nav-group__item > small {
-  display: block;
-  margin-top: 0.18rem;
-  color: var(--site-text-muted);
-  font-family: var(--site-serif);
-  font-size: 0.72rem;
-  line-height: 1.45;
 }
 
 .gallery-nav-screen {
@@ -606,9 +525,7 @@ body {
 
 .gallery-nav-screen__title,
 .gallery-nav-screen__item {
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
+  display: block;
   color: var(--site-text-secondary) !important;
   text-decoration: none !important;
 }
@@ -618,14 +535,6 @@ body {
   font-family: var(--site-sans);
   font-size: 0.92rem;
   font-weight: 600;
-}
-
-.gallery-nav-screen__title > span {
-  color: var(--site-accent);
-  font-size: 0.68rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .gallery-nav-screen__item {
@@ -1333,6 +1242,40 @@ body {
   overflow: visible;
 }
 
+/* Warwick / TUM — Biography 区淡色校徽水印 */
+.home-university-marks {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.home-university-marks__crest {
+  position: absolute;
+  object-fit: contain;
+  opacity: 0.085;
+  filter: saturate(0.75) contrast(0.92);
+  mix-blend-mode: multiply;
+  -webkit-mask-image: radial-gradient(ellipse 88% 88% at 50% 50%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 88% 88% at 50% 50%, #000 35%, transparent 100%);
+}
+
+.home-university-marks__crest--warwick {
+  left: max(-0.5rem, -1vw);
+  bottom: 8%;
+  width: min(168px, 20vw);
+  height: auto;
+}
+
+.home-university-marks__crest--tum {
+  right: max(0.25rem, 1vw);
+  bottom: 22%;
+  width: min(112px, 14vw);
+  height: auto;
+}
+
 .VPHome .home-timeline-module {
   position: relative;
   overflow: visible;
@@ -1431,6 +1374,20 @@ body {
 
   .hero-sketch-sudoku .home-math-piece__art {
     opacity: 0.68;
+  }
+
+  .home-university-marks__crest {
+    opacity: 0.06;
+  }
+
+  .home-university-marks__crest--warwick {
+    width: min(120px, 28vw);
+    bottom: 4%;
+  }
+
+  .home-university-marks__crest--tum {
+    width: min(88px, 22vw);
+    bottom: 14%;
   }
 
   .home-math-piece--ramsey {

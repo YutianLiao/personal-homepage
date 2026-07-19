@@ -5,7 +5,7 @@ import DefaultLayout from "vitepress/dist/client/theme-default/Layout.vue";
 import HomeMathPiece from "./components/HomeMathPiece.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
 import DocAsideScientistSketch from "./components/DocAsideScientistSketch.vue";
-import NavMissionVerse from "./components/NavMissionVerse.vue";
+import HomeUniversityMarks from "./components/HomeUniversityMarks.vue";
 import SiteScaleViewport from "./components/SiteScaleViewport.vue";
 
 type DecorKey = "journey" | "misc";
@@ -54,10 +54,6 @@ function hideBroken(e: Event) {
 <template>
   <SiteScaleViewport>
   <DefaultLayout>
-    <template #nav-bar-content-before>
-      <NavMissionVerse />
-    </template>
-
     <template v-if="isHome" #home-hero-info>
       <div class="hero-sketch-sudoku" aria-hidden="true">
         <HomeMathPiece name="sudoku" />
@@ -86,6 +82,7 @@ function hideBroken(e: Event) {
 
     <template v-if="isHome" #home-features-before>
       <div class="home-features-custom">
+        <HomeUniversityMarks />
         <HomeMathPiece name="formulas" />
         <HomeVPHomeFeatures />
       </div>

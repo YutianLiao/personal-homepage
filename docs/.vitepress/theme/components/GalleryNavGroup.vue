@@ -51,8 +51,7 @@ function closeAfterFocus(event: FocusEvent) {
         class="gallery-nav-group__item"
         :href="withBase(item.link)"
       >
-        <span>{{ item.title }}</span>
-        <small>{{ item.description }}</small>
+        {{ item.title }}
       </a>
     </div>
   </div>
@@ -60,7 +59,6 @@ function closeAfterFocus(event: FocusEvent) {
   <div v-else-if="section" class="gallery-nav-screen">
     <a class="gallery-nav-screen__title" :href="withBase(section.link)">
       {{ section.title }}
-      <span>Overview</span>
     </a>
     <a
       v-for="item in section.items"
