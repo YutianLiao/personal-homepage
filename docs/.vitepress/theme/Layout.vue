@@ -4,7 +4,6 @@ import { useRoute, useData, withBase } from "vitepress";
 import DefaultLayout from "vitepress/dist/client/theme-default/Layout.vue";
 import HomeMathPiece from "./components/HomeMathPiece.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
-import HomeHeroSketchEnv from "./components/HomeHeroSketchEnv.vue";
 import DocAsideScientistSketch from "./components/DocAsideScientistSketch.vue";
 import NavMissionVerse from "./components/NavMissionVerse.vue";
 import SiteScaleViewport from "./components/SiteScaleViewport.vue";
@@ -60,7 +59,9 @@ function hideBroken(e: Event) {
     </template>
 
     <template v-if="isHome" #home-hero-info>
-      <HomeHeroSketchEnv />
+      <div class="hero-sketch-sudoku" aria-hidden="true">
+        <HomeMathPiece name="sudoku" />
+      </div>
       <div class="vp-hero-copy">
         <h1 class="heading vp-hero-with-mascot">
           <span v-if="heroText" class="text vp-hero-math-line" v-html="heroText"></span>
@@ -80,12 +81,6 @@ function hideBroken(e: Event) {
         <p class="vp-hero-math-euler" aria-hidden="true">
           <span class="vp-hero-math-formula">e<sup>i&pi;</sup> + 1 = 0</span>
         </p>
-      </div>
-    </template>
-
-    <template v-if="isHome" #home-hero-actions-after>
-      <div class="vp-hero-actions-with-sudoku">
-        <HomeMathPiece name="sudoku" />
       </div>
     </template>
 

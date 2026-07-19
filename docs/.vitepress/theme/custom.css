@@ -661,6 +661,8 @@ body {
 
   .VPDoc.section-gallery-page:not(.has-aside):not(.has-sidebar) .content-container {
     max-width: var(--site-page-max);
+    width: 100%;
+    margin-inline: 0;
   }
 }
 
@@ -745,9 +747,9 @@ body {
 
 .section-gallery__header {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(16rem, 28rem);
-  gap: 1rem 3rem;
-  align-items: end;
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr);
+  gap: 0.75rem 2.5rem;
+  align-items: baseline;
   margin-bottom: clamp(2rem, 5vw, 3.5rem);
   padding-bottom: 1.4rem;
   border-bottom: 1px solid var(--site-border-strong);
@@ -767,10 +769,10 @@ body {
 .section-gallery__header h1 {
   margin: 0 !important;
   font-family: var(--site-serif) !important;
-  font-size: clamp(2.35rem, 6vw, 4.6rem) !important;
+  font-size: var(--site-h1-size) !important;
   font-weight: 400 !important;
-  letter-spacing: -0.045em !important;
-  line-height: 0.98 !important;
+  letter-spacing: -0.02em !important;
+  line-height: var(--site-h1-line-height) !important;
 }
 
 .section-gallery__intro {
@@ -784,9 +786,9 @@ body {
 
 .section-gallery__grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
-  gap: clamp(1.75rem, 4vw, 3.5rem);
-  align-items: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: stretch;
 }
 
 .section-gallery__item {
@@ -795,7 +797,7 @@ body {
 }
 
 .section-gallery__item--2 {
-  margin-top: clamp(1.5rem, 5vw, 4rem);
+  margin-top: 0;
 }
 
 .section-gallery__item figure {
@@ -1340,7 +1342,6 @@ body {
   position: relative;
 }
 
-/* 数独 — 叠在 Hero 导航按钮右侧，不占文档流 */
 .VPHome .VPHero .main > .actions {
   display: flex;
   flex-wrap: wrap;
@@ -1350,27 +1351,27 @@ body {
   z-index: 1;
 }
 
-.vp-hero-actions-with-sudoku {
+/* 数独 — Hero 右上，替代原环境素描 */
+.hero-sketch-sudoku {
   position: absolute;
-  left: clamp(17.5rem, 52%, 33rem);
-  bottom: 0;
-  margin: 0;
-  width: min(138px, 21vw);
-  height: min(138px, 21vw);
+  top: 0;
+  right: 0;
   z-index: 0;
+  width: min(220px, 28vw);
+  height: min(220px, 28vw);
 }
 
-.vp-hero-actions-with-sudoku .home-math-piece--sudoku {
+.hero-sketch-sudoku .home-math-piece--sudoku {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
 }
 
-.vp-hero-actions-with-sudoku .home-math-piece--sudoku .home-math-piece__art {
-  opacity: 0.8;
-  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 45%, transparent 100%);
-  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 45%, transparent 100%);
+.hero-sketch-sudoku .home-math-piece__art {
+  opacity: 0.82;
+  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 48%, transparent 100%);
+  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 48%, transparent 100%);
 }
 
 /* Ramsey — 与 Timeline 标题垂直居中对齐 */
@@ -1423,12 +1424,13 @@ body {
     display: none;
   }
 
-  .vp-hero-actions-with-sudoku {
-    left: auto;
-    right: 0;
-    bottom: -0.25rem;
-    width: min(118px, 30vw);
-    height: min(118px, 30vw);
+  .hero-sketch-sudoku {
+    width: min(160px, 38vw);
+    height: min(160px, 38vw);
+  }
+
+  .hero-sketch-sudoku .home-math-piece__art {
+    opacity: 0.68;
   }
 
   .home-math-piece--ramsey {
