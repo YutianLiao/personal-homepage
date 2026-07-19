@@ -6,6 +6,7 @@ import HomeMathPiece from "./components/HomeMathPiece.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
 import DocAsideScientistSketch from "./components/DocAsideScientistSketch.vue";
 import HomeUniversityMarks from "./components/HomeUniversityMarks.vue";
+import ModuleTopNav from "./components/ModuleTopNav.vue";
 import NavMissionVerse from "./components/NavMissionVerse.vue";
 import SiteScaleViewport from "./components/SiteScaleViewport.vue";
 
@@ -55,7 +56,7 @@ function hideBroken(e: Event) {
 <template>
   <SiteScaleViewport>
   <DefaultLayout>
-    <template #nav-bar-content-before>
+    <template #nav-bar-content-after>
       <NavMissionVerse />
     </template>
 
@@ -91,6 +92,10 @@ function hideBroken(e: Event) {
         <HomeMathPiece name="formulas" />
         <HomeVPHomeFeatures />
       </div>
+    </template>
+
+    <template #doc-before>
+      <ModuleTopNav />
     </template>
 
     <template #aside-outline-after>

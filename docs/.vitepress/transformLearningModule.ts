@@ -25,7 +25,13 @@ export async function transformLearningModulePageData(
 ) {
   const rel = pageData.relativePath.replace(/\\/g, "/");
   const moduleId = moduleIdFromPath(rel);
-  if (!moduleId || rel === `${moduleId}/index.md` || !rel.endsWith(".md")) {
+  if (!moduleId || !rel.endsWith(".md")) {
+    return;
+  }
+
+  pageData.frontmatter.sidebar = false;
+
+  if (rel === `${moduleId}/index.md`) {
     return;
   }
 

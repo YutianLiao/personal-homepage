@@ -1,19 +1,9 @@
 import { defineConfig } from "vitepress";
 import { withMermaid } from "vitepress-plugin-mermaid";
-import learningSidebars from "./learning-sidebars.json";
-import demosRegistry from "./demos.json";
 import { transformLearningModulePageData } from "./transformLearningModule";
 
 const repoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
 const base = repoName ? `/${repoName}/` : "/";
-
-const demoSidebarItems = [
-  { text: "Overview", link: "/demos/" },
-  ...demosRegistry.demos.map((demo: { title: string; route: string }) => ({
-    text: demo.title,
-    link: demo.route
-  }))
-];
 
 export default withMermaid(
   defineConfig({
@@ -61,20 +51,8 @@ export default withMermaid(
           props: { sectionId: "demos" }
         }
       ],
-      sidebar: {
-        ...learningSidebars,
-        "/demos/": demoSidebarItems,
-        "/blog/": [
-          {
-            text: "Blog",
-            items: [
-              { text: "Index", link: "/blog/" },
-              { text: "Start Here", link: "/blog/2026-05-hello-vitepress" },
-              { text: "Warwick/SJTU Challenge", link: "/blog/2021-07-warwick-sjtu-challenge" }
-            ]
-          }
-        ]
-      },
+      /** Full-site: no left sidebar — module nav lives in ModuleTopNav. */
+      sidebar: false,
       socialLinks: [{ icon: "github", link: "https://github.com/YutianLiao/personal-homepage" }],
       search: {
         provider: "local"
