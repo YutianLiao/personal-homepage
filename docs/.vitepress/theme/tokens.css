@@ -88,8 +88,6 @@
   --site-content-max: var(--site-measure);
   --site-page-max: 72rem;
   --site-gutter: clamp(1.25rem, 4.5vw, 2.75rem);
-  --site-aside-rail: 12.25rem;
-  --site-nav-social-rail: 2.25rem;
   --site-radius: 8px;
   --site-shadow-sm: 0 1px 3px rgba(28, 25, 23, 0.05);
   --site-shadow-md: 0 12px 40px rgba(28, 25, 23, 0.09);

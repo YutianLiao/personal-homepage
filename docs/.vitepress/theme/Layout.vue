@@ -4,6 +4,7 @@ import { useRoute, useData, withBase } from "vitepress";
 import DefaultLayout from "vitepress/dist/client/theme-default/Layout.vue";
 import HomeMathPiece from "./components/HomeMathPiece.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
+import DocAsideScientistSketch from "./components/DocAsideScientistSketch.vue";
 import HomeUniversityMarks from "./components/HomeUniversityMarks.vue";
 import NavMissionVerse from "./components/NavMissionVerse.vue";
 import SiteScaleViewport from "./components/SiteScaleViewport.vue";
@@ -90,6 +91,10 @@ function hideBroken(e: Event) {
         <HomeMathPiece name="formulas" />
         <HomeVPHomeFeatures />
       </div>
+    </template>
+
+    <template #aside-outline-after>
+      <DocAsideScientistSketch />
     </template>
 
     <template #layout-bottom>

@@ -244,18 +244,13 @@ body {
 }
 
 /* Prose measure — doc pages only (not demo/workbench) */
-.VPDoc:not(.demo-page):not(.has-aside) .vp-doc._page,
+.VPDoc:not(.demo-page) .vp-doc._page,
 .VPDoc:not(.demo-page):not(.has-aside):not(.has-sidebar) .content-container {
   max-width: var(--site-measure);
 }
 
-.VPDoc:not(.demo-page):not(.has-aside) .vp-doc._page {
+.VPDoc:not(.demo-page) .vp-doc._page {
   margin-inline: auto;
-}
-
-.VPDoc.has-aside:not(.demo-page) .vp-doc._page {
-  max-width: var(--site-measure);
-  margin-inline: 0;
 }
 
 .vp-doc p,
@@ -712,41 +707,16 @@ body {
   }
 }
 
-/* Right-side table of contents — align with nav GitHub rail on all doc pages */
-@media (min-width: 1280px) {
-  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page) .content {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) var(--site-aside-rail);
-    column-gap: 0;
-    align-items: start;
-  }
-
-  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
-    .content-container {
-    max-width: none !important;
-    width: 100%;
-    margin-inline: 0 !important;
-    min-width: 0;
-  }
-
-  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page) .aside {
-    display: block;
-    width: var(--site-aside-rail);
-    max-width: none;
-    padding-left: 0;
-    margin-left: 0;
-  }
-
-  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
-    .aside-container {
-    width: 100%;
-    max-width: none;
-  }
-}
-
+/* Right-side table of contents */
 @media (min-width: 1280px) {
   .VPDoc.has-aside .aside {
     display: block;
+    max-width: 240px;
+    padding-left: 2rem;
+  }
+
+  .VPDoc.has-aside .aside-container {
+    width: 200px;
   }
 }
 
@@ -1643,96 +1613,14 @@ body {
   height: auto;
 }
 
-/* Learning module chrome (header, chapter nav, pager) */
-.learning-module-doc-header {
-  margin: 0 0 1.35rem;
-  padding-bottom: 0.85rem;
-  border-bottom: 1px solid var(--site-border);
-}
-
-.learning-module-chapter-nav {
-  margin: 0 0 0.65rem;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-}
-
-.learning-module-chapter-nav__track {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.2rem 0.35rem;
-  min-width: min-content;
-  padding-bottom: 0.1rem;
-}
-
-.learning-module-chapter-nav__part {
-  color: var(--site-text-muted);
-  font-family: var(--site-sans);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.learning-module-chapter-nav__sep {
-  color: var(--site-border-strong);
-  font-size: 0.72rem;
-  user-select: none;
-}
-
-.learning-module-chapter-nav__sep--group {
-  margin-inline: 0.15rem;
-}
-
-.learning-module-chapter-nav__dot {
-  color: var(--site-text-muted);
-  font-size: 0.72rem;
-  user-select: none;
-}
-
-.learning-module-chapter-nav__link {
-  color: var(--site-text-muted) !important;
-  font-family: var(--site-sans);
-  font-size: 0.82rem;
-  font-weight: 500;
-  line-height: 1.35;
-  text-decoration: none !important;
-  white-space: nowrap;
-  transition: color 150ms ease;
-}
-
-.learning-module-chapter-nav__link:hover,
-.learning-module-chapter-nav__link:focus-visible {
-  color: var(--site-accent) !important;
-}
-
-.learning-module-chapter-nav__link--active {
-  color: var(--site-accent) !important;
-  font-weight: 600;
-}
-
-.learning-module-doc-meta {
-  margin: 0 !important;
-  color: var(--site-text-muted);
-  font-family: var(--site-sans);
+/* Learning module chrome (reading time, pager) */
+.learning-module-reading-time {
+  margin: 0 0 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--vp-c-divider);
+  text-align: right;
   font-size: var(--site-reading-time-size);
-  line-height: 1.5;
-}
-
-.learning-module-doc-meta__module {
-  color: var(--site-text-secondary);
-  font-weight: 600;
-}
-
-.learning-module-doc-meta__sep {
-  margin-inline: 0.35rem;
-  opacity: 0.55;
-}
-
-.learning-module-doc-meta__part,
-.learning-module-doc-meta__time {
-  font-style: italic;
+  color: var(--vp-c-text-2);
 }
 
 .learning-module-pager {
