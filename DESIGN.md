@@ -117,7 +117,7 @@
 
 ## 模块样式
 
-- **首页 Hero / Features / Timeline**：纵向列表 + 底部分隔线；右侧素描环境图（`hero-sketch/env.png`）与页面背景融合叠放；标题下花草分隔图（`flora.png`）；数独 / 公式等数学水印保持低干扰
+- **首页 Hero / Features / Timeline**：纵向列表 + 底部分隔线；右侧素描环境图（`hero-sketch/env.png`）与页面背景融合叠放；标题下使用柔和彩虹素描（`rainbow.png`）；数独 / 公式等数学水印保持低干扰
 - **章节标题 (h2)**：无衬线、英文斜体（`font-synthesis: none`）；非首个 h2 上方渐变分隔线
 - **折叠区块**：底部分隔线、summary 行式布局
 - **Demo 工作台**：左文档 + 右可视化/统计；各模块 `.site-panel` 边框

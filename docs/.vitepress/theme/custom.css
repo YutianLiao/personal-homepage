@@ -351,155 +351,69 @@ body {
 }
 
 .nav-mission-verse {
-  position: relative;
   display: inline-flex;
   align-items: center;
-  width: 6.9rem;
-  height: 2rem;
-  margin-left: 0.9rem;
-  color: var(--site-accent);
-  outline: none;
+  flex: 0 0 auto;
+  height: calc(var(--vp-nav-height) - 0.7rem);
+  margin-right: 1.1rem;
+  color: var(--site-text-muted);
+  opacity: 0.86;
+  transition: opacity 180ms ease;
 }
 
-.nav-mission-verse__thread {
-  position: absolute;
-  left: 0.35rem;
-  right: 0.35rem;
-  top: 50%;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent,
-    color-mix(in srgb, var(--site-accent) 42%, transparent) 18%,
-    color-mix(in srgb, var(--site-accent) 42%, transparent) 82%,
-    transparent
-  );
-}
-
-.nav-mission-verse__seals {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.nav-mission-verse__seals > span {
-  display: grid;
-  place-items: center;
-  width: 1.35rem;
-  height: 1.35rem;
-  border: 1px solid color-mix(in srgb, var(--site-accent) 68%, transparent);
-  background: color-mix(in srgb, var(--site-bg) 94%, transparent);
-  font-family: "Noto Serif SC", "Songti SC", serif;
-  font-size: 0.72rem;
-  font-weight: 600;
-  line-height: 1;
-  transform: rotate(-2deg);
-  transition:
-    color 180ms ease,
-    background 180ms ease,
-    transform 180ms ease,
-    box-shadow 180ms ease;
-}
-
-.nav-mission-verse__seals > span:nth-child(even) {
-  transform: rotate(2deg);
-}
-
-.nav-mission-verse:hover .nav-mission-verse__seals > span,
-.VPNavBarTitle .title:focus-visible .nav-mission-verse__seals > span {
-  color: var(--site-bg);
-  background: var(--site-accent);
-  box-shadow: 0 3px 9px color-mix(in srgb, var(--site-accent) 18%, transparent);
-  transform: translateY(-1px) rotate(0);
-}
-
-.nav-mission-verse__inscription {
-  position: absolute;
-  top: calc(100% + 0.65rem);
-  left: 50%;
-  display: grid;
-  grid-template-columns: repeat(2, max-content);
-  gap: 0.35rem 1.15rem;
-  padding: 0.75rem 0.9rem 0.8rem;
-  border: 1px solid var(--site-border-strong);
-  background:
-    linear-gradient(color-mix(in srgb, var(--site-bg) 97%, transparent), color-mix(in srgb, var(--site-bg) 97%, transparent)),
-    repeating-linear-gradient(0deg, transparent 0 5px, var(--site-border) 5px 6px);
-  box-shadow: var(--site-shadow-md);
-  color: var(--site-text-secondary);
-  font-family: "Noto Serif SC", "Songti SC", serif;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  line-height: 1.7;
-  white-space: nowrap;
-  pointer-events: none;
-  opacity: 0;
-  transform: translate(-50%, -0.35rem);
-  transform-origin: top center;
-  transition:
-    opacity 160ms ease,
-    transform 200ms ease;
-}
-
-.nav-mission-verse__inscription::before {
-  content: "";
-  position: absolute;
-  top: -0.3rem;
-  left: 50%;
-  width: 0.55rem;
-  height: 0.55rem;
-  border-top: 1px solid var(--site-border-strong);
-  border-left: 1px solid var(--site-border-strong);
-  background: var(--site-bg);
-  transform: translateX(-50%) rotate(45deg);
-}
-
-.nav-mission-verse:hover .nav-mission-verse__inscription,
-.VPNavBarTitle .title:focus-visible .nav-mission-verse__inscription {
+.nav-mission-verse:hover {
   opacity: 1;
-  transform: translate(-50%, 0);
 }
 
-.VPNavBarTitle .title:focus-visible .nav-mission-verse {
-  border-radius: 2px;
-  box-shadow: 0 0 0 2px var(--site-accent-soft);
+.nav-mission-verse__scholar {
+  width: 2.55rem;
+  height: 3.45rem;
+  flex: 0 0 auto;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: contrast(0.92) saturate(0.82);
+  mix-blend-mode: multiply;
 }
 
-@media (max-width: 959px) {
+.nav-mission-verse__quote {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.12rem;
+  margin-left: 0.25rem;
+  padding-left: 0.65rem;
+  border-left: 1px solid color-mix(in srgb, var(--site-accent) 34%, transparent);
+  font-family: "Noto Serif SC", "Songti SC", serif;
+  font-size: 0.585rem;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.nav-mission-verse__line {
+  display: flex;
+  align-items: center;
+}
+
+.nav-mission-verse__line > span + span::before {
+  content: "";
+  display: inline-block;
+  width: 1px;
+  height: 0.62em;
+  margin: 0 0.48rem;
+  background: var(--site-border-strong);
+  vertical-align: 0.02em;
+}
+
+@media (max-width: 1199px) {
   .nav-mission-verse {
-    width: 5.4rem;
-    margin-left: 0.55rem;
-  }
-
-  .nav-mission-verse__seals > span {
-    width: 1.15rem;
-    height: 1.15rem;
-    font-size: 0.64rem;
-  }
-
-  .nav-mission-verse__inscription {
-    left: auto;
-    right: -2rem;
-    grid-template-columns: max-content;
-    transform: translateY(-0.35rem);
-  }
-
-  .nav-mission-verse__inscription::before {
-    left: auto;
-    right: 4.3rem;
-  }
-
-  .nav-mission-verse:hover .nav-mission-verse__inscription,
-  .VPNavBarTitle .title:focus-visible .nav-mission-verse__inscription {
-    transform: translateY(0);
+    display: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .nav-mission-verse__seals > span,
-  .nav-mission-verse__inscription {
+  .nav-mission-verse {
     transition: none;
   }
 }
@@ -729,6 +643,19 @@ body {
   opacity: 0.85;
   pointer-events: none;
   user-select: none;
+}
+
+.VPHero .vp-hero-rainbow {
+  width: min(100%, 22rem);
+  height: 7rem;
+  margin: -0.35rem 0 -0.55rem;
+  object-fit: cover;
+  object-position: center 56%;
+  opacity: 0.82;
+  filter: saturate(0.88) contrast(0.96);
+  mix-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
 
 .VPHero .vp-hero-with-mascot .name {

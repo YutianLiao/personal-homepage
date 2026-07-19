@@ -55,7 +55,7 @@ function hideBroken(e: Event) {
 <template>
   <SiteScaleViewport>
   <DefaultLayout>
-    <template v-if="isHome" #nav-bar-title-after>
+    <template #nav-bar-content-before>
       <NavMissionVerse />
     </template>
 
@@ -66,8 +66,8 @@ function hideBroken(e: Event) {
           <span v-if="heroText" class="text vp-hero-math-line" v-html="heroText"></span>
         </h1>
         <img
-          class="vp-hero-flora"
-          :src="withBase('/decorative/hero-sketch/flora.png')"
+          class="vp-hero-flora vp-hero-rainbow"
+          :src="withBase('/decorative/hero-sketch/rainbow.png')"
           alt=""
           aria-hidden="true"
           draggable="false"

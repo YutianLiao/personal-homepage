@@ -5,7 +5,7 @@ Home hero meadow backdrop (`HomeHeroSketchEnv.vue`).
 | File | Role |
 |------|------|
 | `env.png` | Portrait meadow / rainbow pencil sketch — right-side decor, blends into page background |
-| `flora.png` | Horizontal flora strip under the math title line |
+| `rainbow.png` | Soft-color horizontal rainbow sketch under the math title line |
 
 ## Layout (`HomeHeroSketchEnv.vue`)
 
@@ -25,4 +25,4 @@ Shared classes in `custom.css`: **`.site-sketch-decor`** / **`.site-sketch-decor
 ## Replacing assets
 
 - `env.png`: portrait (~2:3), light background, dense grass along bottom edge
-- `flora.png`: wide horizontal strip, transparent or dark-on-light sketch
+- `rainbow.png`: wide horizontal strip with a transparent background and restrained pencil colors
