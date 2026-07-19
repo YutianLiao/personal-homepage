@@ -1,26 +1,11 @@
 import { defineConfig } from "vitepress";
 import { withMermaid } from "vitepress-plugin-mermaid";
 import learningSidebars from "./learning-sidebars.json";
-import learningModules from "./learning-modules.json";
 import demosRegistry from "./demos.json";
 import { transformLearningModulePageData } from "./transformLearningModule";
 
 const repoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
 const base = repoName ? `/${repoName}/` : "/";
-
-const learningNavItems = learningModules.modules.map((module: { title: string; route: string }) => ({
-  text: module.title,
-  link: module.route
-}));
-
-const learningRoutePattern = learningModules.modules
-  .map((module: { id: string }) => module.id)
-  .join("|");
-
-const demoNavItems = demosRegistry.demos.map((demo: { title: string; route: string }) => ({
-  text: demo.title,
-  link: demo.route
-}));
 
 const demoSidebarItems = [
   { text: "Overview", link: "/demos/" },
@@ -61,25 +46,19 @@ export default withMermaid(
       nav: [
         { text: "Home", link: "/" },
         {
-          text: "Interest Journey",
-          activeMatch: "^/interest-journey/",
-          items: [
-            { text: "Learning Archive", link: "/interest-journey/learning-archive" },
-            { text: "Knowledge Planet", link: "/interest-journey/knowledge-planet" }
-          ]
+          component: "GalleryNavGroup",
+          props: { sectionId: "interest-journey" }
         },
         { text: "Miscellaneous", link: "/miscellaneous" },
         { text: "CV", link: "/cv" },
         { text: "Blog", link: "/blog/" },
         {
-          text: "Learning",
-          activeMatch: `^/(${learningRoutePattern})/`,
-          items: learningNavItems
+          component: "GalleryNavGroup",
+          props: { sectionId: "learning" }
         },
         {
-          text: "Demo",
-          activeMatch: "^/demos/",
-          items: demoNavItems
+          component: "GalleryNavGroup",
+          props: { sectionId: "demos" }
         }
       ],
       sidebar: {

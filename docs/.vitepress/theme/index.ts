@@ -2,8 +2,10 @@ import { defineAsyncComponent } from "vue";
 import DefaultTheme from "vitepress/theme";
 import Layout from "./Layout.vue";
 import LearningModuleDoc from "./LearningModuleDoc.vue";
+import GalleryNavGroup from "./components/GalleryNavGroup.vue";
 import HomeMathPiece from "./components/HomeMathPiece.vue";
 import MiscFamilyGallery from "./components/MiscFamilyGallery.vue";
+import SectionGallery from "./components/SectionGallery.vue";
 import "./custom.css";
 import "./site-scale.css";
 
@@ -12,6 +14,7 @@ export default {
   Layout,
   enhanceApp({ app }) {
     app.component("learning-module-doc", LearningModuleDoc);
+    app.component("GalleryNavGroup", GalleryNavGroup);
     app.component(
       "demo-tokenizer",
       defineAsyncComponent(
@@ -32,5 +35,6 @@ export default {
     );
     app.component("HomeMathPiece", HomeMathPiece);
     app.component("MiscFamilyGallery", MiscFamilyGallery);
+    app.component("SectionGallery", SectionGallery);
   }
 };

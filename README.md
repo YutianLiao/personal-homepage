@@ -26,9 +26,9 @@ npm run dev
 
 ## 主要页面
 
-- **Demo**：`/demos/tokenizer/`、`/demos/sudoku/`
-- **Learning**：`/hello-agent/`、`/my-notes/`
-- **Interest Journey**：Learning Archive、Knowledge Planet
+- **Demo**：`/demos/` 照片导航页 → Tokenizer、Sudoku
+- **Learning**：`/learning/` 照片导航页 → Hello Agent、My Notes
+- **Interest Journey**：`/interest-journey/` 照片导航页 → Learning Archive、Knowledge Planet
 - **Collections**：经 Miscellaneous 页内链访问
 
 ## 部署

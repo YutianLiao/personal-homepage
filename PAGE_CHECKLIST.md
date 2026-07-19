@@ -4,6 +4,7 @@
 
 ## Interest Journey
 
+- [ ] `/interest-journey/`
 - [ ] `/interest-journey/learning-archive`
 - [ ] `/interest-journey/knowledge-planet`
 
@@ -23,6 +24,7 @@
 
 ## Learning
 
+- [ ] `/learning/`
 - [ ] `/hello-agent/`
 - [ ] `/hello-agent/01-math-foundations/01-neural-networks`
 - [ ] `/hello-agent/01-math-foundations/02-rnn`
