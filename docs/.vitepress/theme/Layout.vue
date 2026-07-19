@@ -6,6 +6,7 @@ import HomeMathPiece from "./components/HomeMathPiece.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
 import HomeHeroSketchEnv from "./components/HomeHeroSketchEnv.vue";
 import DocAsideScientistSketch from "./components/DocAsideScientistSketch.vue";
+import NavMissionVerse from "./components/NavMissionVerse.vue";
 import SiteScaleViewport from "./components/SiteScaleViewport.vue";
 
 type DecorKey = "journey" | "misc";
@@ -54,6 +55,10 @@ function hideBroken(e: Event) {
 <template>
   <SiteScaleViewport>
   <DefaultLayout>
+    <template v-if="isHome" #nav-bar-title-after>
+      <NavMissionVerse />
+    </template>
+
     <template v-if="isHome" #home-hero-info>
       <HomeHeroSketchEnv />
       <div class="vp-hero-copy">

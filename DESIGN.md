@@ -90,7 +90,7 @@
 | `/blog` | Ramanujan | Blog 全部文章 |
 | `/collections` | Ramanujan | Collections（与 Blog 共用） |
 | `/hello-agent` | Turing | Hello Agent 模块全部章节 |
-| `/cs336` | Shannon | Stanford CS336 模块全部章节 |
+| `/my-notes` | Shannon | My Notes 全部笔记 |
 
 未分配分区、或 `outline: false` / 无大纲的页面不显示。`scientists` 库中未使用的肖像保留备扩展，不删除。
 

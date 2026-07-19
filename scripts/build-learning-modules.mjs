@@ -23,6 +23,23 @@ function readRegistry() {
   return modules;
 }
 
+function removeStaleModules(modules) {
+  if (!fs.existsSync(sidebarsPath)) return;
+
+  const previousSidebars = JSON.parse(fs.readFileSync(sidebarsPath, "utf8"));
+  const activeRoutes = new Set(
+    modules.map((module) => (module.route.endsWith("/") ? module.route : `${module.route}/`))
+  );
+
+  for (const route of Object.keys(previousSidebars)) {
+    if (activeRoutes.has(route)) continue;
+    const id = route.split("/").filter(Boolean)[0];
+    if (!id) continue;
+    fs.rmSync(path.join(root, "docs", id), { recursive: true, force: true });
+    console.log(`${id}: removed stale generated module`);
+  }
+}
+
 function readPartTitle(partDir) {
   const metaPath = path.join(partDir, "part.json");
   if (fs.existsSync(metaPath)) {
@@ -64,6 +81,31 @@ function scanModule(scanRoot, module) {
   const sidebar = [{ text: "Overview", link: route }];
   const manifest = [];
 
+  if (module.flat) {
+    const pages = fs
+      .readdirSync(scanRoot)
+      .filter((name) => PAGE_RE.test(name) && fs.statSync(path.join(scanRoot, name)).isFile())
+      .sort();
+
+    const items = pages.map((file) => {
+      const slug = file.replace(/\.md$/, "");
+      const link = `${route}${slug}`.replace(/\/+/g, "/");
+      const title = pageTitle(path.join(scanRoot, file));
+      manifest.push({ title, link, part: "Notes" });
+      return { text: title, link };
+    });
+
+    if (items.length > 0) {
+      sidebar.push({
+        text: "Notes",
+        collapsed: false,
+        items
+      });
+    }
+
+    return { sidebar, manifest };
+  }
+
   const parts = fs
     .readdirSync(scanRoot)
     .filter((name) => PART_RE.test(name) && fs.statSync(path.join(scanRoot, name)).isDirectory())
@@ -100,6 +142,8 @@ function main() {
   const modules = readRegistry();
   const sidebars = {};
   const manifests = {};
+
+  removeStaleModules(modules);
 
   for (const module of modules) {
     const destRoot = syncModule(module);

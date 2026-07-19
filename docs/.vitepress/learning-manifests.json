@@ -21,5 +21,11 @@
       "part": "第二部分：注意力机制"
     }
   ],
-  "cs336": []
+  "my-notes": [
+    {
+      "title": "Stanford CS336: Language Modeling from Scratch",
+      "link": "/my-notes/01-cs336",
+      "part": "Notes"
+    }
+  ]
 }

@@ -7,10 +7,11 @@
       "route": "/hello-agent/"
     },
     {
-      "id": "cs336",
-      "title": "Stanford CS336",
-      "sourceDir": "learning/cs336",
-      "route": "/cs336/"
+      "id": "my-notes",
+      "title": "My Notes",
+      "sourceDir": "learning/my-notes",
+      "route": "/my-notes/",
+      "flat": true
     }
   ]
 }

@@ -26,7 +26,8 @@ description: >-
 
 | 页面类型 | 路由 | 内容源(改这里) | 构建产物(勿手改) | 导航 / 注册 |
 | --- | --- | --- | --- | --- |
-| Learning 文章 | `/hello-agent/*`、`/cs336/*` | `learning/{module}/**/*.md` | `docs/{module}/` | `learning-modules.json`(模块级);sidebar/分页**自动生成** |
+| Learning 文章 | `/hello-agent/*` | `learning/{module}/**/*.md` | `docs/{module}/` | `learning-modules.json`(模块级);sidebar/分页**自动生成** |
+| My Notes 笔记 | `/my-notes/*` | `learning/my-notes/NN-topic.md` + `index.md` | `docs/my-notes/` | `learning-modules.json` 的 `flat: true`;sidebar/分页**自动生成**,overview 链接手动维护 |
 | Demo | `/demos/*` | `demos/{id}/README.md` + `docs/demos/{id}/index.md` | — | `demos.json` + `theme/index.ts` 异步注册组件;nav/sidebar 由 `demos.json` 驱动 |
 | Interest Journey | `/interest-journey/*` | `docs/interest-journey/*.md` | Knowledge Planet 数据:`docs/public/data/`(勿手改) | `config.ts` 的 `nav` **手写**;KP 数据走脚本改 `data/knowledge-planet.json` |
 | Collections | `/collections/*` | `docs/collections/*.md` | — | **无** nav/sidebar;经 `docs/miscellaneous.md` 内链进入;右栏画像见 `doc-aside-scientists.json` |
@@ -48,6 +49,7 @@ description: >-
 先按类型建内容源,再补注册与导航,最后收尾。
 
 - **Learning 文章**:在 `learning/{module}/NN-slug/` 下加 `NN-标题.md`(frontmatter 里写 `title:`);新分部需建 `NN-slug/part.json`(`{"title": "分部名"}`)。→ `npm run build:learning-modules`。sidebar 与 Prev/Next 自动生成,无需碰 `config.ts`。
+- **My Notes 笔记**:在 `learning/my-notes/` 下加 `NN-topic.md`(一页是一篇完整笔记,frontmatter 写 `title:`)→ 在 `learning/my-notes/index.md` 增加 overview 链接 → `npm run build:learning-modules`。不要创建分部目录。
 - **新 Learning 模块**:`learning-modules.json` 注册 `{id,title,sourceDir,route}` → 建 `learning/{id}/index.md` 及分部 → 构建。nav 自动出现。
 - **Demo**:`demos.json` 注册 `{id,title,route,component,sourceDir}` → 建 `docs/demos/{id}/index.md` → 在 `theme/index.ts` 用 `defineAsyncComponent` 注册组件 → 组件重资源按需懒加载。
 - **Interest Journey 页**:建 `docs/interest-journey/{slug}.md`(参考现有页设 `sidebar: false` 与 `pageClass`)→ 在 `config.ts` 的 Interest Journey `nav.items` 加一项。
@@ -60,7 +62,7 @@ description: >-
 对称地拆掉「内容源 + 注册 + 导航 + 指向它的内链」:
 
 1. **删内容源**:删对应源文件/目录(Learning 删 `learning/{module}/...`,其余删 `docs/...`)。
-2. **同步产物**:Learning 删完跑 `npm run build:learning-modules`——脚本对 `docs/{module}/` 是「先删后拷」,产物会自动清除。
+2. **同步产物**:Learning 删完跑 `npm run build:learning-modules`——脚本对当前模块执行「先删后拷」,并根据旧 sidebar 清理已退注册模块的构建目录。
 3. **退注册**:整模块从 `learning-modules.json` 移除;整 Demo 从 `demos.json` 移除并删 `theme/index.ts` 注册与组件文件。
 4. **清导航**:从 `config.ts` 的 `nav` / `sidebar['/blog/']` 删掉手写条目(Blog、Interest Journey、顶层单页)。
 5. **清内链**:全局搜索指向该路由的链接并处理,重点 `docs/miscellaneous.md`(Collections 入口)、`docs/blog/index.md`、各页正文与 `doc-aside-scientists.json`。
@@ -85,6 +87,7 @@ npm run sync:knowledge-planet    # 仅同步 JSON → docs/public/data/
 ```
 - [ ] 只改了内容源,没手改构建产物(docs/{module}/、docs/public/data/)
 - [ ] 新增/删除的注册已落到对应 JSON(learning-modules.json / demos.json)
+- [ ] My Notes 新增/删除笔记已同步 `learning/my-notes/index.md`
 - [ ] nav / sidebar 手写项已增删(Blog、Interest Journey、顶层单页)
 - [ ] 内链完整:无指向已删页面的死链;新页有入口(尤其 Collections 经 miscellaneous)
 - [ ] PAGE_CHECKLIST.md 已同步增删对应路由条目

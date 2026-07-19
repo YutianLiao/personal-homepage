@@ -33,10 +33,20 @@
       ]
     }
   ],
-  "/cs336/": [
+  "/my-notes/": [
     {
       "text": "Overview",
-      "link": "/cs336/"
+      "link": "/my-notes/"
+    },
+    {
+      "text": "Notes",
+      "collapsed": false,
+      "items": [
+        {
+          "text": "Stanford CS336: Language Modeling from Scratch",
+          "link": "/my-notes/01-cs336"
+        }
+      ]
     }
   ]
 }

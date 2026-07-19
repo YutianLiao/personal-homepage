@@ -28,7 +28,8 @@
 - [ ] `/hello-agent/01-math-foundations/02-rnn`
 - [ ] `/hello-agent/01-math-foundations/03-lstm`
 - [ ] `/hello-agent/02-attention/01-seq2seq-tutorial`
-- [ ] `/cs336/`
+- [ ] `/my-notes/`
+- [ ] `/my-notes/01-cs336`
 
 ## Demo
 
