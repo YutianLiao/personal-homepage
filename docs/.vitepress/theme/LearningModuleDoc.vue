@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import VPDoc from "vitepress/dist/client/theme-default/components/VPDoc.vue";
+import LearningModuleChapterNav from "./components/LearningModuleChapterNav.vue";
 import LearningModuleDocMeta from "./components/LearningModuleDocMeta.vue";
 import LearningModulePager from "./components/LearningModulePager.vue";
-import DocAsideScientistSketch from "./components/DocAsideScientistSketch.vue";
 </script>
 
 <template>
   <VPDoc>
-    <template #aside-top>
-      <LearningModuleDocMeta />
-    </template>
-    <template #aside-outline-after>
-      <DocAsideScientistSketch />
+    <template #doc-before>
+      <header class="learning-module-doc-header">
+        <LearningModuleChapterNav />
+        <LearningModuleDocMeta />
+      </header>
     </template>
     <template #doc-after>
       <LearningModulePager />

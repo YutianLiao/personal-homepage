@@ -45,13 +45,22 @@ function closeAfterFocus(event: FocusEvent) {
       {{ section.title }}
     </a>
     <div class="gallery-nav-group__menu" :aria-hidden="!open">
+      <p class="gallery-nav-group__menu-eyebrow">{{ section.eyebrow }}</p>
       <a
-        v-for="item in section.items"
+        v-for="(item, index) in section.items"
         :key="item.link"
         class="gallery-nav-group__item"
         :href="withBase(item.link)"
       >
-        {{ item.title }}
+        <span class="gallery-nav-group__thumb">
+          <img :src="withBase(item.cover)" alt="" loading="lazy" decoding="async" />
+        </span>
+        <span class="gallery-nav-group__item-body">
+          <span class="gallery-nav-group__item-index">
+            {{ String(index + 1).padStart(2, "0") }}
+          </span>
+          <span class="gallery-nav-group__item-title">{{ item.title }}</span>
+        </span>
       </a>
     </div>
   </div>
