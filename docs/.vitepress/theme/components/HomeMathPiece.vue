@@ -3,12 +3,13 @@ import { computed } from "vue";
 import { withBase } from "vitepress";
 
 const props = defineProps<{
-  name: "sudoku" | "ramsey" | "formulas";
+  name: "sudoku" | "mobius" | "geometry" | "formulas";
 }>();
 
 const sources = {
   sudoku: "/decorative/sudoku-watermark.svg",
-  ramsey: "/decorative/ramsey-r45-watermark.svg",
+  mobius: "/decorative/mobius-watermark.svg",
+  geometry: "/decorative/geometry-watermark.svg",
   formulas: "/decorative/math-watermark.svg"
 } as const;
 

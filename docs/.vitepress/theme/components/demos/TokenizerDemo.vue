@@ -90,12 +90,16 @@
             </div>
             <div v-else class="tokenizer-demo__chips" role="list">
               <button
-                v-for="(token, index) in tokens"
+                v-for="(token, index) in visibleChips"
                 :key="index"
                 type="button"
                 class="tokenizer-demo__chip"
-                :class="{ 'tokenizer-demo__chip--partial': token.partialUtf8 }"
-                :style="chipStyle(token.kind, index)"
+                :class="{
+                  'tokenizer-demo__chip--partial': token.partialUtf8,
+                  'tokenizer-demo__chip--active': hoveredIndex === index,
+                  'tokenizer-demo__chip--dim': hoveredIndex !== null && hoveredIndex !== index
+                }"
+                :style="chipStyle(token.kind)"
                 role="listitem"
                 :title="token.partialUtf8 ? `bytes: ${bytesLabel(token.bytes)}` : token.text || bytesLabel(token.bytes)"
                 @mouseenter="hoveredIndex = index"
@@ -105,6 +109,9 @@
                 <span v-if="token.id !== undefined" class="tokenizer-demo__chip-id">#{{ token.id }}</span>
               </button>
             </div>
+            <p v-if="tokensTruncated" class="tokenizer-demo__hint">
+              为保持流畅，仅展示前 {{ DISPLAY_CHIP_LIMIT }} / {{ stats.count }} 个 token；完整数量见右侧统计。
+            </p>
             <p v-if="stats.partialUtf8 > 0" class="tokenizer-demo__hint">
               十六进制片段为不完整 UTF-8 字节，相邻 token 拼接后还原为可读字符。
             </p>
@@ -156,7 +163,7 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(token, index) in tokens"
+                  v-for="(token, index) in visibleTableRows"
                   :key="index"
                   :class="{ 'is-active': hoveredIndex === index }"
                   @mouseenter="hoveredIndex = index"
@@ -207,7 +214,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 import type { BpeEncodingId, Token, TokenKind, TokenizerModule, VocabLoadProgress } from "./tokenizer/types";
 import {
   TOKENIZER_META,
@@ -222,6 +229,13 @@ import {
   tokenDisplay
 } from "./tokenizer/utils";
 
+/** Cap DOM nodes so character/byte tokenization of long text does not freeze the page. */
+const DISPLAY_CHIP_LIMIT = 800;
+const DISPLAY_TABLE_LIMIT = 300;
+const TOKENIZE_DEBOUNCE_MS = 220;
+/** Soft cap before tokenize — demos stay interactive */
+const INPUT_SOFT_LIMIT = 20000;
+
 const inputText = ref(SAMPLE_TEXTS[0]);
 const algorithmId = ref("whitespace");
 const bpeEncodingId = ref<BpeEncodingId>("cl100k_base");
@@ -235,6 +249,11 @@ const ready = ref(false);
 const currentModule = ref<TokenizerModule | null>(null);
 
 let tokenizeRunId = 0;
+let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+const visibleChips = computed(() => tokens.value.slice(0, DISPLAY_CHIP_LIMIT));
+const visibleTableRows = computed(() => tokens.value.slice(0, DISPLAY_TABLE_LIMIT));
+const tokensTruncated = computed(() => tokens.value.length > DISPLAY_CHIP_LIMIT);
 
 function handleVocabProgress(progress: VocabLoadProgress) {
   vocabLoading.value = true;
@@ -287,7 +306,7 @@ const extraStat = computed(() => {
 });
 
 const legendKinds = computed(() => {
-  const kinds = new Set(tokens.value.map((t) => t.kind));
+  const kinds = new Set(tokens.value.slice(0, DISPLAY_CHIP_LIMIT).map((t) => t.kind));
   return (Object.keys(TOKEN_KIND_LABELS) as TokenKind[]).filter((k) => kinds.has(k));
 });
 
@@ -296,7 +315,10 @@ async function runTokenize() {
   if (!mod) return;
 
   const runId = ++tokenizeRunId;
-  const text = inputText.value;
+  const text =
+    inputText.value.length > INPUT_SOFT_LIMIT
+      ? inputText.value.slice(0, INPUT_SOFT_LIMIT)
+      : inputText.value;
   error.value = "";
 
   try {
@@ -319,19 +341,24 @@ async function runTokenize() {
   }
 }
 
+function scheduleTokenize() {
+  if (debounceTimer) clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(() => {
+    debounceTimer = null;
+    void runTokenize();
+  }, TOKENIZE_DEBOUNCE_MS);
+}
+
 function loadSample() {
   const idx = Math.floor(Math.random() * SAMPLE_TEXTS.length);
   inputText.value = SAMPLE_TEXTS[idx];
 }
 
-function chipStyle(kind: TokenKind, index: number) {
+function chipStyle(kind: TokenKind) {
   const colorIdx = kindColorIndex(kind);
-  const active = hoveredIndex.value === index;
   return {
     "--chip-color": `var(--demo-token-color-${colorIdx})`,
-    "--chip-bg": `var(--demo-token-bg-${colorIdx})`,
-    opacity: hoveredIndex.value === null || active ? "1" : "0.45",
-    transform: active ? "translateY(-1px)" : "none"
+    "--chip-bg": `var(--demo-token-bg-${colorIdx})`
   };
 }
 
@@ -347,15 +374,20 @@ onMounted(async () => {
   await runTokenize();
 });
 
+onUnmounted(() => {
+  if (debounceTimer) clearTimeout(debounceTimer);
+});
+
 watch(algorithmId, async () => {
   tokenizeRunId += 1;
+  if (debounceTimer) clearTimeout(debounceTimer);
   await ensureModule();
   if (!ready.value) return;
   await runTokenize();
 });
 
-watch([inputText, bpeEncodingId], async () => {
+watch([inputText, bpeEncodingId], () => {
   if (!ready.value) return;
-  await runTokenize();
+  scheduleTokenize();
 });
 </script>

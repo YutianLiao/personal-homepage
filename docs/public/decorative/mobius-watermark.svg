@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="220" viewBox="0 0 280 220" fill="none" aria-hidden="true">
+  <!-- Möbius strip  tone-on-tone line art -->
+  <path
+    d="M48 118
+       C62 72, 98 48, 140 48
+       C182 48, 218 72, 232 118
+       C218 98, 182 84, 140 84
+       C98 84, 62 98, 48 118Z"
+    stroke="#57534e"
+    stroke-opacity="0.34"
+    stroke-width="1.15"
+    fill="none"
+  />
+  <path
+    d="M48 118
+       C62 164, 98 188, 140 188
+       C182 188, 218 164, 232 118
+       C218 138, 182 152, 140 152
+       C98 152, 62 138, 48 118Z"
+    stroke="#57534e"
+    stroke-opacity="0.34"
+    stroke-width="1.15"
+    fill="none"
+  />
+  <path
+    d="M72 126
+       C88 96, 112 82, 140 82
+       C168 82, 192 96, 208 126
+       C192 112, 168 104, 140 104
+       C112 104, 88 112, 72 126Z"
+    stroke="#78716c"
+    stroke-opacity="0.28"
+    stroke-width="0.9"
+    fill="none"
+  />
+  <path
+    d="M72 126
+       C88 156, 112 170, 140 170
+       C168 170, 192 156, 208 126
+       C192 140, 168 148, 140 148
+       C112 148, 88 140, 72 126Z"
+    stroke="#78716c"
+    stroke-opacity="0.28"
+    stroke-width="0.9"
+    fill="none"
+  />
+  <!-- Twist band -->
+  <path
+    d="M118 70
+       C132 92, 148 128, 162 150
+       C148 138, 132 112, 118 90
+       C112 82, 114 74, 118 70Z"
+    stroke="#44403c"
+    stroke-opacity="0.42"
+    stroke-width="1.25"
+    fill="none"
+  />
+  <path
+    d="M96 108 C120 118, 160 122, 184 112"
+    stroke="#57534e"
+    stroke-opacity="0.3"
+    stroke-width="0.85"
+    fill="none"
+  />
+  <path
+    d="M92 134 C118 128, 162 128, 188 136"
+    stroke="#57534e"
+    stroke-opacity="0.26"
+    stroke-width="0.85"
+    fill="none"
+  />
+  <!-- Soft accent dots along the rim -->
+  <circle cx="140" cy="48" r="2.1" fill="#57534e" fill-opacity="0.38"/>
+  <circle cx="232" cy="118" r="2.1" fill="#57534e" fill-opacity="0.32"/>
+  <circle cx="140" cy="188" r="2.1" fill="#57534e" fill-opacity="0.38"/>
+  <circle cx="48" cy="118" r="2.1" fill="#57534e" fill-opacity="0.32"/>
+</svg>

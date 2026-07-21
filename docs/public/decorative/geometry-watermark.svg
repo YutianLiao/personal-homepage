@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="200" viewBox="0 0 260 200" fill="none" aria-hidden="true">
+  <!-- Soft projective / incidence sketch for Biography rail -->
+  <circle cx="130" cy="100" r="62" stroke="#57534e" stroke-opacity="0.22" stroke-width="1"/>
+  <circle cx="130" cy="100" r="38" stroke="#78716c" stroke-opacity="0.2" stroke-width="0.85"/>
+  <ellipse cx="130" cy="100" rx="78" ry="28" stroke="#57534e" stroke-opacity="0.26" stroke-width="1" transform="rotate(-18 130 100)"/>
+  <ellipse cx="130" cy="100" rx="78" ry="28" stroke="#57534e" stroke-opacity="0.22" stroke-width="1" transform="rotate(28 130 100)"/>
+  <ellipse cx="130" cy="100" rx="78" ry="28" stroke="#78716c" stroke-opacity="0.18" stroke-width="0.85" transform="rotate(72 130 100)"/>
+  <line x1="52" y1="100" x2="208" y2="100" stroke="#44403c" stroke-opacity="0.28" stroke-width="0.9"/>
+  <line x1="130" y1="28" x2="130" y2="172" stroke="#44403c" stroke-opacity="0.24" stroke-width="0.9"/>
+  <circle cx="130" cy="100" r="3" fill="#57534e" fill-opacity="0.4"/>
+  <circle cx="188" cy="78" r="2.2" fill="#57534e" fill-opacity="0.32"/>
+  <circle cx="78" cy="128" r="2.2" fill="#57534e" fill-opacity="0.32"/>
+  <circle cx="168" cy="142" r="2" fill="#78716c" fill-opacity="0.28"/>
+</svg>

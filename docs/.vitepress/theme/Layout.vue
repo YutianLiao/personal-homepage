@@ -5,7 +5,6 @@ import DefaultLayout from "vitepress/dist/client/theme-default/Layout.vue";
 import HomeMathPiece from "./components/HomeMathPiece.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
 import DocAsideScientistSketch from "./components/DocAsideScientistSketch.vue";
-import HomeUniversityMarks from "./components/HomeUniversityMarks.vue";
 import ModuleTopNav from "./components/ModuleTopNav.vue";
 import NavMissionVerse from "./components/NavMissionVerse.vue";
 import SiteScaleViewport from "./components/SiteScaleViewport.vue";
@@ -88,7 +87,7 @@ function hideBroken(e: Event) {
 
     <template v-if="isHome" #home-features-before>
       <div class="home-features-custom">
-        <HomeUniversityMarks />
+        <HomeMathPiece name="geometry" />
         <HomeMathPiece name="formulas" />
         <HomeVPHomeFeatures />
       </div>

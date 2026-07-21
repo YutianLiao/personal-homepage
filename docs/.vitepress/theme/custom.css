@@ -255,7 +255,7 @@ body {
 
 .VPDoc.has-aside:not(.demo-page) .vp-doc._page {
   max-width: var(--site-measure);
-  margin-inline: 0;
+  margin-inline: auto;
 }
 
 .vp-doc p,
@@ -384,8 +384,9 @@ body {
   align-items: center;
   flex: 0 0 auto;
   height: calc(var(--vp-nav-height) - 0.7rem);
-  margin-left: 1rem;
-  margin-right: clamp(1.75rem, 4vw, 3.25rem);
+  /* Sit between GitHub and the right edge, biased toward the edge */
+  margin-left: clamp(3.25rem, 7vw, 6rem);
+  margin-right: clamp(0.85rem, 2.2vw, 1.85rem);
   color: var(--site-text-muted);
   opacity: 0.86;
   transition: opacity 180ms ease;
@@ -747,13 +748,23 @@ body {
   }
 }
 
-/* Right-side table of contents — consistent rail (no left sidebar anywhere) */
+/* Right-side TOC — grid on .container (aside is a sibling of .content).
+   Do NOT target bare .content: that also hits .VPDocAsideOutline .content and
+   pushes outline links into a clipped second column. */
 @media (min-width: 1280px) {
-  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page) .content {
+  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+    > .container {
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--site-aside-rail, 12.25rem);
-    column-gap: 0;
+    column-gap: 1.25rem;
     align-items: start;
+    max-width: var(--site-page-max);
+  }
+
+  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+    > .container
+    > .content {
+    min-width: 0;
   }
 
   .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
@@ -783,6 +794,14 @@ body {
   .VPDoc.has-aside .aside {
     display: block;
   }
+}
+
+.VPDocAsideOutline .content {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  border-left: 2px solid var(--site-border);
+  padding-left: 1rem;
 }
 
 /* Module top nav (Learning / Blog / Interest Journey) */
@@ -911,11 +930,6 @@ body {
     -webkit-overflow-scrolling: touch;
     padding-bottom: 0.15rem;
   }
-}
-
-.VPDocAsideOutline .content {
-  border-left: 2px solid var(--site-border);
-  padding-left: 1rem;
 }
 
 .VPDocAsideOutline .outline-title {
@@ -1567,42 +1581,6 @@ body {
   overflow: visible;
 }
 
-/* Warwick / TUM — Biography 区中部淡色校徽水印 */
-.home-university-marks {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(2.5rem, 10vw, 6rem);
-  padding: 0 clamp(2rem, 12vw, 8rem);
-  pointer-events: none;
-  user-select: none;
-  overflow: hidden;
-}
-
-.home-university-marks__crest {
-  position: relative;
-  flex: 0 0 auto;
-  object-fit: contain;
-  opacity: 0.09;
-  filter: saturate(0.75) contrast(0.92);
-  mix-blend-mode: multiply;
-  -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 42%, transparent 100%);
-  mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 42%, transparent 100%);
-}
-
-.home-university-marks__crest--warwick {
-  width: min(148px, 17vw);
-  height: auto;
-}
-
-.home-university-marks__crest--tum {
-  width: min(96px, 11vw);
-  height: auto;
-}
-
 .VPHome .home-timeline-module {
   position: relative;
   overflow: visible;
@@ -1644,19 +1622,34 @@ body {
   mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 48%, transparent 100%);
 }
 
-/* Ramsey — 与 Timeline 标题垂直居中对齐 */
-.home-math-piece--ramsey {
-  right: max(-1.25rem, -3vw);
-  top: 0.38rem;
-  transform: translateY(-50%);
-  width: min(248px, 38vw);
-  height: min(248px, 38vw);
+/* Möbius — Timeline 标题旁 */
+.home-math-piece--mobius {
+  right: max(-0.75rem, -2vw);
+  top: 0.2rem;
+  transform: translateY(-42%);
+  width: min(236px, 36vw);
+  height: min(186px, 28vw);
 }
 
-.home-math-piece--ramsey .home-math-piece__art {
-  opacity: 0.94;
-  -webkit-mask-image: radial-gradient(ellipse 88% 88% at 52% 46%, #000 42%, transparent 100%);
-  mask-image: radial-gradient(ellipse 88% 88% at 52% 46%, #000 42%, transparent 100%);
+.home-math-piece--mobius .home-math-piece__art {
+  opacity: 0.88;
+  -webkit-mask-image: radial-gradient(ellipse 88% 88% at 52% 48%, #000 40%, transparent 100%);
+  mask-image: radial-gradient(ellipse 88% 88% at 52% 48%, #000 40%, transparent 100%);
+}
+
+/* Geometry sketch — Biography / Features 区右侧中部 */
+.home-math-piece--geometry {
+  right: max(1rem, 3vw);
+  top: 42%;
+  transform: translateY(-50%);
+  width: min(220px, 28vw);
+  height: min(170px, 22vw);
+}
+
+.home-math-piece--geometry .home-math-piece__art {
+  opacity: 0.34;
+  -webkit-mask-image: radial-gradient(ellipse 86% 86% at 55% 48%, #000 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 86% 86% at 55% 48%, #000 30%, transparent 100%);
 }
 
 /* 公式水印 — Biography / Features 区右上 */
@@ -1690,7 +1683,8 @@ body {
 }
 
 @media (max-width: 768px) {
-  .home-math-piece--formulas {
+  .home-math-piece--formulas,
+  .home-math-piece--geometry {
     display: none;
   }
 
@@ -1703,29 +1697,12 @@ body {
     opacity: 0.68;
   }
 
-  .home-university-marks {
-    gap: clamp(1.5rem, 8vw, 3rem);
-    padding: 0 clamp(1rem, 6vw, 3rem);
-  }
-
-  .home-university-marks__crest {
-    opacity: 0.065;
-  }
-
-  .home-university-marks__crest--warwick {
-    width: min(108px, 24vw);
-  }
-
-  .home-university-marks__crest--tum {
-    width: min(72px, 16vw);
-  }
-
-  .home-math-piece--ramsey {
-    width: min(150px, 40vw);
-    height: min(150px, 40vw);
-    right: -0.5rem;
-    top: 0.38rem;
-    transform: translateY(-50%);
+  .home-math-piece--mobius {
+    width: min(140px, 38vw);
+    height: min(110px, 30vw);
+    right: -0.35rem;
+    top: 0.3rem;
+    transform: translateY(-45%);
   }
 }
 
@@ -2301,6 +2278,7 @@ body {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.28));
   align-content: flex-start;
+  contain: content;
 }
 
 .tokenizer-demo__chip {
@@ -2334,6 +2312,14 @@ body {
     0 6px 14px rgba(28, 25, 23, 0.08);
 }
 
+.tokenizer-demo__chip--dim {
+  opacity: 0.45;
+}
+
+.tokenizer-demo__chip--active {
+  opacity: 1;
+  transform: translateY(-1px);
+}
 
 .tokenizer-demo__field--inline {
   flex-direction: row;
