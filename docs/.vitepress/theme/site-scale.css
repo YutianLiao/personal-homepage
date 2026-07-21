@@ -69,7 +69,8 @@
   padding-left: 0 !important;
 }
 
-/* Full-site: no left sidebar — module navigation is ModuleTopNav */
+/* Full-site: no left sidebar chrome — module navigation is ModuleTopNav.
+ * Doc pages with On this page still get an invisible left placeholder via custom.css. */
 .site-scale-stage .VPSidebar {
   display: none !important;
 }
@@ -86,7 +87,8 @@
   padding-left: 0 !important;
 }
 
-.site-scale-stage .VPContent.has-sidebar {
+/* Do not zero out placeholder padding for outline pages (handled in custom.css). */
+.site-scale-stage .VPContent.has-sidebar:not(:has(.VPDoc.has-aside)) {
   padding-left: 0 !important;
 }
 

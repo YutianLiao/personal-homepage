@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onUnmounted, ref } from "vue";
 import { useRoute, useData, withBase } from "vitepress";
 import { getModuleTopNav, type ModuleTopNavItem } from "../../module-top-navs";
 
 const route = useRoute();
 const { site } = useData();
 const openPart = ref<string | null>(null);
+let closeTimer: ReturnType<typeof setTimeout> | null = null;
 
 const normalizedPath = computed(() => {
   const base = site.value.base.replace(/\/$/, "");
@@ -37,10 +38,30 @@ function href(link: string) {
   return withBase(link);
 }
 
+function openPartMenu(label: string) {
+  if (closeTimer) {
+    clearTimeout(closeTimer);
+    closeTimer = null;
+  }
+  openPart.value = label;
+}
+
+function scheduleClosePartMenu() {
+  if (closeTimer) clearTimeout(closeTimer);
+  closeTimer = setTimeout(() => {
+    openPart.value = null;
+    closeTimer = null;
+  }, 140);
+}
+
 function closeAfterFocus(event: FocusEvent) {
   const root = event.currentTarget as HTMLElement;
   if (!root.contains(event.relatedTarget as Node | null)) openPart.value = null;
 }
+
+onUnmounted(() => {
+  if (closeTimer) clearTimeout(closeTimer);
+});
 </script>
 
 <template>
@@ -70,9 +91,9 @@ function closeAfterFocus(event: FocusEvent) {
             open: openPart === item.label,
             active: isPartActive(item)
           }"
-          @mouseenter="openPart = item.label"
-          @mouseleave="openPart = null"
-          @focusin="openPart = item.label"
+          @mouseenter="openPartMenu(item.label)"
+          @mouseleave="scheduleClosePartMenu"
+          @focusin="openPartMenu(item.label)"
           @focusout="closeAfterFocus"
           @keydown.esc="openPart = null"
         >
