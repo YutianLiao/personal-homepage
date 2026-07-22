@@ -1,28 +1,20 @@
 # Hero sketch decor
 
-Home hero meadow backdrop (`HomeHeroSketchEnv.vue`).
+Soft rainbow pencil sketch under the home hero math title.
 
 | File | Role |
 |------|------|
-| `env.png` | Portrait meadow / rainbow pencil sketch — right-side decor, blends into page background |
-| `rainbow.png` | Soft-color horizontal rainbow sketch under the math title line |
+| `rainbow.png` | Horizontal rainbow sketch under the hero title line |
 
-## Layout (`HomeHeroSketchEnv.vue`)
+## Layout
 
-- Rendered in `Layout.vue` → `#home-hero-info`, inside `.VPHero .main`
-- `position: absolute; right: 0` — does not affect left hero copy width
-- Height: measured at runtime from `.main` top to `.home-features-custom` top (Biography divider)
-- `ResizeObserver` + window resize keep alignment after layout changes
+- Rendered directly in `Layout.vue` -> `#home-hero-info` as an `<img class="vp-hero-flora vp-hero-rainbow">`
+- Missing file is hidden via `onerror`
 
 ## Visual blend
 
-Shared classes in `custom.css`: **`.site-sketch-decor`** / **`.site-sketch-decor__img`** (also used by doc aside scientist portraits via `.site-sketch-decor--aside`).
-
-- `mix-blend-mode: multiply` — white paper merges with `--site-bg`
-- Radial `mask-image` — soft edges, no hard crop box
-- `::after` gradient overlays using `--site-bg` on left / top / bottom for seamless fade into the page
+Positioned and blended via `.vp-hero-flora` / `.vp-hero-rainbow` in `custom.css` (soft edges, restrained pencil colors on a transparent background).
 
 ## Replacing assets
 
-- `env.png`: portrait (~2:3), light background, dense grass along bottom edge
 - `rainbow.png`: wide horizontal strip with a transparent background and restrained pencil colors

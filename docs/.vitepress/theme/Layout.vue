@@ -5,6 +5,7 @@ import DefaultLayout from "vitepress/dist/client/theme-default/Layout.vue";
 import HomeMathPiece from "./components/HomeMathPiece.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
 import DocAsideScientistSketch from "./components/DocAsideScientistSketch.vue";
+import GalleryAsideOutline from "./components/GalleryAsideOutline.vue";
 import ModuleTopNav from "./components/ModuleTopNav.vue";
 import NavMissionVerse from "./components/NavMissionVerse.vue";
 import SiteScaleViewport from "./components/SiteScaleViewport.vue";
@@ -60,7 +61,7 @@ function hideBroken(e: Event) {
     </template>
 
     <template v-if="isHome" #home-hero-info>
-      <div class="hero-sketch-sudoku" aria-hidden="true">
+      <div class="hero-math-decor" aria-hidden="true">
         <HomeMathPiece name="sudoku" />
       </div>
       <div class="vp-hero-copy">
@@ -87,14 +88,19 @@ function hideBroken(e: Event) {
 
     <template v-if="isHome" #home-features-before>
       <div class="home-features-custom">
-        <HomeMathPiece name="geometry" />
-        <HomeMathPiece name="formulas" />
+        <div class="home-math-rail-continued" aria-hidden="true">
+          <HomeMathPiece name="geometry" />
+        </div>
         <HomeVPHomeFeatures />
       </div>
     </template>
 
     <template #doc-before>
       <ModuleTopNav />
+    </template>
+
+    <template #aside-outline-before>
+      <GalleryAsideOutline />
     </template>
 
     <template #aside-outline-after>

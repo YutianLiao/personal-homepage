@@ -6,7 +6,7 @@ bioExpanded: |
 
 hero:
   name: "Yutian Liao"
-  text: "Mathematics × Algorithms × Optimization"
+  text: "Mathematics × Optimization × AI"
   tagline: "Personal homepage for research interests, learning archives, and long-term notes."
   actions:
     - theme: brand
@@ -28,8 +28,8 @@ features:
 ---
 
 <section class="home-timeline-module" aria-labelledby="home-timeline-heading">
+  <HomeMathPiece name="mobius" />
   <div class="home-timeline-intro">
-    <HomeMathPiece name="mobius" />
     <h2 id="home-timeline-heading" class="home-timeline-heading">Timeline</h2>
     <p class="home-timeline-sub">Milestones in life</p>
   </div>

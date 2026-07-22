@@ -12,6 +12,11 @@
 
 - [ ] `/miscellaneous`
 
+## Collections
+
+- [ ] `/collections/movies`
+- [ ] `/collections/open-problems`
+
 ## CV
 
 - [ ] `/cv`

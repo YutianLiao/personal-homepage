@@ -6,15 +6,20 @@ Architecture and checklist: repository root `DESIGN.md` (section「Doc 右栏科
 
 ## Active sections
 
+Longest-prefix match (`/interest-journey/learning-archive` before `/interest-journey`).
+
 | Prefix | Scientist |
 |--------|-----------|
+| `/interest-journey/learning-archive` | G.H. Hardy |
+| `/interest-journey` | Carl Sagan |
+| `/learning` | Donald Knuth |
+| `/hello-agent` | Alan Turing |
+| `/my-notes` | Claude Shannon |
+| `/demos` | Ada Lovelace |
+| `/collections` | Srinivasa Ramanujan |
+| `/blog` | Srinivasa Ramanujan |
 | `/miscellaneous` | Richard Feynman |
 | `/cv` | Carl Friedrich Gauss |
-| `/interest-journey/learning-archive` | G.H. Hardy |
-| `/blog` | Srinivasa Ramanujan |
-| `/collections` | Srinivasa Ramanujan |
-| `/hello-agent` | Alan Turing |
-| `/cs336` | Claude Shannon |
 
 ## Library (15 PNGs, unused kept)
 
@@ -26,11 +31,11 @@ Architecture and checklist: repository root `DESIGN.md` (section「Doc 右栏科
 | `ramanujan.png` | Srinivasa Ramanujan | in use |
 | `turing.png` | Alan Turing | in use |
 | `shannon.png` | Claude Shannon | in use |
-| `lovelace.png` | Ada Lovelace | reserved |
-| `knuth.png` | Donald Knuth | reserved |
+| `lovelace.png` | Ada Lovelace | in use |
+| `knuth.png` | Donald Knuth | in use |
 | `nash.png` | John Nash | reserved |
 | `hilbert.png` | David Hilbert | reserved |
-| `sagan.png` | Carl Sagan | reserved |
+| `sagan.png` | Carl Sagan | in use |
 | `rosenblatt.png` | Frank Rosenblatt | reserved |
 | `schmidhuber.png` | Jürgen Schmidhuber | reserved |
 | `hochreiter.png` | Sepp Hochreiter | reserved |

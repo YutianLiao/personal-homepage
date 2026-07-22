@@ -87,3 +87,33 @@ export const gallerySections: GallerySection[] = [
 export function getGallerySection(id: string): GallerySection | undefined {
   return gallerySections.find((section) => section.id === id);
 }
+
+function pathMatches(path: string, prefix: string): boolean {
+  const normalized = path.replace(/\/$/, "") || "/";
+  const base = prefix.replace(/\/$/, "") || "/";
+  return normalized === base || normalized.startsWith(`${base}/`);
+}
+
+export function getGallerySectionForPath(path: string): GallerySection | undefined {
+  return gallerySections.find((section) =>
+    section.activePrefixes.some((prefix) => pathMatches(path, prefix))
+  );
+}
+
+/**
+ * Section overview (landing) page only: /interest-journey/, /learning/, /demos/.
+ * The gallery "On this page" aside (subpage list) is exclusive to these pages;
+ * content subpages (learning articles, learning-archive) keep their own outline.
+ */
+export function getGalleryOverviewSection(path: string): GallerySection | undefined {
+  const normalized = path.replace(/\/$/, "") || "/";
+  return gallerySections.find(
+    (section) => (section.link.replace(/\/$/, "") || "/") === normalized
+  );
+}
+
+export function isGalleryAsidePath(path: string, pageClass?: string): boolean {
+  const pc = pageClass ?? "";
+  if (pc.includes("demo-page") || pc.includes("knowledge-planet-page")) return false;
+  return Boolean(getGalleryOverviewSection(path));
+}

@@ -2,6 +2,7 @@ import { computed, ref, watch } from "vue";
 import { onContentUpdated, useData, useRoute } from "vitepress";
 import { getHeaders } from "vitepress/dist/client/theme-default/composables/outline.js";
 import registry from "../../doc-aside-scientists.json";
+import { isGalleryAsidePath } from "../../gallery-sections";
 
 export type DocAsideScientist = {
   id: string;
@@ -64,10 +65,18 @@ export function useDocAsideScientist() {
   const scientist = computed((): DocAsideScientist | null => {
     const layout = frontmatter.value.layout;
     if (layout === "home" || layout === "page") return null;
-    if (frontmatter.value.outline === false) return null;
-    if (headerCount.value <= 0) return null;
+    const pageClass = String(frontmatter.value.pageClass ?? "");
+    if (pageClass.includes("demo-page") || pageClass.includes("knowledge-planet-page")) {
+      return null;
+    }
 
     const path = normalizeDocPath(route.path, site.value.base);
+    const isGalleryAside =
+      pageClass.includes("gallery-aside-page") || isGalleryAsidePath(path, pageClass);
+
+    if (frontmatter.value.outline === false && !isGalleryAside) return null;
+    if (headerCount.value <= 0 && !isGalleryAside) return null;
+
     const id = resolveSectionScientistId(path);
     if (!id) return null;
 

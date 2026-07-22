@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { DefaultTheme } from "vitepress/theme";
-import { computed } from "vue";
+import { computed, onMounted, onUnmounted } from "vue";
 import { useData } from "vitepress";
 import VPFeature from "vitepress/dist/client/theme-default/components/VPFeature.vue";
 import HomeBiographyFeature from "./HomeBiographyFeature.vue";
@@ -37,6 +37,39 @@ const grid = computed(() => {
   if (n % 3 === 0) return "grid-6";
   if (n > 3) return "grid-4";
   return "grid-2";
+});
+
+let resizeObserver: ResizeObserver | undefined;
+
+function syncHomeRailAnchors() {
+  const root = document.querySelector(".home-features-custom");
+  if (!root) return;
+
+  const biography = root.querySelector(".items > .item:first-child");
+  if (!biography) return;
+
+  const rootRect = root.getBoundingClientRect();
+  const bioRect = biography.getBoundingClientRect();
+
+  const geometryLine = bioRect.bottom - rootRect.top;
+
+  root.style.setProperty("--home-geometry-line-y", `${geometryLine}px`);
+}
+
+onMounted(() => {
+  syncHomeRailAnchors();
+  window.addEventListener("resize", syncHomeRailAnchors, { passive: true });
+
+  const root = document.querySelector(".home-features-custom .items");
+  if (root) {
+    resizeObserver = new ResizeObserver(() => syncHomeRailAnchors());
+    resizeObserver.observe(root);
+  }
+});
+
+onUnmounted(() => {
+  window.removeEventListener("resize", syncHomeRailAnchors);
+  resizeObserver?.disconnect();
 });
 </script>
 

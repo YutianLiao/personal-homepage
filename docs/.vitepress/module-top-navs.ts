@@ -11,7 +11,6 @@ export type ModuleTopNavItem =
 
 export type ModuleTopNavSection = {
   id: string;
-  /** Return true when this section's top nav should render for the given path. */
   match: (path: string) => boolean;
   items: ModuleTopNavItem[];
 };
@@ -58,32 +57,6 @@ export const moduleTopNavs: ModuleTopNavSection[] = [
     items: fromSidebar(myNotesSidebar)
   },
   {
-    id: "learning-hub",
-    match: (path) => pathMatches(path, "/learning"),
-    items: [
-      { type: "link", label: "Overview", href: "/learning/" },
-      { type: "link", label: "Hello Agent", href: "/hello-agent/" },
-      { type: "link", label: "My Notes", href: "/my-notes/" }
-    ]
-  },
-  {
-    id: "interest-journey",
-    match: (path) => pathMatches(path, "/interest-journey"),
-    items: [
-      { type: "link", label: "Overview", href: "/interest-journey/" },
-      {
-        type: "link",
-        label: "Learning Archive",
-        href: "/interest-journey/learning-archive"
-      },
-      {
-        type: "link",
-        label: "Knowledge Planet",
-        href: "/interest-journey/knowledge-planet"
-      }
-    ]
-  },
-  {
     id: "blog",
     match: (path) => pathMatches(path, "/blog"),
     items: [
@@ -106,6 +79,17 @@ export const moduleTopNavs: ModuleTopNavSection[] = [
   }
 ];
 
+/** Gallery 页用右侧子页导航；Learning 仅 Overview 除外，子页恢复 ModuleTopNav。 */
 export function getModuleTopNav(path: string): ModuleTopNavSection | null {
+  const normalized = path.replace(/\/$/, "") || "/";
+  if (normalized === "/learning") return null;
+
+  const isLearningModule =
+    pathMatches(path, "/hello-agent") || pathMatches(path, "/my-notes");
+  const isGalleryOnly =
+    pathMatches(path, "/interest-journey") || pathMatches(path, "/demos");
+
+  if (isGalleryOnly && !isLearningModule) return null;
+
   return moduleTopNavs.find((section) => section.match(path)) ?? null;
 }

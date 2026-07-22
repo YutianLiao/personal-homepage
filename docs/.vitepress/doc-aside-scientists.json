@@ -63,7 +63,10 @@
   },
   "sections": [
     { "prefix": "/interest-journey/learning-archive", "scientist": "hardy" },
+    { "prefix": "/interest-journey", "scientist": "sagan" },
     { "prefix": "/hello-agent", "scientist": "turing" },
+    { "prefix": "/learning", "scientist": "knuth" },
+    { "prefix": "/demos", "scientist": "lovelace" },
     { "prefix": "/collections", "scientist": "ramanujan" },
     { "prefix": "/miscellaneous", "scientist": "feynman" },
     { "prefix": "/my-notes", "scientist": "shannon" },

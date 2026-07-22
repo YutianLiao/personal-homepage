@@ -1,6 +1,6 @@
 import { defineConfig } from "vitepress";
 import { withMermaid } from "vitepress-plugin-mermaid";
-import { transformLearningModulePageData } from "./transformLearningModule";
+import { transformPageData } from "./transformPageData";
 
 const repoName = process.env.GITHUB_REPOSITORY?.split("/")[1];
 const base = repoName ? `/${repoName}/` : "/";
@@ -13,7 +13,7 @@ export default withMermaid(
     description: "极简个人主页:研究,写作与学习记录",
     cleanUrls: true,
     appearance: false,
-    transformPageData: transformLearningModulePageData,
+    transformPageData,
     markdown: {
       math: true
     },

@@ -28,11 +28,7 @@ function hideBroken(e: Event) {
 
 <style scoped>
 .doc-aside-scientist {
-  width: min(100%, 8.75rem);
-  max-width: 8.75rem;
-  aspect-ratio: 3 / 4;
-  max-height: 11.5rem;
+  width: min(100%, 9rem);
   margin-top: 1.35rem;
-  overflow: hidden;
 }
 </style>
