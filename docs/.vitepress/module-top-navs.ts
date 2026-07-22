@@ -55,31 +55,10 @@ export const moduleTopNavs: ModuleTopNavSection[] = [
     id: "my-notes",
     match: (path) => pathMatches(path, "/my-notes"),
     items: fromSidebar(myNotesSidebar)
-  },
-  {
-    id: "blog",
-    match: (path) => pathMatches(path, "/blog"),
-    items: [
-      { type: "link", label: "Overview", href: "/blog/" },
-      {
-        type: "part",
-        label: "Articles",
-        children: [
-          {
-            label: "Start Here",
-            href: "/blog/2026-05-hello-vitepress"
-          },
-          {
-            label: "Warwick/SJTU Challenge",
-            href: "/blog/2021-07-warwick-sjtu-challenge"
-          }
-        ]
-      }
-    ]
   }
 ];
 
-/** Gallery 页用右侧子页导航；Learning 仅 Overview 除外，子页恢复 ModuleTopNav。 */
+/** Gallery 总览 / Interest Journey / Demo 无 ModuleTopNav；Learning 仅 Overview 除外。 */
 export function getModuleTopNav(path: string): ModuleTopNavSection | null {
   const normalized = path.replace(/\/$/, "") || "/";
   if (normalized === "/learning") return null;

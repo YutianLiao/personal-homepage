@@ -75,16 +75,10 @@
   display: none !important;
 }
 
-.site-scale-stage .VPLocalNav .menu {
+/* VPLocalNav is VitePress's mid-width outline bar ("On this page" + …).
+ * Desktop aside is always forced under the scale shell, so this bar is redundant. */
+.site-scale-stage .VPLocalNav {
   display: none !important;
-}
-
-.site-scale-stage .VPLocalNav.empty {
-  display: none !important;
-}
-
-.site-scale-stage .VPLocalNav.has-sidebar {
-  padding-left: 0 !important;
 }
 
 /* Do not zero out placeholder padding for outline pages (handled in custom.css). */
