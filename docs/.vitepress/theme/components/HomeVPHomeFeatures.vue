@@ -126,29 +126,17 @@ onUnmounted(() => {
   width: 100%;
 }
 
-@media (min-width: 640px) {
-  .item.grid-2,
-  .item.grid-4,
-  .item.grid-6 {
-    width: calc(100% / 2);
-  }
+/* 画布固定 1680：Features 栅格始终用桌面列宽，不按真实视口断点切换 */
+.item.grid-2 {
+  width: calc(100% / 2);
 }
 
-@media (min-width: 768px) {
-  .item.grid-2,
-  .item.grid-4 {
-    width: calc(100% / 2);
-  }
-
-  .item.grid-3,
-  .item.grid-6 {
-    width: calc(100% / 3);
-  }
+.item.grid-3,
+.item.grid-6 {
+  width: calc(100% / 3);
 }
 
-@media (min-width: 960px) {
-  .item.grid-4 {
-    width: calc(100% / 4);
-  }
+.item.grid-4 {
+  width: calc(100% / 4);
 }
 </style>

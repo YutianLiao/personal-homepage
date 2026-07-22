@@ -171,33 +171,4 @@ function onSelect(point: FlatKnowledgePoint | null) {
 .km-page__error {
   color: #ff8a9e;
 }
-
-@media (max-width: 960px) {
-  .km-page {
-    position: relative;
-    inset: auto;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto minmax(420px, 55vh) auto;
-    overflow: auto;
-    min-height: calc(100vh - var(--vp-nav-height, 64px));
-    height: auto;
-  }
-
-  .km-page__left,
-  .km-page__right {
-    height: auto;
-    overflow: visible;
-  }
-
-  .km-page__left {
-    border-right: none;
-    border-bottom: 1px solid var(--km-border);
-  }
-
-  .km-page__right {
-    border-left: none;
-    border-top: 1px solid var(--km-border);
-    min-height: 240px;
-  }
-}
 </style>

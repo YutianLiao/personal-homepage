@@ -384,81 +384,79 @@ body {
   margin-left: 0.35rem;
 }
 
-/* ≥1280: 导航与正文共用 aside 列几何（subgrid），竖线沿用 VitePress 自带 ::before */
-@media (min-width: 1280px) {
-  .VPNavBar .wrapper {
-    padding-left: 0;
-    padding-right: 0;
-  }
+/* 导航与正文共用 aside 列几何（subgrid）。画布固定 1680，不依赖视口断点。 */
+.VPNavBar .wrapper {
+  padding-left: 0;
+  padding-right: 0;
+}
 
-  .VPNavBar::after {
-    max-width: var(--site-page-max);
-  }
+.VPNavBar::after {
+  max-width: var(--site-page-max);
+}
 
-  .VPNavBar .container {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) var(--site-aside-rail);
-    column-gap: 1.25rem;
-    align-items: center;
-    width: 100% !important;
-    max-width: none !important;
-    margin: 0 !important;
-  }
+.VPNavBar .container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--site-aside-rail);
+  column-gap: 1.25rem;
+  align-items: center;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
 
-  .VPNavBar .content {
-    display: contents;
-  }
+.VPNavBar .content {
+  display: contents;
+}
 
-  .VPNavBar .title {
-    grid-column: 1;
-    grid-row: 1;
-    justify-self: start;
-    align-self: center;
-  }
+.VPNavBar .title {
+  grid-column: 1;
+  grid-row: 1;
+  justify-self: start;
+  align-self: center;
+}
 
-  .VPNavBar .content-body {
-    grid-column: 1 / 3;
-    grid-row: 1;
-    display: grid;
-    grid-template-columns: subgrid;
-    align-items: center;
-    width: 100%;
-  }
+.VPNavBar .content-body {
+  grid-column: 1 / 3;
+  grid-row: 1;
+  display: grid;
+  grid-template-columns: subgrid;
+  align-items: center;
+  width: 100%;
+}
 
-  .VPNavBar .menu {
-    grid-column: 1;
-    justify-self: end;
-    margin-left: 0;
-    margin-right: 0;
-  }
+.VPNavBar .menu {
+  grid-column: 1;
+  justify-self: end;
+  margin-left: 0;
+  margin-right: 0;
+}
 
-  .VPNavBar .social-links {
-    grid-column: 2;
-    flex: none;
-    width: auto;
-    margin-left: 0;
-    justify-content: flex-start;
-  }
+.VPNavBar .social-links {
+  grid-column: 2;
+  flex: none;
+  width: auto;
+  margin-left: 0;
+  justify-content: flex-start;
+}
 
-  /* 张载：GitHub 与屏幕右缘之间、靠近右缘约 1/3 处（Teleport 全站一致） */
-  .VPNavBar {
-    position: relative;
-  }
+/* 张载：GitHub 与屏幕右缘之间、靠近右缘约 1/3 处（Teleport 全站一致） */
+.VPNavBar {
+  position: relative;
+}
 
-  .VPNavBar > .nav-mission-verse {
-    margin-left: 0 !important;
-    margin-right: 0 !important;
-  }
+.VPNavBar > .nav-mission-verse {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
 
-  .nav-mission-verse {
-    position: absolute;
-    top: 50%;
-    right: calc(var(--site-aside-rail) / 3);
-    left: auto;
-    transform: translateY(-50%);
-    margin: 0 !important;
-    z-index: 3;
-  }
+.nav-mission-verse {
+  position: absolute;
+  top: 50%;
+  right: calc(var(--site-aside-rail) / 3);
+  left: auto;
+  transform: translateY(-50%);
+  margin: 0 !important;
+  z-index: 3;
 }
 
 .nav-mission-verse {
@@ -516,12 +514,6 @@ body {
   margin: 0 0.48rem;
   background: var(--site-border-strong);
   vertical-align: 0.02em;
-}
-
-@media (max-width: 1199px) {
-  .nav-mission-verse {
-    display: none;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -811,105 +803,99 @@ body {
   padding-top: 1.5rem;
 }
 
-/* Single-column docs (no right TOC) */
-@media (min-width: 960px) {
-  .VPDoc:not(.has-aside):not(.has-sidebar) .content-container {
-    max-width: var(--site-content-max);
-    margin-inline: auto;
-  }
+/* Single-column docs (no right TOC) — always on under 1680 canvas */
+.VPDoc:not(.has-aside):not(.has-sidebar) .content-container {
+  max-width: var(--site-content-max);
+  margin-inline: auto;
+}
 
-  .VPDoc.section-gallery-page.gallery-aside-page:not(.has-sidebar) .content-container {
-    max-width: none;
-    width: 100%;
-    margin-inline: 0;
-  }
+.VPDoc.section-gallery-page.gallery-aside-page:not(.has-sidebar) .content-container {
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
+}
 
-  .VPDoc.section-gallery-page:not(.gallery-aside-page):not(.has-aside):not(.has-sidebar) .content-container {
-    max-width: var(--site-page-max);
-    width: 100%;
-    margin-inline: 0;
-  }
+.VPDoc.section-gallery-page:not(.gallery-aside-page):not(.has-aside):not(.has-sidebar) .content-container {
+  max-width: var(--site-page-max);
+  width: 100%;
+  margin-inline: 0;
 }
 
 /* Right-side TOC — grid on .container (aside is a sibling of .content).
    Do NOT target bare .content: that also hits .VPDocAsideOutline .content and
    pushes outline links into a clipped second column. */
-@media (min-width: 1280px) {
-  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
-    > .container {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) var(--site-aside-rail, 12.25rem);
-    column-gap: 1.25rem;
-    align-items: start;
-    max-width: var(--site-page-max);
-  }
-
-  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
-    > .container
-    > .content {
-    min-width: 0;
-  }
-
-  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
-    .content-container {
-    max-width: none !important;
-    width: 100%;
-    margin-inline: 0 !important;
-    min-width: 0;
-  }
-
-  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page) .aside {
-    display: block;
-    width: var(--site-aside-rail, 12.25rem);
-    max-width: none;
-    padding-left: 0;
-    margin-left: 0;
-  }
-
-  .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
-    .aside-container {
-    width: 100%;
-    max-width: none;
-  }
-
-  /* Gallery 子模块：右侧 On This Page 列出子页面（非正文标题） */
-  .VPDoc.gallery-aside-page > .container {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) var(--site-aside-rail, 12.25rem);
-    column-gap: 1.25rem;
-    align-items: start;
-    max-width: var(--site-page-max);
-  }
-
-  .VPDoc.gallery-aside-page > .container > .content {
-    min-width: 0;
-  }
-
-  .VPDoc.gallery-aside-page .content-container {
-    max-width: none !important;
-    width: 100%;
-    margin-inline: 0 !important;
-    min-width: 0;
-  }
-
-  .VPDoc.gallery-aside-page .aside {
-    display: block;
-    width: var(--site-aside-rail, 12.25rem);
-    max-width: none;
-    padding-left: 0;
-    margin-left: 0;
-  }
-
-  .VPDoc.gallery-aside-page .aside-container {
-    width: 100%;
-    max-width: none;
-  }
+.VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+  > .container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--site-aside-rail, 12.25rem);
+  column-gap: 1.25rem;
+  align-items: start;
+  max-width: var(--site-page-max);
 }
 
-@media (min-width: 1280px) {
-  .VPDoc.has-aside .aside {
-    display: block;
-  }
+.VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+  > .container
+  > .content {
+  min-width: 0;
+}
+
+.VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+  .content-container {
+  max-width: none !important;
+  width: 100%;
+  margin-inline: 0 !important;
+  min-width: 0;
+}
+
+.VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page) .aside {
+  display: block;
+  width: var(--site-aside-rail, 12.25rem);
+  max-width: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+  .aside-container {
+  width: 100%;
+  max-width: none;
+}
+
+/* Gallery 子模块：右侧 On This Page 列出子页面（非正文标题） */
+.VPDoc.gallery-aside-page > .container {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--site-aside-rail, 12.25rem);
+  column-gap: 1.25rem;
+  align-items: start;
+  max-width: var(--site-page-max);
+}
+
+.VPDoc.gallery-aside-page > .container > .content {
+  min-width: 0;
+}
+
+.VPDoc.gallery-aside-page .content-container {
+  max-width: none !important;
+  width: 100%;
+  margin-inline: 0 !important;
+  min-width: 0;
+}
+
+.VPDoc.gallery-aside-page .aside {
+  display: block;
+  width: var(--site-aside-rail, 12.25rem);
+  max-width: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.VPDoc.gallery-aside-page .aside-container {
+  width: 100%;
+  max-width: none;
+}
+
+.VPDoc.has-aside .aside {
+  display: block;
 }
 
 .VPDocAsideOutline .content {
@@ -1047,15 +1033,6 @@ body {
   color: var(--site-accent) !important;
   font-weight: 600;
   background: var(--site-accent-soft);
-}
-
-@media (max-width: 760px) {
-  .module-top-nav__track {
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    padding-bottom: 0.15rem;
-  }
 }
 
 .VPDocAsideOutline .outline-title {
@@ -1320,26 +1297,6 @@ body {
   color: var(--site-text-muted);
   font-size: 0.88rem;
   line-height: 1.55;
-}
-
-@media (max-width: 760px) {
-  .section-gallery__header {
-    grid-template-columns: 1fr;
-    gap: 0.8rem;
-  }
-
-  .section-gallery__grid {
-    grid-template-columns: 1fr;
-  }
-
-  .section-gallery__item--2 {
-    margin-top: 0;
-  }
-
-  .section-gallery__item figcaption {
-    grid-template-columns: 1fr;
-    gap: 0.5rem;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1698,14 +1655,6 @@ body {
   visibility: visible !important;
 }
 
-@media (max-width: 640px) {
-  .VPHome .home-timeline-column {
-    grid-template-columns: 1fr;
-    gap: 0.25rem;
-    padding: 0.75rem 0.25rem;
-  }
-}
-
 /* ── Footer ── */
 .VPFooter {
   background: var(--site-bg);
@@ -1868,34 +1817,6 @@ body {
 .VPHome .home-timeline-module > :not(.home-math-piece) {
   position: relative;
   z-index: 1;
-}
-
-@media (max-width: 768px) {
-  .VPHome .home-features-custom .VPFeatures .container {
-    padding-right: var(--site-gutter);
-  }
-
-  .home-math-rail-continued .home-math-piece--geometry {
-    display: none;
-  }
-
-  .hero-math-decor {
-    width: min(160px, 38vw);
-  }
-
-  .hero-math-decor .home-math-piece--sudoku {
-    height: min(160px, 38vw);
-  }
-
-  .hero-math-decor .home-math-piece--sudoku .home-math-piece__art {
-    opacity: 0.68;
-  }
-
-  .home-timeline-module .home-math-piece--mobius {
-    width: min(150px, 40vw);
-    height: min(120px, 32vw);
-    top: 0.15rem;
-  }
 }
 
 .vp-corner-decorations {
@@ -3121,24 +3042,6 @@ body {
   color: var(--site-text-muted);
 }
 
-@media (max-width: 960px) {
-  .tokenizer-demo__workbench {
-    grid-template-columns: 1fr;
-  }
-
-  .tokenizer-demo__inspect {
-    position: static;
-  }
-
-  .tokenizer-explanation__pros-cons {
-    grid-template-columns: 1fr;
-  }
-
-  .Layout.demo-page .VPContent {
-    padding-top: calc(var(--vp-nav-height, 64px) + var(--demo-top-offset, 1.25rem)) !important;
-  }
-}
-
 /* ── Sudoku Lab ── */
 .sudoku-demo-scene {
   position: relative;
@@ -3217,17 +3120,6 @@ body {
   width: 92%;
   margin-left: 0;
   opacity: 0.58;
-}
-
-@media (max-width: 900px) {
-  .sudoku-sketch-decor {
-    display: none;
-  }
-
-  .sudoku-demo-scene {
-    max-width: min(36rem, 100%);
-    padding: 0;
-  }
 }
 
 .sudoku-demo {

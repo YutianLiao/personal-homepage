@@ -1,9 +1,8 @@
 /**
  * Scale shell companion.
- * 1) Neutralize structure-breaking breakpoints (real viewport ≠ stage width).
- * 2) Correct position:fixed heights under CSS zoom/transform.
- * 3) Keep top nav geometry identical on every page (ignore has-sidebar).
- * 4) Treat left sidebar as an independent content rail under the nav.
+ * Design canvas is always DESIGN_W (1680). Window resize only changes zoom.
+ * This file locks desktop structure so real-viewport media queries cannot
+ * reflow / hide / restack UI.
  */
 
 :root.site-scale-root {
@@ -33,9 +32,61 @@
 }
 
 /*
+ * Keep the nav inside the 1680 stage at every window size.
+ * VitePress uses position:fixed ≥960px; with zoom/transform that can detach
+ * from the stage and suddenly reflow to the real viewport width.
+ */
+.site-scale-stage .VPNav {
+  position: sticky !important;
+  top: 0 !important;
+  left: auto !important;
+  width: 100% !important;
+  z-index: var(--vp-z-index-nav);
+}
+
+/*
+ * VitePress mid-width chrome (real viewport 768–1279):
+ *   - VPNavBarExtra = "…" flyout that hides GitHub inside
+ *   - VPNavBarSocialLinks hidden until ≥1280
+ * That swap is the sudden UI jump when narrowing. Force desktop always.
+ */
+.site-scale-stage .VPNavBarExtra {
+  display: none !important;
+}
+
+.site-scale-stage .VPNavBarSocialLinks,
+.site-scale-stage .VPNavBar .social-links {
+  display: flex !important;
+  align-items: center !important;
+}
+
+/* Full-site: no left sidebar chrome — module navigation is ModuleTopNav.
+ * Doc pages with On this page still get an invisible left placeholder via custom.css. */
+.site-scale-stage .VPSidebar {
+  display: none !important;
+}
+
+/*
+ * VPLocalNav: mid-width "On this page" / "Return to top" strip under the nav.
+ * Desktop aside is always forced under the scale shell, so this bar is redundant.
+ */
+.site-scale-stage .VPLocalNav,
+.site-scale-stage .VPLocalNav.empty,
+.site-scale-stage .VPLocalNav.fixed,
+.site-scale-stage .VPLocalNav.has-sidebar {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  overflow: hidden !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/*
  * Top nav: same geometry on Home / CV / Blog / Demo / Learning.
  * Do NOT reserve a sidebar-width column for the logo — that causes the jump.
- * Keep the same wrapper gutters as non-sidebar pages (custom.css).
  */
 .site-scale-stage .VPNavBar.has-sidebar .wrapper {
   padding-left: var(--site-gutter) !important;
@@ -69,21 +120,27 @@
   padding-left: 0 !important;
 }
 
-/* Full-site: no left sidebar chrome — module navigation is ModuleTopNav.
- * Doc pages with On this page still get an invisible left placeholder via custom.css. */
-.site-scale-stage .VPSidebar {
-  display: none !important;
-}
-
-/* VPLocalNav is VitePress's mid-width outline bar ("On this page" + …).
- * Desktop aside is always forced under the scale shell, so this bar is redundant. */
-.site-scale-stage .VPLocalNav {
-  display: none !important;
-}
-
 /* Do not zero out placeholder padding for outline pages (handled in custom.css). */
 .site-scale-stage .VPContent.has-sidebar:not(:has(.VPDoc.has-aside)) {
   padding-left: 0 !important;
+}
+
+/* Section gallery: keep desktop 2-column even when real viewport < 760 */
+.site-scale-stage .section-gallery__header {
+  grid-template-columns: minmax(0, auto) minmax(0, 1fr) !important;
+}
+
+.site-scale-stage .section-gallery__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+}
+
+.site-scale-stage .section-gallery__item--2 {
+  margin-top: 0 !important;
+}
+
+.site-scale-stage .section-gallery__item figcaption {
+  grid-template-columns: minmax(8rem, 0.65fr) minmax(0, 1.35fr) !important;
+  gap: 0.75rem 1.25rem !important;
 }
 
 /*
@@ -310,6 +367,77 @@
   border-left: 1px solid rgba(160, 130, 255, 0.14) !important;
   border-top: none !important;
   min-height: 0 !important;
+}
+
+/*
+ * VitePress default chrome still uses real-viewport media queries.
+ * Lock desktop geometry so narrowing the window only changes CSS zoom.
+ */
+.site-scale-stage .VPContent {
+  padding-top: var(--vp-nav-height) !important;
+}
+
+.site-scale-stage .VPContent.has-sidebar {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin: 0 !important;
+}
+
+.site-scale-stage .VPDoc:not(.demo-page):not(.knowledge-planet-page) {
+  padding: 48px var(--site-gutter, 32px) 0 !important;
+}
+
+.site-scale-stage .VPDoc.has-aside > .container > .content,
+.site-scale-stage .VPDoc.gallery-aside-page > .container > .content {
+  order: 1 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+}
+
+.site-scale-stage .VPNavBarSearch {
+  display: flex !important;
+  align-items: center !important;
+  flex-grow: 1 !important;
+  padding-left: 32px !important;
+}
+
+.site-scale-stage .VPNavBarAppearance,
+.site-scale-stage .VPNavBarTranslations {
+  display: none !important;
+}
+
+/* Home: keep math rail + timeline desktop geometry */
+.site-scale-stage .home-math-rail-continued .home-math-piece--geometry,
+.site-scale-stage .home-timeline-module .home-math-piece--mobius,
+.site-scale-stage .hero-math-decor {
+  display: block !important;
+}
+
+.site-scale-stage .home-features-custom .item.grid-2 {
+  width: calc(100% / 2) !important;
+}
+
+.site-scale-stage .home-features-custom .item.grid-3,
+.site-scale-stage .home-features-custom .item.grid-6 {
+  width: calc(100% / 3) !important;
+}
+
+.site-scale-stage .home-features-custom .item.grid-4 {
+  width: calc(100% / 4) !important;
+}
+
+/* Demo: keep side sketches */
+.site-scale-stage .sudoku-sketch-decor {
+  display: block !important;
+}
+
+.site-scale-stage .sudoku-demo-scene {
+  max-width: min(68rem, 100%) !important;
+  padding: 0 clamp(0.25rem, 1.5vw, 1rem) !important;
+}
+
+.site-scale-stage .tokenizer-demo__inspect {
+  position: sticky !important;
 }
 
 /* transform fallback: sticky nav when zoom unavailable */

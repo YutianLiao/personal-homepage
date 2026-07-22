@@ -56,13 +56,6 @@ const items = [
   object-position: center top;
 }
 
-@media (max-width: 720px) {
-  .misc-family-row {
-    grid-template-columns: 1fr;
-    max-width: 20rem;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .misc-family-fig {
     transition: none;

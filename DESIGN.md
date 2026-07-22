@@ -4,12 +4,13 @@
 
 ## 固定画布缩放（只加壳）
 
-全站外包一层缩放壳：`scale = innerWidth / 1680`，按宽等比缩放 + 纵向滚动。
+全站外包一层缩放壳：`scale = innerWidth / 1680`，按宽等比缩放 + 纵向滚动。**只缩放，不换布局**：画布内始终是桌面几何；窗口变窄不应触发汉堡菜单、隐藏右栏、Gallery 单列等 UI 跳变。
 
 | 文件 | 职责 |
 | --- | --- |
 | `theme/components/SiteScaleViewport.vue` | 唯一缩放逻辑；`Layout.vue` 包裹 `DefaultLayout` |
-| `theme/site-scale.css` | **强制桌面结构**（真实窗口变窄时仍保持 1680 画布布局）：顶栏网格、张载定位、右栏 On this page；并校正 `position:fixed` 高度 |
+| `theme/site-scale.css` | **强制桌面结构**：顶栏 sticky、GitHub 直出（禁用 `…` Extra）、隐藏 VPLocalNav、右栏 On this page、Gallery/Demo/Home Features 桌面栅格；并校正 `position:fixed` 高度 |
+| `theme/custom.css` | 桌面布局规则**不再**包在视口 `@media (min/max-width)` 里（仅保留 `prefers-reduced-motion`） |
 
 **边界**：各页布局（Biography、Timeline、知识星球三栏等）仍由页面自己的 CSS 决定；外壳不得改 gutter、对齐、栅格数值。设计宽 `DESIGN_W = 1680`（略大于原 1440，同窗口下 UI 更小）；只改 `SiteScaleViewport.vue` 内该常量即可调大小。
 
