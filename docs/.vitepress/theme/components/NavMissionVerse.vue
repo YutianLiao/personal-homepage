@@ -22,7 +22,7 @@ function hideBroken(e: Event) {
     >
       <img
         class="nav-mission-verse__scholar"
-        :src="withBase('/decorative/navigation/scholar-back.png')"
+        :src="withBase('/decorative/navigation/scholar-back.webp')"
         alt=""
         aria-hidden="true"
         draggable="false"

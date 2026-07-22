@@ -2,63 +2,63 @@
   "scientists": {
     "feynman": {
       "name": "Richard Feynman",
-      "image": "/decorative/scientist-sketches/feynman.png"
+      "image": "/decorative/scientist-sketches/feynman.webp"
     },
     "gauss": {
       "name": "Carl Friedrich Gauss",
-      "image": "/decorative/scientist-sketches/gauss.png"
+      "image": "/decorative/scientist-sketches/gauss.webp"
     },
     "hardy": {
       "name": "G.H. Hardy",
-      "image": "/decorative/scientist-sketches/hardy.png"
+      "image": "/decorative/scientist-sketches/hardy.webp"
     },
     "ramanujan": {
       "name": "Srinivasa Ramanujan",
-      "image": "/decorative/scientist-sketches/ramanujan.png"
+      "image": "/decorative/scientist-sketches/ramanujan.webp"
     },
     "lovelace": {
       "name": "Ada Lovelace",
-      "image": "/decorative/scientist-sketches/lovelace.png"
+      "image": "/decorative/scientist-sketches/lovelace.webp"
     },
     "knuth": {
       "name": "Donald Knuth",
-      "image": "/decorative/scientist-sketches/knuth.png"
+      "image": "/decorative/scientist-sketches/knuth.webp"
     },
     "nash": {
       "name": "John Nash",
-      "image": "/decorative/scientist-sketches/nash.png"
+      "image": "/decorative/scientist-sketches/nash.webp"
     },
     "hilbert": {
       "name": "David Hilbert",
-      "image": "/decorative/scientist-sketches/hilbert.png"
+      "image": "/decorative/scientist-sketches/hilbert.webp"
     },
     "sagan": {
       "name": "Carl Sagan",
-      "image": "/decorative/scientist-sketches/sagan.png"
+      "image": "/decorative/scientist-sketches/sagan.webp"
     },
     "turing": {
       "name": "Alan Turing",
-      "image": "/decorative/scientist-sketches/turing.png"
+      "image": "/decorative/scientist-sketches/turing.webp"
     },
     "shannon": {
       "name": "Claude Shannon",
-      "image": "/decorative/scientist-sketches/shannon.png"
+      "image": "/decorative/scientist-sketches/shannon.webp"
     },
     "rosenblatt": {
       "name": "Frank Rosenblatt",
-      "image": "/decorative/scientist-sketches/rosenblatt.png"
+      "image": "/decorative/scientist-sketches/rosenblatt.webp"
     },
     "schmidhuber": {
       "name": "Jürgen Schmidhuber",
-      "image": "/decorative/scientist-sketches/schmidhuber.png"
+      "image": "/decorative/scientist-sketches/schmidhuber.webp"
     },
     "hochreiter": {
       "name": "Sepp Hochreiter",
-      "image": "/decorative/scientist-sketches/hochreiter.png"
+      "image": "/decorative/scientist-sketches/hochreiter.webp"
     },
     "bahdanau": {
       "name": "Dmitry Bahdanau",
-      "image": "/decorative/scientist-sketches/bahdanau.png"
+      "image": "/decorative/scientist-sketches/bahdanau.webp"
     }
   },
   "sections": [

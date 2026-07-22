@@ -92,6 +92,132 @@
   padding-left: 0 !important;
 }
 
+/*
+ * Desktop chrome must NOT depend on real viewport media queries.
+ * Stage is always DESIGN_W (1680) wide; window shrink only changes CSS zoom.
+ * Without these overrides, <1280px windows hide aside and drop 张载 into flow.
+ */
+
+/* Nav: same aside-rail grid + 张载 absolute placement at every window size */
+.site-scale-stage .VPNavBar .wrapper {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+.site-scale-stage .VPNavBar::after {
+  max-width: var(--site-page-max);
+}
+
+.site-scale-stage .VPNavBar .container {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) var(--site-aside-rail) !important;
+  column-gap: 1.25rem !important;
+  align-items: center !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+
+.site-scale-stage .VPNavBar .content {
+  display: contents !important;
+}
+
+.site-scale-stage .VPNavBar .title {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  justify-self: start !important;
+  align-self: center !important;
+}
+
+.site-scale-stage .VPNavBar .content-body {
+  grid-column: 1 / 3 !important;
+  grid-row: 1 !important;
+  display: grid !important;
+  grid-template-columns: subgrid !important;
+  align-items: center !important;
+  width: 100% !important;
+}
+
+.site-scale-stage .VPNavBar .menu {
+  grid-column: 1 !important;
+  justify-self: end !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+.site-scale-stage .VPNavBar .social-links {
+  grid-column: 2 !important;
+  flex: none !important;
+  width: auto !important;
+  margin-left: 0 !important;
+  justify-content: flex-start !important;
+}
+
+.site-scale-stage .VPNavBar {
+  position: relative !important;
+}
+
+.site-scale-stage .VPNavBar > .nav-mission-verse,
+.site-scale-stage .nav-mission-verse {
+  display: inline-flex !important;
+  position: absolute !important;
+  top: 50% !important;
+  right: calc(var(--site-aside-rail) / 3) !important;
+  left: auto !important;
+  transform: translateY(-50%) !important;
+  margin: 0 !important;
+  z-index: 3 !important;
+}
+
+/* Doc / Gallery right rail: always show On this page column */
+.site-scale-stage .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+  > .container,
+.site-scale-stage .VPDoc.gallery-aside-page > .container {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) var(--site-aside-rail, 12.25rem) !important;
+  column-gap: 1.25rem !important;
+  align-items: start !important;
+  max-width: var(--site-page-max) !important;
+}
+
+.site-scale-stage .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+  > .container
+  > .content,
+.site-scale-stage .VPDoc.gallery-aside-page > .container > .content {
+  min-width: 0 !important;
+  order: 1 !important;
+  margin: 0 !important;
+}
+
+.site-scale-stage .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+  .content-container,
+.site-scale-stage .VPDoc.gallery-aside-page .content-container {
+  max-width: none !important;
+  width: 100% !important;
+  margin-inline: 0 !important;
+  min-width: 0 !important;
+}
+
+.site-scale-stage .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+  .aside,
+.site-scale-stage .VPDoc.gallery-aside-page .aside,
+.site-scale-stage .VPDoc.has-aside .aside {
+  display: block !important;
+  width: var(--site-aside-rail, 12.25rem) !important;
+  max-width: none !important;
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+  order: 2 !important;
+  flex-grow: 0 !important;
+}
+
+.site-scale-stage .VPDoc.has-aside:not(.demo-page):not(.knowledge-planet-page):not(.section-gallery-page)
+  .aside-container,
+.site-scale-stage .VPDoc.gallery-aside-page .aside-container {
+  width: 100% !important;
+  max-width: none !important;
+}
+
 /* Doc right outline: viewport-height correction under zoom */
 .site-scale-stage .aside-container {
   height: var(--site-stage-min-h, 100vh) !important;

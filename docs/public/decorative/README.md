@@ -13,7 +13,7 @@ Transparent PNG / SVG exports. Missing files are hidden via `onerror`.
 | File | Used on | Placement |
 |------|---------|-----------|
 | `hero-sketch/rainbow.png` | Home | Soft rainbow pencil sketch under the hero title |
-| `navigation/scholar-back.png` | All pages | Scholar reading from behind, followed by the two-line mission quote |
+| `navigation/scholar-back.webp` | All pages | Scholar reading from behind, followed by the two-line mission quote |
 | `scientist-sketches/` | Doc pages with right outline | Pencil portrait below **On this page** — one per nav section; see [`scientist-sketches/README.md`](scientist-sketches/README.md) |
 | `journey-left.png` | Interest Journey — Learning Archive | Upper-left viewport |
 | `journey-right.png` | Interest Journey — Learning Archive | Mid-right viewport |

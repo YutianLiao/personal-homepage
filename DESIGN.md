@@ -9,7 +9,7 @@
 | 文件 | 职责 |
 | --- | --- |
 | `theme/components/SiteScaleViewport.vue` | 唯一缩放逻辑；`Layout.vue` 包裹 `DefaultLayout` |
-| `theme/site-scale.css` | **仅**禁止结构型断点（移动端堆叠/汉堡菜单）；不改页面排版 |
+| `theme/site-scale.css` | **强制桌面结构**（真实窗口变窄时仍保持 1680 画布布局）：顶栏网格、张载定位、右栏 On this page；并校正 `position:fixed` 高度 |
 
 **边界**：各页布局（Biography、Timeline、知识星球三栏等）仍由页面自己的 CSS 决定；外壳不得改 gutter、对齐、栅格数值。设计宽 `DESIGN_W = 1680`（略大于原 1440，同窗口下 UI 更小）；只改 `SiteScaleViewport.vue` 内该常量即可调大小。
 
@@ -107,7 +107,7 @@
 | 注入 | `Layout.vue` `#aside-outline-after` | 默认 doc 布局 |
 | 注入 | `LearningModuleDoc.vue` `#aside-outline-after` | Learning 模块 |
 | 样式 | `custom.css` `.site-sketch-decor--aside` | 融合肖像（opacity 0.74，晕染略弱） |
-| 素材 | `docs/public/decorative/scientist-sketches/` | `{id}.png`，见目录内 README |
+| 素材 | `docs/public/decorative/scientist-sketches/` | `{id}.webp`（约 360×540），见目录内 README |
 
 **触发条件**：`layout` 非 `home`/`page`；非 `demo-page`/`knowledge-planet-page`；分区总览页始终展示，其余页需 `outline !== false` 且存在 h2/h3 大纲。
 
@@ -115,7 +115,7 @@
 
 1. 确认该分区下页面在桌面端会出现 **On this page**
 2. 在 `sections` 添加 `{ "prefix": "/your-prefix", "scientist": "id" }`
-3. 若为新科学家：在 `scientists` 添加条目 + `scientist-sketches/{id}.png`
+3. 若为新科学家：在 `scientists` 添加条目 + `scientist-sketches/{id}.webp`
 4. 目视检查该分区下任意子页是否显示同一肖像
 
 科学家库共 15 位，当前 9 位在用、6 位保留；详见 [`scientist-sketches/README.md`](docs/public/decorative/scientist-sketches/README.md)。

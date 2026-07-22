@@ -21,25 +21,27 @@ Longest-prefix match (`/interest-journey/learning-archive` before `/interest-jou
 | `/miscellaneous` | Richard Feynman |
 | `/cv` | Carl Friedrich Gauss |
 
-## Library (15 PNGs, unused kept)
+## Library (15 WebP, unused kept)
+
+Display width ~9rem; assets are 360×540 WebP (~20KB each). Do not commit multi‑MB source PNGs.
 
 | File | Scientist | Status |
 |------|-----------|--------|
-| `feynman.png` | Richard Feynman | in use |
-| `gauss.png` | Carl Friedrich Gauss | in use |
-| `hardy.png` | G.H. Hardy | in use |
-| `ramanujan.png` | Srinivasa Ramanujan | in use |
-| `turing.png` | Alan Turing | in use |
-| `shannon.png` | Claude Shannon | in use |
-| `lovelace.png` | Ada Lovelace | in use |
-| `knuth.png` | Donald Knuth | in use |
-| `nash.png` | John Nash | reserved |
-| `hilbert.png` | David Hilbert | reserved |
-| `sagan.png` | Carl Sagan | in use |
-| `rosenblatt.png` | Frank Rosenblatt | reserved |
-| `schmidhuber.png` | Jürgen Schmidhuber | reserved |
-| `hochreiter.png` | Sepp Hochreiter | reserved |
-| `bahdanau.png` | Dmitry Bahdanau | reserved |
+| `feynman.webp` | Richard Feynman | in use |
+| `gauss.webp` | Carl Friedrich Gauss | in use |
+| `hardy.webp` | G.H. Hardy | in use |
+| `ramanujan.webp` | Srinivasa Ramanujan | in use |
+| `turing.webp` | Alan Turing | in use |
+| `shannon.webp` | Claude Shannon | in use |
+| `lovelace.webp` | Ada Lovelace | in use |
+| `knuth.webp` | Donald Knuth | in use |
+| `nash.webp` | John Nash | reserved |
+| `hilbert.webp` | David Hilbert | reserved |
+| `sagan.webp` | Carl Sagan | in use |
+| `rosenblatt.webp` | Frank Rosenblatt | reserved |
+| `schmidhuber.webp` | Jürgen Schmidhuber | reserved |
+| `hochreiter.webp` | Sepp Hochreiter | reserved |
+| `bahdanau.webp` | Dmitry Bahdanau | reserved |
 
 ## Asset style
 
@@ -48,4 +50,4 @@ Portrait **3:4**, white background, gray pencil lines. Blend via `.site-sketch-d
 ## New section
 
 1. Add `{ "prefix": "/…", "scientist": "id" }` to `sections` in `doc-aside-scientists.json`.
-2. Reuse a reserved scientist or add `scientists` entry + `{id}.png` here.
+2. Reuse a reserved scientist or add `scientists` entry + `{id}.webp` here.
