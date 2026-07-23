@@ -11,7 +11,6 @@ description: 从序列建模到 Agent 系统的长文学习笔记。
 
 | 分部 | 内容 |
 | --- | --- |
-| 前言 | 占位，待添加 |
 | [第一部分：数学基础](./01-math-foundations/01-neural-networks) | [神经网络](./01-math-foundations/01-neural-networks) · [RNN](./01-math-foundations/02-rnn) · [LSTM](./01-math-foundations/03-lstm) |
 | [第二部分：注意力机制](./02-attention/01-seq2seq-tutorial) | [Seq2Seq 论文精读](./02-attention/01-seq2seq-tutorial) |
 

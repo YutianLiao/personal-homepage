@@ -87,6 +87,8 @@
   /* ── Layout ── */
   --site-content-max: var(--site-measure);
   --site-page-max: 72rem;
+  /* Below this width: horizontal scroll, no mobile reflow (desktop floor). */
+  --site-min-width: 1024px;
   --site-gutter: clamp(1.25rem, 4.5vw, 2.75rem);
   --site-aside-rail: 12.25rem;
   /* Invisible left-rail placeholder (matches former VPSidebar width) for On this page pages */

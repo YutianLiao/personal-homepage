@@ -3,7 +3,6 @@
 ```
 learning/hello-agent/
 ├── index.md
-├── 00-preface/
 ├── 01-math-foundations/
 └── 02-attention/
 ```

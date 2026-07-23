@@ -18,7 +18,7 @@ npm run dev
 | --- | --- |
 | [`PAGE_CHECKLIST.md`](PAGE_CHECKLIST.md) | 全站页面校对 TODO |
 | [`ARCHITECTURE.md`](ARCHITECTURE.md) | 目录结构、模块注册、构建管线、常用命令 |
-| [`DESIGN.md`](DESIGN.md) | 视觉规范、tokens、布局与缩放 |
+| [`DESIGN.md`](DESIGN.md) | 视觉规范、tokens、布局与响应式策略 |
 | [`WRITING_CONVENTIONS.md`](WRITING_CONVENTIONS.md) | 中文标点、链接、术语写法 |
 | [`demos/`](demos/) | 交互 Demo 内容源（Tokenizer、Sudoku） |
 | [`learning/`](learning/) | 学习模块 Markdown 源 |

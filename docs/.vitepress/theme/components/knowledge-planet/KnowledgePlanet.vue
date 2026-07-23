@@ -103,8 +103,11 @@ function onSelect(point: FlatKnowledgePoint | null) {
   inset: var(--vp-nav-height, 64px) 0 0 0;
   z-index: 1;
   display: grid;
-  grid-template-columns: 236px 1fr minmax(220px, 18vw);
-  overflow: hidden;
+  /* Desktop floor: keep three columns; scroll horizontally below --site-min-width. */
+  grid-template-columns: 236px minmax(320px, 1fr) minmax(220px, 18vw);
+  min-width: var(--site-min-width, 1024px);
+  overflow-x: auto;
+  overflow-y: hidden;
   background: #03060e;
 }
 

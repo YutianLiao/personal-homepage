@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
-import { useRoute, useData, withBase } from "vitepress";
+import { useData, withBase } from "vitepress";
 import DefaultLayout from "vitepress/dist/client/theme-default/Layout.vue";
 import HomeMathPiece from "./components/HomeMathPiece.vue";
 import HomeVPHomeFeatures from "./components/HomeVPHomeFeatures.vue";
@@ -8,34 +8,10 @@ import DocAsideScientistSketch from "./components/DocAsideScientistSketch.vue";
 import GalleryAsideOutline from "./components/GalleryAsideOutline.vue";
 import ModuleTopNav from "./components/ModuleTopNav.vue";
 import NavMissionVerse from "./components/NavMissionVerse.vue";
-import SiteScaleViewport from "./components/SiteScaleViewport.vue";
 
-type DecorKey = "journey" | "misc";
-
-const route = useRoute();
-const { frontmatter, site } = useData();
-
-/** Strip VitePress `base` so `/personal-homepage/` becomes `/` on GitHub Pages. */
-const normalizedPath = computed(() => {
-  const base = site.value.base.replace(/\/$/, "");
-  let p = route.path.replace(/\/$/, "") || "/";
-  if (base && (p === base || p.startsWith(`${base}/`))) {
-    p = p.slice(base.length) || "/";
-  }
-  if (p.endsWith("/index.html")) {
-    p = p.replace(/\/index\.html$/, "") || "/";
-  }
-  return p.startsWith("/") ? p : `/${p}`;
-});
+const { frontmatter } = useData();
 
 const isHome = computed(() => frontmatter.value.layout === "home");
-
-const decorMode = computed((): DecorKey | null => {
-  const p = normalizedPath.value;
-  if (p === "/interest-journey/learning-archive") return "journey";
-  if (p === "/miscellaneous") return "misc";
-  return null;
-});
 
 const heroText = computed(() => {
   const h = frontmatter.value.hero as { text?: string } | undefined;
@@ -54,7 +30,6 @@ function hideBroken(e: Event) {
 </script>
 
 <template>
-  <SiteScaleViewport>
   <DefaultLayout>
     <template #nav-bar-content-after>
       <NavMissionVerse />
@@ -106,39 +81,5 @@ function hideBroken(e: Event) {
     <template #aside-outline-after>
       <DocAsideScientistSketch />
     </template>
-
-    <template #layout-bottom>
-      <div v-if="decorMode" class="vp-corner-decorations" aria-hidden="true">
-        <template v-if="decorMode === 'journey'">
-          <img
-            class="corner-deco corner-deco--left-soft"
-            :src="withBase('/decorative/journey-left.png')"
-            alt=""
-            @error="hideBroken"
-          />
-          <img
-            class="corner-deco corner-deco--right-btm"
-            :src="withBase('/decorative/journey-right.png')"
-            alt=""
-            @error="hideBroken"
-          />
-        </template>
-        <template v-else>
-          <img
-            class="corner-deco corner-deco--misc-bl"
-            :src="withBase('/decorative/misc-left.png')"
-            alt=""
-            @error="hideBroken"
-          />
-          <img
-            class="corner-deco corner-deco--misc-tr"
-            :src="withBase('/decorative/misc-right.png')"
-            alt=""
-            @error="hideBroken"
-          />
-        </template>
-      </div>
-    </template>
   </DefaultLayout>
-  </SiteScaleViewport>
 </template>

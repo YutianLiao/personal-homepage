@@ -126,7 +126,7 @@ onUnmounted(() => {
   width: 100%;
 }
 
-/* 画布固定 1680：Features 栅格始终用桌面列宽，不按真实视口断点切换 */
+/* Features 栅格始终用桌面列宽（全站 min-width 兜底，不按真实视口断点切换） */
 .item.grid-2 {
   width: calc(100% / 2);
 }

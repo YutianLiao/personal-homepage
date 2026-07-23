@@ -20,8 +20,8 @@
 | 题库索引与懒加载 | `composables/useSudokuPuzzles.ts`、`scripts/prepare-sudoku-puzzles.mjs` |
 | 成绩与历史持久化、文件同步 | `composables/useSudokuRecords.ts`、`composables/sudoku-storage.ts` |
 | 密码门禁 | `composables/useSudokuAuth.ts` |
-| 样式 | `docs/.vitepress/theme/custom.css`（`.sudoku-demo`、`.sudoku-sketch-decor`）、`site-scale.css` |
-| 导航标题、路由 | `docs/.vitepress/demos.json` |
+| 样式 | `docs/.vitepress/theme/custom.css`（`.sudoku-demo`、`.sudoku-sketch-decor`） |
+| 导航标题、Gallery 卡片、截图 | `docs/.vitepress/gallery-sections.ts`（`demos` 分区） |
 
 **不要改** `docs/demos/sudoku/index.md` 里的正文（只有 `<demo-sudoku />` 壳）。
 

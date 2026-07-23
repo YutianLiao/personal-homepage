@@ -12,6 +12,9 @@ export default withMermaid(
     title: "Yutian Liao",
     description: "极简个人主页:研究,写作与学习记录",
     cleanUrls: true,
+    // Dev-facing README.md files (module sources, decorative asset notes) are
+    // synced into docs/ but must not become public routes.
+    srcExclude: ["**/README.md"],
     appearance: false,
     transformPageData,
     markdown: {

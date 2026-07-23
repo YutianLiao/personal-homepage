@@ -7,7 +7,6 @@ import HomeMathPiece from "./components/HomeMathPiece.vue";
 import MiscFamilyGallery from "./components/MiscFamilyGallery.vue";
 import SectionGallery from "./components/SectionGallery.vue";
 import "./custom.css";
-import "./site-scale.css";
 
 export default {
   extends: DefaultTheme,

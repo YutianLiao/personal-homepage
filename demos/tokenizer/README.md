@@ -31,7 +31,7 @@
 | 注册/排序算法、切换 BPE 词表 | `theme/components/demos/tokenizer/registry.ts`（`TOKENIZER_META` + `loadTokenizerModule`）、`bpe.ts` |
 | UI 卡片标题（「算法」「输入文本」「Token 输出」） | `TokenizerDemo.vue` 模板 |
 | 颜色、间距、边框 | `docs/.vitepress/theme/tokens.css`、`custom.css`（`.tokenizer-demo` 段） |
-| 导航标题、路由 | `docs/.vitepress/demos.json` |
+| 导航标题、Gallery 卡片、截图 | `docs/.vitepress/gallery-sections.ts`（`demos` 分区） |
 | BERT 词表文件 | `docs/public/demos/tokenizer/bert-vocab.txt` |
 
 **不要改** `docs/demos/tokenizer/index.md` 里的正文（只有 `<demo-tokenizer />` 壳）；**不要改** `docs/hello-agent/` 等构建同步目录。

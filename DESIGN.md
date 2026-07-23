@@ -2,21 +2,19 @@
 
 极简学术主页视觉规范。实现见 `docs/.vitepress/theme/tokens.css` 与 `custom.css`。
 
-## 固定画布缩放（只加壳）
+## 响应式策略：桌面 fluid + 最小宽度兜底
 
-全站外包一层缩放壳：`scale = innerWidth / 1680`，按宽等比缩放 + 纵向滚动。**只缩放，不换布局**：画布内始终是桌面几何；窗口变窄不应触发汉堡菜单、隐藏右栏、Gallery 单列等 UI 跳变。
+全站不做整页 zoom、不换移动端布局。内容居中于 `--site-page-max`，用 fluid 单位（`%` / `fr` / `clamp` / `vw`）在可用宽度内平滑缩放。
 
-| 文件 | 职责 |
+| 机制 | 说明 |
 | --- | --- |
-| `theme/components/SiteScaleViewport.vue` | 唯一缩放逻辑；`Layout.vue` 包裹 `DefaultLayout` |
-| `theme/site-scale.css` | **强制桌面结构**：顶栏 sticky、GitHub 直出（禁用 `…` Extra）、隐藏 VPLocalNav、右栏 On this page、Gallery/Demo/Home Features 桌面栅格；并校正 `position:fixed` 高度 |
-| `theme/custom.css` | 桌面布局规则**不再**包在视口 `@media (min/max-width)` 里（仅保留 `prefers-reduced-motion`） |
+| `--site-page-max`（72rem） | 正文与顶栏内容最大宽度，居中 |
+| `--site-min-width`（默认 1024px） | 低于此宽度时 `#app` / `.Layout` 保持该最小宽，出现横向滚动，**不重排** |
+| 强制桌面 chrome | `custom.css` 始终显示顶栏菜单与 GitHub、隐藏汉堡 / `VPNavScreen` / `VPLocalNav` / `VPNavBarExtra`；搜索为导航栏放大镜图标（点击打开本地搜索弹窗） |
 
-**边界**：各页布局（Biography、Timeline、知识星球三栏等）仍由页面自己的 CSS 决定；外壳不得改 gutter、对齐、栅格数值。设计宽 `DESIGN_W = 1680`（略大于原 1440，同窗口下 UI 更小）；只改 `SiteScaleViewport.vue` 内该常量即可调大小。
+**边界**：窗口变窄不应触发汉堡菜单、隐藏右栏、Gallery 单列等 UI 跳变。若需整体更紧/更松，只调 `--site-min-width` 与 `--site-page-max`。
 
-`position: fixed` 面板（侧栏、知识星球）在 `zoom` 下会按视口高度再被缩小而裁切底部；外壳同步写入 `--site-stage-min-h = innerHeight / scale`，并校正这些面板高度，以适配不同浏览器尺寸。
-
-**顶栏 / 左栏**：顶栏在所有页面使用同一套几何（忽略 VitePress `has-sidebar` 对 Logo/菜单的偏移），翻页时位置不变。左边栏是顶栏下方的独立内容轨（固定宽 + 充足内边距 + 右边线），不再占用顶栏 Logo 列。
+**顶栏 / 左栏**：顶栏在所有页面使用同一套几何（忽略 VitePress `has-sidebar` 对 Logo/菜单的偏移），翻页时位置不变。全站无左侧边栏 chrome；有 **On this page** 的文档页用不可见左栏占位对齐。
 
 ## 设计参考
 
@@ -69,6 +67,7 @@
 | --- | --- |
 | `--site-measure` | 68ch（正文行宽） |
 | `--site-page-max` | 72rem |
+| `--site-min-width` | 1024px（桌面地板；以下横向滚动） |
 | `--site-gutter` | clamp(1.25rem, 4.5vw, 2.75rem) |
 | `--site-panel-padding` | 1.25rem 1.5rem |
 
