@@ -103,9 +103,9 @@ function onSelect(point: FlatKnowledgePoint | null) {
   inset: var(--vp-nav-height, 64px) 0 0 0;
   z-index: 1;
   display: grid;
-  /* Desktop floor: keep three columns; scroll horizontally below --site-min-width. */
-  grid-template-columns: 236px minmax(320px, 1fr) minmax(220px, 18vw);
-  min-width: var(--site-min-width, 1024px);
+  /* C1: km-page spans the viewport; three columns keep min-widths and scroll
+   * horizontally inside the fixed frame on narrow windows. */
+  grid-template-columns: minmax(236px, 236px) minmax(360px, 1fr) minmax(240px, 240px);
   overflow-x: auto;
   overflow-y: hidden;
   background: #03060e;

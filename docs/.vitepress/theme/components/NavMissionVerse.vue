@@ -5,7 +5,7 @@ import { onMounted, ref, Teleport } from "vue";
 const ready = ref(false);
 
 onMounted(() => {
-  ready.value = Boolean(document.querySelector(".VPNavBar"));
+  ready.value = Boolean(document.querySelector(".VPNavBar .title"));
 });
 
 function hideBroken(e: Event) {
@@ -15,7 +15,7 @@ function hideBroken(e: Event) {
 </script>
 
 <template>
-  <Teleport v-if="ready" to=".VPNavBar">
+  <Teleport v-if="ready" to=".VPNavBar .title">
     <span
       class="nav-mission-verse"
       aria-label="为天地立心, 为生民立命, 为往圣继绝学, 为万世开太平"

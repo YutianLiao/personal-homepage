@@ -20,7 +20,7 @@ export const gallerySections: GallerySection[] = [
     id: "interest-journey",
     title: "Interest Journey",
     link: "/interest-journey/",
-    eyebrow: "Explore by curiosity",
+    eyebrow: "Interest is the seed of discovery",
     introduction: "Two ways of tracing what I am learning, collecting, and connecting.",
     activePrefixes: ["/interest-journey/"],
     items: [
@@ -42,7 +42,7 @@ export const gallerySections: GallerySection[] = [
     id: "learning",
     title: "Learning",
     link: "/learning/",
-    eyebrow: "Build understanding",
+    eyebrow: "Learning never exhausts the mind",
     introduction: "Long-form learning paths and self-contained notes, written to make difficult ideas reusable.",
     activePrefixes: ["/learning/", "/hello-agent/", "/my-notes/"],
     items: [
@@ -64,7 +64,7 @@ export const gallerySections: GallerySection[] = [
     id: "demos",
     title: "Demo",
     link: "/demos/",
-    eyebrow: "Learn by interaction",
+    eyebrow: "Try, and see",
     introduction: "Small interactive laboratories for seeing algorithms and systems behave.",
     activePrefixes: ["/demos/"],
     items: [
